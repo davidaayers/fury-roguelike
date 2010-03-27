@@ -20,6 +20,7 @@ import org.newdawn.slick.util.ResourceLoader;
 
 /**
  * Fury: A Roguelike game
+ * For information, contact david@wwflgames.com
  * Copyright (C) 2010 WWFL Games
  * <p/>
  * This program is free software; you can redistribute it and/or
