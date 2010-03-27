@@ -1,0 +1,51 @@
+<items>
+    <item name="Mace of Crushing">
+        <usedByEffects/>
+        <usedAgainstEffects>
+            <damage type="Crush" value="10"/>
+        </usedAgainstEffects>
+    </item>
+    <item name="Rusty Morningstar">
+        <usedByEffects/>
+        <usedAgainstEffects>
+            <damage type="Crush" value="2"/>
+        </usedAgainstEffects>
+    </item>
+    <item name="Pretty Flowers">
+        <usedByEffects/>
+        <usedAgainstEffects>
+            <damage type="Crush" value="1"/>
+        </usedAgainstEffects>
+    </item>
+    <item name="Enormous Femur">
+        <usedByEffects/>
+        <usedAgainstEffects>
+            <damage type="Crush" value="3"/>
+        </usedAgainstEffects>
+    </item>
+    <item name="Shield of Protection">
+        <usedByEffects>
+            <stat-buff stat="armor" value="4"/>
+        </usedByEffects>
+        <usedAgainstEffects/>
+    </item>
+    <item name="Furious Roar">
+        <usedByEffects>
+            <attack-buff type="Melee" value="4"/>
+        </usedByEffects>
+        <usedAgainstEffects/>
+    </item>
+    <item name="Magic Missile">
+        <usedByEffects/>
+        <usedAgainstEffects>
+            <damage type="Magic" value="6"/>
+        </usedAgainstEffects>
+    </item>
+    <item name="Concentration">
+        <usedByEffects>
+            <attack-buff type="Magic" value="4"/>
+        </usedByEffects>
+        <usedAgainstEffects/>
+    </item>
+
+</items>

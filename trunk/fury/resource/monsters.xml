@@ -1,0 +1,22 @@
+<monsters>
+    <monster name="Skelly" sprite-sheet="horned_skelly.png">
+        <deck>
+            <item name="Mace of Crushing"/>
+        </deck>
+    </monster>
+    <monster name="Orc Spritualist" sprite-sheet="janes_monster.png">
+        <deck>
+            <item name="Pretty Flowers"/>
+        </deck>
+    </monster>
+    <monster name="Orc" sprite-sheet="orc.png">
+        <deck>
+            <item name="Rusty Morningstar"/>
+        </deck>
+    </monster>
+    <monster name="Crazy Elf" sprite-sheet="crazy_elf.png">
+        <deck>
+            <item name="Enormous Femur"/>
+        </deck>
+    </monster>
+</monsters>
