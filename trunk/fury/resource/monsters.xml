@@ -20,6 +20,9 @@
             <pre points="1,2">,Puny,Weak,Scrawny</pre>
             <pre points="3,4">Strong,Large,Fierce</pre>
             <pre points="5">Hulking,Fearsome,Intimidating</pre>
+            <post points="3">Grunt,Soldier</post>
+            <post points="4">Lieutenant,Captain</post>
+            <post points="5">Hero</post>
         </name-modifiers>
         <stats>
             <health low="10" high="20"/>

@@ -17,6 +17,7 @@ public class MonsterTemplate {
     protected Map<Stat, StatRange> stats = new HashMap<Stat, StatRange>();
     protected ItemDeck deck;
     protected Map<Integer, List<String>> preModifiers = new HashMap<Integer, List<String>>();
+    protected Map<Integer, List<String>> postModifiers = new HashMap<Integer, List<String>>();
 
     public MonsterTemplate(String baseName, String spriteSheet, Integer pointsLow, Integer pointsHigh) {
         this.baseName = baseName;
@@ -53,14 +54,23 @@ public class MonsterTemplate {
         stats.put(stat, value);
     }
 
-    public void addPreModifier(Integer points, String modifier) {
-        List<String> modifiers = preModifiers.get(points);
+    public void addNameModifier(String type, Integer points, String modifier) {
+        if ("pre".equals(type)) {
+            addModifier(preModifiers, points, modifier);
+        } else {
+            addModifier(postModifiers, points, modifier);
+        }
+    }
+
+    private void addModifier(Map<Integer, List<String>> modifiersMap, Integer points, String modifier) {
+        List<String> modifiers = modifiersMap.get(points);
         if (modifiers == null) {
             modifiers = new ArrayList<String>();
-            preModifiers.put(points, modifiers);
+            modifiersMap.put(points, modifiers);
         }
         modifiers.add(modifier);
     }
+
 
     public void installStats(Monster monster) {
         int monsterPoints = monster.monsterValue();
@@ -87,8 +97,9 @@ public class MonsterTemplate {
     }
 
     private String chooseName(int points) {
-        List<String> preModifiersList = preModifiers.get(points);
         String name = baseName;
+
+        List<String> preModifiersList = preModifiers.get(points);
         if (preModifiersList != null && !preModifiersList.isEmpty()) {
             Shuffler.shuffle(preModifiersList);
             String pre = preModifiersList.get(0);
@@ -96,6 +107,16 @@ public class MonsterTemplate {
                 name = pre + " " + name;
             }
         }
+
+        List<String> postModifiersList = postModifiers.get(points);
+        if (postModifiersList != null && !postModifiersList.isEmpty()) {
+            Shuffler.shuffle(postModifiersList);
+            String post = postModifiersList.get(0);
+            if (!post.equals("")) {
+                name = name + " " + post;
+            }
+        }
+
         return name;
     }
 }

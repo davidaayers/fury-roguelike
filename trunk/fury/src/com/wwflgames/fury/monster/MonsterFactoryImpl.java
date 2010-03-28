@@ -64,13 +64,11 @@ public class MonsterFactoryImpl implements MonsterFactory, SpriteSheetProvider {
         XMLElementList nameModifiers = nameModifiersNode.getChildren();
         for (int idx = 0; idx < nameModifiers.size(); idx++) {
             XMLElement mod = nameModifiers.get(idx);
-            if ("pre".equals(mod.getName())) {
-                String pointsStr = mod.getAttribute("points");
-                String preStr = mod.getContent();
-                for (String point : pointsStr.split(",")) {
-                    for (String pre : preStr.split(",")) {
-                        monster.addPreModifier(Integer.valueOf(point), pre);
-                    }
+            String pointsStr = mod.getAttribute("points");
+            String preStr = mod.getContent();
+            for (String point : pointsStr.split(",")) {
+                for (String pre : preStr.split(",")) {
+                    monster.addNameModifier(mod.getName(), Integer.valueOf(point), pre);
                 }
             }
         }

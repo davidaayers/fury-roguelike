@@ -35,10 +35,27 @@ public class MonsterTemplateTest {
     }
 
     @Test
-    public void testCreateName() throws Exception {
+    public void testCreateNameWithOnlyPre() throws Exception {
         MonsterTemplate t = new MonsterTemplate("foo", "bar", 1, 3);
-        t.addPreModifier(1, "strong");
+        t.addNameModifier("pre", 1, "strong");
         Monster m = t.createForPoints(1);
         assertEquals("strong foo", m.name());
+    }
+
+    @Test
+    public void testCreateNameWithOnlyPost() throws Exception {
+        MonsterTemplate t = new MonsterTemplate("foo", "bar", 1, 3);
+        t.addNameModifier("post", 1, "hero");
+        Monster m = t.createForPoints(1);
+        assertEquals("foo hero", m.name());
+    }
+
+    @Test
+    public void testCreateNameWithPreAndPost() throws Exception {
+        MonsterTemplate t = new MonsterTemplate("foo", "bar", 1, 3);
+        t.addNameModifier("pre", 1, "strong");
+        t.addNameModifier("post", 1, "hero");
+        Monster m = t.createForPoints(1);
+        assertEquals("strong foo hero", m.name());
     }
 }
