@@ -1,5 +1,7 @@
 package com.wwflgames.fury.gamestate;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.wwflgames.fury.Fury;
 import com.wwflgames.fury.entity.*;
 import com.wwflgames.fury.main.AppState;
@@ -15,18 +17,20 @@ import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+@Singleton
 public class DungeonGameState extends BasicGameState {
     private GameContainer gameContainer;
     private StateBasedGame stateBasedGame;
     private EntityManager entityManager;
     private AppState appState;
-    private SpriteSheetCache spriteSheetCache;
+    private SpriteSheetFactory spriteSheetFactory;
     private PlayerController playerController;
     private Entity miniMap;
 
-    public DungeonGameState(AppState appState, SpriteSheetCache spriteSheetCache) {
+    @Inject
+    public DungeonGameState(AppState appState, SpriteSheetFactory spriteSheetFactory) {
         this.appState = appState;
-        this.spriteSheetCache = spriteSheetCache;
+        this.spriteSheetFactory = spriteSheetFactory;
     }
 
 
@@ -66,7 +70,7 @@ public class DungeonGameState extends BasicGameState {
                 .setPosition(new Vector2f(0, 0))
                 .setScale(1)
                 .addComponent(new SpriteSheetRenderer("playerRender",
-                        spriteSheetCache.getSpriteSheet(appState.getPlayer().getProfession().getSpriteSheet()))
+                        spriteSheetFactory.spriteSheetForName(appState.getPlayer().getProfession().getSpriteSheet()))
                         .useSprite(1, 2))
                 .addComponent(new MobMapPositionAction("mapPosition", appState.getPlayer(), playerController));
 
@@ -78,7 +82,7 @@ public class DungeonGameState extends BasicGameState {
                     .setPosition(new Vector2f(0, 0))
                     .setScale(1)
                     .addComponent(new SpriteSheetRenderer("monsterRenderer",
-                            spriteSheetCache.getSpriteSheet(monster.getSpriteSheet())).useSprite(1, 2))
+                            spriteSheetFactory.spriteSheetForName(monster.getSpriteSheet())).useSprite(1, 2))
                     .addComponent(new MobMapPositionAction("mapPosition", monster, playerController));
 
             entityManager.addEntity(monsterEntity);

@@ -1,10 +1,12 @@
 package com.wwflgames.fury.main;
 
+import com.google.inject.Singleton;
 import com.wwflgames.fury.map.Dungeon;
 import com.wwflgames.fury.map.DungeonMap;
 import com.wwflgames.fury.player.Player;
 
 // global game state object
+@Singleton
 public class AppStateImpl implements AppState {
 
     private Player player;

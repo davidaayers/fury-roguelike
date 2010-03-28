@@ -1,7 +1,9 @@
 package com.wwflgames.fury.gamestate;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.wwflgames.fury.Fury;
-import com.wwflgames.fury.entity.SpriteSheetCache;
+import com.wwflgames.fury.entity.SpriteSheetFactory;
 import com.wwflgames.fury.main.AppState;
 import com.wwflgames.fury.map.*;
 import com.wwflgames.fury.map.generation.Feature;
@@ -25,6 +27,7 @@ import java.util.List;
 
 import static com.wwflgames.fury.map.DifficultyLevel.EASY;
 
+@Singleton
 public class TitleGameState extends BasicGameState {
 
     enum State {
@@ -39,7 +42,7 @@ public class TitleGameState extends BasicGameState {
     private Image titleImage;
     private ProfessionFactory professionFactory;
     private PlayerFactory playerFactory;
-    private SpriteSheetCache spriteSheetCache;
+    private SpriteSheetFactory spriteSheetFactory;
     private List<MouseOverArea> professionChoices = new ArrayList<MouseOverArea>();
     private State currentState;
     private MonsterFactory monsterFactory;
@@ -47,11 +50,12 @@ public class TitleGameState extends BasicGameState {
     private DungeonCreator dungeonCreator;
 
 
+    @Inject
     public TitleGameState(ProfessionFactory professionFactory, PlayerFactory playerFactory,
-                          SpriteSheetCache spriteSheetCache, MonsterFactory monsterFactory, AppState appState) {
+                          SpriteSheetFactory spriteSheetFactory, MonsterFactory monsterFactory, AppState appState) {
         this.professionFactory = professionFactory;
         this.playerFactory = playerFactory;
-        this.spriteSheetCache = spriteSheetCache;
+        this.spriteSheetFactory = spriteSheetFactory;
         this.monsterFactory = monsterFactory;
         this.appState = appState;
 
@@ -79,7 +83,7 @@ public class TitleGameState extends BasicGameState {
         float x = pixelsPerProfession / 2;
         float y = 250;
         for (final Profession profession : professionFactory.getAllProfessions()) {
-            Image img = spriteSheetCache.getSpriteSheet(profession.getSpriteSheet()).getSprite(1, 2);
+            Image img = spriteSheetFactory.spriteSheetForName(profession.getSpriteSheet()).getSprite(1, 2);
             img = img.getScaledCopy(4f);
 
             int imgWidth = img.getWidth();

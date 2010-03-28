@@ -1,9 +1,11 @@
 package com.wwflgames.fury.main;
 
+import com.google.inject.ImplementedBy;
 import com.wwflgames.fury.map.Dungeon;
 import com.wwflgames.fury.map.DungeonMap;
 import com.wwflgames.fury.player.Player;
 
+@ImplementedBy(AppStateImpl.class)
 public interface AppState {
     Player getPlayer();
 

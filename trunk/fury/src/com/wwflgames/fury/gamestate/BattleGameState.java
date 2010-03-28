@@ -1,5 +1,7 @@
 package com.wwflgames.fury.gamestate;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.wwflgames.fury.Fury;
 import com.wwflgames.fury.battle.*;
 import com.wwflgames.fury.entity.*;
@@ -33,6 +35,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+@Singleton
 public class BattleGameState extends BasicGameState {
 
     enum State {
@@ -56,7 +59,7 @@ public class BattleGameState extends BasicGameState {
     private StateBasedGame game;
     private UnicodeFont font;
     private AppState appState;
-    private SpriteSheetCache spriteSheetCache;
+    private SpriteSheetFactory spriteSheetFactory;
     private ItemFactory itemFactory;
     private Battle battle;
     private BattleSystem battleSystem;
@@ -78,9 +81,10 @@ public class BattleGameState extends BasicGameState {
     private boolean enterCalled = false;
     private Image victoryImage;
 
-    public BattleGameState(AppState appState, SpriteSheetCache spriteSheetCache, ItemFactory itemFactory) {
+    @Inject
+    public BattleGameState(AppState appState, SpriteSheetFactory spriteSheetFactory, ItemFactory itemFactory) {
         this.appState = appState;
-        this.spriteSheetCache = spriteSheetCache;
+        this.spriteSheetFactory = spriteSheetFactory;
         this.itemFactory = itemFactory;
     }
 
@@ -147,7 +151,7 @@ public class BattleGameState extends BasicGameState {
         // they can be rendered
         for (Monster monster : monsters) {
             Log.debug("monster x = " + monster.getMapX() + " , y = " + monster.getMapY());
-            SpriteSheet monsterSpriteSheet = spriteSheetCache.getSpriteSheet(monster.getSpriteSheet());
+            SpriteSheet monsterSpriteSheet = spriteSheetFactory.spriteSheetForName(monster.getSpriteSheet());
             MobRenderer sprite = new MobRenderer(monster, monsterSpriteSheet);
             sprite.useSprite(1, 2);
             Entity mobEntity = createMobEntity(mapOffsetX, mapOffsetY, monster, sprite);
@@ -155,7 +159,7 @@ public class BattleGameState extends BasicGameState {
             mobEntities.put(monster, mobEntity);
         }
 
-        SpriteSheet heroSpriteSheet = spriteSheetCache.getSpriteSheet(player.getProfession().getSpriteSheet());
+        SpriteSheet heroSpriteSheet = spriteSheetFactory.spriteSheetForName(player.getProfession().getSpriteSheet());
         MobRenderer heroSprite = new MobRenderer(player, heroSpriteSheet);
 
         heroSprite.useSprite(1, 2);

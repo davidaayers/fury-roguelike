@@ -3,6 +3,7 @@ package com.wwflgames.fury.battle;
 import com.wwflgames.fury.item.Item;
 import com.wwflgames.fury.item.ItemDeck;
 import com.wwflgames.fury.item.ItemFactory;
+import com.wwflgames.fury.item.ItemFactoryImpl;
 import com.wwflgames.fury.mob.Mob;
 import com.wwflgames.fury.mob.Stat;
 import com.wwflgames.fury.monster.Monster;
@@ -31,7 +32,7 @@ public class BattleSystemTest {
             }
         });
 
-        itemFactory = new ItemFactory();
+        itemFactory = new ItemFactoryImpl();
     }
 
     @After

@@ -1,6 +1,6 @@
 package com.wwflgames.fury.monster;
 
-import com.wwflgames.fury.item.ItemFactory;
+import com.wwflgames.fury.item.ItemFactoryImpl;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,7 +9,7 @@ public class MonsterFactoryTest {
 
     @Before
     public void setUp() throws Exception {
-        monsterFactory = new MonsterFactory(new ItemFactory());
+        monsterFactory = new MonsterFactoryImpl(new ItemFactoryImpl());
     }
 
     @Test

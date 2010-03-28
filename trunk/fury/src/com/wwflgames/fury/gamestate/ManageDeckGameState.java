@@ -1,5 +1,7 @@
 package com.wwflgames.fury.gamestate;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.wwflgames.fury.Fury;
 import com.wwflgames.fury.entity.Entity;
 import com.wwflgames.fury.entity.EntityManager;
@@ -19,6 +21,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import java.util.ArrayList;
 import java.util.List;
 
+@Singleton
 public class ManageDeckGameState extends BasicGameState {
 
     private AppState appState;
@@ -34,7 +37,7 @@ public class ManageDeckGameState extends BasicGameState {
     private EntityManager entityManager;
     private UnicodeFont font;
 
-
+    @Inject
     public ManageDeckGameState(AppState appState) {
         this.appState = appState;
     }
