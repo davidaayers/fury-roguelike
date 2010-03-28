@@ -16,6 +16,11 @@
         </deck>
     </monster>
     <monster name="Orc" sprite-sheet="orc.png" points-low="1" points-high="5">
+        <name-modifiers>
+            <pre points="1,2">,Puny,Weak,Scrawny</pre>
+            <pre points="3,4">Strong,Large,Fierce</pre>
+            <pre points="5">Hulking,Fearsome,Intimidating</pre>
+        </name-modifiers>
         <stats>
             <health low="10" high="20"/>
         </stats>

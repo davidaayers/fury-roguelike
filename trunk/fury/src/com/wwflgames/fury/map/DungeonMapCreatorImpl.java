@@ -120,6 +120,7 @@ public class DungeonMapCreatorImpl implements DungeonMapCreator {
             Tile randomTile = floorTiles[Rand.get().nextInt(floorTiles.length)];
             if (randomTile.getMob() == null) {
                 Monster monster = monsterFactory.createMonster(level);
+                Log.debug("Adding monsters " + monster.name());
                 map.addMob(monster, randomTile.getX(), randomTile.getY());
                 cnt++;
             }

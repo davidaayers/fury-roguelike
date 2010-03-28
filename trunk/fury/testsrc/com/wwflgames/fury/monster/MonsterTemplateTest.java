@@ -33,4 +33,12 @@ public class MonsterTemplateTest {
         Monster m3 = t.createForPoints(3);
         assertEquals(new Integer(20), m3.getStatValue(Stat.HEALTH));
     }
+
+    @Test
+    public void testCreateName() throws Exception {
+        MonsterTemplate t = new MonsterTemplate("foo", "bar", 1, 3);
+        t.addPreModifier(1, "strong");
+        Monster m = t.createForPoints(1);
+        assertEquals("strong foo", m.name());
+    }
 }

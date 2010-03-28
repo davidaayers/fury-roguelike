@@ -2,8 +2,11 @@ package com.wwflgames.fury.monster;
 
 import com.wwflgames.fury.item.ItemDeck;
 import com.wwflgames.fury.mob.Stat;
+import com.wwflgames.fury.util.Shuffler;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MonsterTemplate {
@@ -13,6 +16,7 @@ public class MonsterTemplate {
     private Integer pointsHigh;
     protected Map<Stat, StatRange> stats = new HashMap<Stat, StatRange>();
     protected ItemDeck deck;
+    protected Map<Integer, List<String>> preModifiers = new HashMap<Integer, List<String>>();
 
     public MonsterTemplate(String baseName, String spriteSheet, Integer pointsLow, Integer pointsHigh) {
         this.baseName = baseName;
@@ -36,6 +40,9 @@ public class MonsterTemplate {
 
     public double relativePctIncrease(int points) {
         int diff = pointsHigh - pointsLow;
+        if (diff == 0) {
+            return 0d;
+        }
         double interval = 1.0d / (double) diff;
         int multiplier = points - 1;
         double pct = interval * multiplier;
@@ -44,6 +51,15 @@ public class MonsterTemplate {
 
     public void setStatRange(Stat stat, StatRange value) {
         stats.put(stat, value);
+    }
+
+    public void addPreModifier(Integer points, String modifier) {
+        List<String> modifiers = preModifiers.get(points);
+        if (modifiers == null) {
+            modifiers = new ArrayList<String>();
+            preModifiers.put(points, modifiers);
+        }
+        modifiers.add(modifier);
     }
 
     public void installStats(Monster monster) {
@@ -64,9 +80,22 @@ public class MonsterTemplate {
     }
 
     public Monster createForPoints(int points) {
-        Monster m = new Monster(baseName, spriteSheet, points);
+        Monster m = new Monster(chooseName(points), spriteSheet, points);
         installStats(m);
         m.setDeck(deck);
         return m;
+    }
+
+    private String chooseName(int points) {
+        List<String> preModifiersList = preModifiers.get(points);
+        String name = baseName;
+        if (preModifiersList != null && !preModifiersList.isEmpty()) {
+            Shuffler.shuffle(preModifiersList);
+            String pre = preModifiersList.get(0);
+            if (!pre.equals("")) {
+                name = pre + " " + name;
+            }
+        }
+        return name;
     }
 }

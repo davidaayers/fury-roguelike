@@ -46,11 +46,33 @@ public class MonsterFactoryImpl implements MonsterFactory, SpriteSheetProvider {
             int high = childNode.getIntAttribute("points-high");
             MonsterTemplate monster = new MonsterTemplate(name, spriteSheet, low, high);
             // create the monster's deck
+            addNameModifiers(childNode, monster);
             monster.setDeck(createDeck(childNode, itemFactory));
             addStats(childNode, monster);
             allMonsters.add(monster);
             allSpriteSheetNames.add(spriteSheet);
             Log.debug("monster created = " + monster);
+        }
+    }
+
+    private void addNameModifiers(XMLElement childNode, MonsterTemplate monster) {
+        XMLElementList list = childNode.getChildrenByName("name-modifiers");
+        if (list.size() == 0) {
+            return;
+        }
+        XMLElement nameModifiersNode = list.get(0);
+        XMLElementList nameModifiers = nameModifiersNode.getChildren();
+        for (int idx = 0; idx < nameModifiers.size(); idx++) {
+            XMLElement mod = nameModifiers.get(idx);
+            if ("pre".equals(mod.getName())) {
+                String pointsStr = mod.getAttribute("points");
+                String preStr = mod.getContent();
+                for (String point : pointsStr.split(",")) {
+                    for (String pre : preStr.split(",")) {
+                        monster.addPreModifier(Integer.valueOf(point), pre);
+                    }
+                }
+            }
         }
     }
 
