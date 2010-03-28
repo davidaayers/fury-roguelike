@@ -1,10 +1,14 @@
-package com.wwflgames.fury.item;
+package com.wwflgames.fury.util;
 
-import com.wwflgames.fury.util.Log;
+import com.wwflgames.fury.item.ItemDeck;
+import com.wwflgames.fury.item.ItemFactory;
+import com.wwflgames.fury.mob.Stat;
+import com.wwflgames.fury.mob.StatHolder;
+import org.newdawn.slick.util.xml.SlickXMLException;
 import org.newdawn.slick.util.xml.XMLElement;
 import org.newdawn.slick.util.xml.XMLElementList;
 
-public class ItemDeckXmlHelper {
+public class XmlHelper {
 
     // given this snippet of XML:
     //    <deck>
@@ -28,5 +32,21 @@ public class ItemDeckXmlHelper {
 
         return deck;
     }
+
+    public static void addStats(XMLElement childNode, StatHolder statHolder) throws SlickXMLException {
+        XMLElementList list = childNode.getChildrenByName("stats");
+        if (list.size() == 0) {
+            return;
+        }
+        XMLElement statNode = list.get(0);
+        XMLElementList stats = statNode.getChildren();
+        for (int idx = 0; idx < stats.size(); idx++) {
+            XMLElement xmlStat = stats.get(idx);
+            Stat stat = Stat.valueOf(xmlStat.getName().toUpperCase());
+            int value = xmlStat.getIntAttribute("value");
+            statHolder.setStatValue(stat, value);
+        }
+    }
+
 
 }

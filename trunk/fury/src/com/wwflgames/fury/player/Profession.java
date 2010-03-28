@@ -2,11 +2,12 @@ package com.wwflgames.fury.player;
 
 import com.wwflgames.fury.item.ItemDeck;
 import com.wwflgames.fury.mob.Stat;
+import com.wwflgames.fury.mob.StatHolder;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Profession {
+public class Profession implements StatHolder {
     private String name;
     private String spriteSheet;
     private ItemDeck starterDeck;
@@ -30,11 +31,7 @@ public class Profession {
         return starterDeck;
     }
 
-    public Map<Stat, Integer> getStarterStats() {
-        return starterStats;
-    }
-
-    public void addStarterStat(Stat stat, int value) {
+    public void setStatValue(Stat stat, Integer value) {
         starterStats.put(stat, value);
     }
 

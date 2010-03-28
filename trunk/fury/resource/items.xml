@@ -8,7 +8,7 @@
     <item name="Rusty Morningstar">
         <usedByEffects/>
         <usedAgainstEffects>
-            <damage type="Crush" value="2"/>
+            <damage type="Crush" value="10"/>
         </usedAgainstEffects>
     </item>
     <item name="Pretty Flowers">

@@ -5,10 +5,8 @@ import com.google.inject.Singleton;
 import com.wwflgames.fury.entity.SpriteSheetProvider;
 import com.wwflgames.fury.item.ItemDeck;
 import com.wwflgames.fury.item.ItemFactory;
-import com.wwflgames.fury.mob.Stat;
 import com.wwflgames.fury.util.Log;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.util.xml.SlickXMLException;
 import org.newdawn.slick.util.xml.XMLElement;
 import org.newdawn.slick.util.xml.XMLElementList;
 import org.newdawn.slick.util.xml.XMLParser;
@@ -16,7 +14,8 @@ import org.newdawn.slick.util.xml.XMLParser;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.wwflgames.fury.item.ItemDeckXmlHelper.createDeck;
+import static com.wwflgames.fury.util.XmlHelper.addStats;
+import static com.wwflgames.fury.util.XmlHelper.createDeck;
 
 @Singleton
 public class ProfessionFactoryImpl implements SpriteSheetProvider, ProfessionFactory {
@@ -46,21 +45,6 @@ public class ProfessionFactoryImpl implements SpriteSheetProvider, ProfessionFac
             allProfessions.add(profession);
             allSpriteSheetNames.add(spriteSheet);
             Log.debug("profession created = " + profession);
-        }
-    }
-
-    private void addStats(XMLElement childNode, Profession profession) throws SlickXMLException {
-        XMLElementList list = childNode.getChildrenByName("stats");
-        if (list.size() == 0) {
-            return;
-        }
-        XMLElement statNode = list.get(0);
-        XMLElementList stats = statNode.getChildren();
-        for (int idx = 0; idx < stats.size(); idx++) {
-            XMLElement xmlStat = stats.get(idx);
-            Stat stat = Stat.valueOf(xmlStat.getName().toUpperCase());
-            int value = xmlStat.getIntAttribute("value");
-            profession.addStarterStat(stat, value);
         }
     }
 

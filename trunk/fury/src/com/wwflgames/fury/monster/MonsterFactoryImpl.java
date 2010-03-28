@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.wwflgames.fury.entity.SpriteSheetProvider;
 import com.wwflgames.fury.item.ItemFactory;
-import com.wwflgames.fury.mob.Stat;
 import com.wwflgames.fury.util.Log;
 import com.wwflgames.fury.util.Shuffler;
 import org.newdawn.slick.SlickException;
@@ -15,7 +14,8 @@ import org.newdawn.slick.util.xml.XMLParser;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.wwflgames.fury.item.ItemDeckXmlHelper.createDeck;
+import static com.wwflgames.fury.util.XmlHelper.addStats;
+import static com.wwflgames.fury.util.XmlHelper.createDeck;
 
 @Singleton
 public class MonsterFactoryImpl implements MonsterFactory, SpriteSheetProvider {
@@ -45,17 +45,18 @@ public class MonsterFactoryImpl implements MonsterFactory, SpriteSheetProvider {
             Monster monster = new Monster(name, spriteSheet, 0);
             // create the monster's deck
             monster.setDeck(createDeck(childNode, itemFactory));
-            setMonsterStats(childNode, monster);
+//            setMonsterStats(childNode, monster);
+            addStats(childNode, monster);
             allMonsters.add(monster);
             allSpriteSheetNames.add(spriteSheet);
             Log.debug("monster created = " + monster);
         }
     }
 
-    private void setMonsterStats(XMLElement childNode, Monster monster) {
-        //TODO: put this in the xml
-        monster.setStatValue(Stat.HEALTH, 10);
-    }
+//    private void setMonsterStats(XMLElement childNode, Monster monster) {
+//        //TODO: put this in the xml
+//        monster.setStatValue(Stat.HEALTH, 10);
+//    }
 
     @Override
     public List<String> getAllSpriteSheetNames() {

@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Mob {
+public class Mob implements StatHolder {
 
     protected Map<Stat, Integer> stats = new HashMap<Stat, Integer>();
     protected Map<Stat, Integer> battleStats;
