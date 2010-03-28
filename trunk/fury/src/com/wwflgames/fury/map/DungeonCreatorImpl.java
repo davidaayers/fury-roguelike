@@ -22,7 +22,7 @@ public class DungeonCreatorImpl implements DungeonCreator {
         List<DungeonMap> levels = new ArrayList<DungeonMap>();
 
         for (int idx = 0; idx < floorsToCreate; idx++) {
-            levels.add(mapCreator.createMap(difficulty, idx));
+            levels.add(mapCreator.createMap(difficulty, idx + 1));
         }
 
         // now that we've created all the levels, go through and add stairs

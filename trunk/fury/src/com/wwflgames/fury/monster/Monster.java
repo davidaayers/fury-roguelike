@@ -11,6 +11,7 @@ public class Monster extends Mob {
     public Monster(String name, String spriteSheet, int monsterValue) {
         super(name);
         this.spriteSheet = spriteSheet;
+        this.monsterValue = monsterValue;
     }
 
     public Monster(Monster other, int monsterValue) {
