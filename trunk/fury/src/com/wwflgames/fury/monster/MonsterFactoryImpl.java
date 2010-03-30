@@ -65,12 +65,24 @@ public class MonsterFactoryImpl implements MonsterFactory, SpriteSheetProvider {
         for (int idx = 0; idx < nameModifiers.size(); idx++) {
             XMLElement mod = nameModifiers.get(idx);
             String pointsStr = mod.getAttribute("points");
-            String preStr = mod.getContent();
-            for (String point : pointsStr.split(",")) {
-                for (String pre : preStr.split(",")) {
-                    monster.addNameModifier(mod.getName(), Integer.valueOf(point), pre);
+            String nameMods = mod.getContent();
+            String modType = mod.getName();
+
+            if ("boss".equals(pointsStr)) {
+                // use -1 to signify boss
+                //TODO: I dont like this very much
+                addNameModsToMonster(monster, nameMods, modType, "-1");
+            } else {
+                for (String point : pointsStr.split(",")) {
+                    addNameModsToMonster(monster, nameMods, modType, point);
                 }
             }
+        }
+    }
+
+    private void addNameModsToMonster(MonsterTemplate monster, String nameMods, String modType, String point) {
+        for (String modStr : nameMods.split(",")) {
+            monster.addNameModifier(modType, Integer.valueOf(point), modStr);
         }
     }
 

@@ -22,6 +22,10 @@ public class XmlHelper {
             return null;
         }
         XMLElement deckNode = list.get(0);
+        return createDeckFromNode(deckNode, itemFactory);
+    }
+
+    public static ItemDeck createDeckFromNode(XMLElement deckNode, ItemFactory itemFactory) {
         XMLElementList items = deckNode.getChildren();
         ItemDeck deck = new ItemDeck();
         for (int idx = 0; idx < items.size(); idx++) {
