@@ -16,8 +16,8 @@ public class MonsterTemplate {
     private Integer pointsHigh;
     protected Map<Stat, StatRange> stats = new HashMap<Stat, StatRange>();
     protected ItemDeck deck;
-    protected Map<Integer, List<String>> preModifiers = new HashMap<Integer, List<String>>();
-    protected Map<Integer, List<String>> postModifiers = new HashMap<Integer, List<String>>();
+    protected Map<MonsterLevel, List<String>> preModifiers = new HashMap<MonsterLevel, List<String>>();
+    protected Map<MonsterLevel, List<String>> postModifiers = new HashMap<MonsterLevel, List<String>>();
 
     public MonsterTemplate(String baseName, String spriteSheet, Integer pointsLow, Integer pointsHigh) {
         this.baseName = baseName;
@@ -54,19 +54,19 @@ public class MonsterTemplate {
         stats.put(stat, value);
     }
 
-    public void addNameModifier(String type, Integer points, String modifier) {
+    public void addNameModifier(String type, MonsterLevel level, String modifier) {
         if ("pre".equals(type)) {
-            addModifier(preModifiers, points, modifier);
+            addModifier(preModifiers, level, modifier);
         } else {
-            addModifier(postModifiers, points, modifier);
+            addModifier(postModifiers, level, modifier);
         }
     }
 
-    private void addModifier(Map<Integer, List<String>> modifiersMap, Integer points, String modifier) {
-        List<String> modifiers = modifiersMap.get(points);
+    private void addModifier(Map<MonsterLevel, List<String>> modifiersMap, MonsterLevel level, String modifier) {
+        List<String> modifiers = modifiersMap.get(level);
         if (modifiers == null) {
             modifiers = new ArrayList<String>();
-            modifiersMap.put(points, modifiers);
+            modifiersMap.put(level, modifiers);
         }
         modifiers.add(modifier);
     }
@@ -89,17 +89,17 @@ public class MonsterTemplate {
         return points >= pointsLow && points <= pointsHigh;
     }
 
-    public Monster createForPoints(int points) {
-        Monster m = new Monster(chooseName(points), spriteSheet, points);
+    public Monster createForLevel(MonsterLevel level) {
+        Monster m = new Monster(chooseName(level), spriteSheet, level.getLevel());
         installStats(m);
         m.setDeck(deck);
         return m;
     }
 
-    private String chooseName(int points) {
+    private String chooseName(MonsterLevel level) {
         String name = baseName;
 
-        List<String> preModifiersList = preModifiers.get(points);
+        List<String> preModifiersList = preModifiers.get(level);
         if (preModifiersList != null && !preModifiersList.isEmpty()) {
             Shuffler.shuffle(preModifiersList);
             String pre = preModifiersList.get(0);
@@ -108,7 +108,7 @@ public class MonsterTemplate {
             }
         }
 
-        List<String> postModifiersList = postModifiers.get(points);
+        List<String> postModifiersList = postModifiers.get(level);
         if (postModifiersList != null && !postModifiersList.isEmpty()) {
             Shuffler.shuffle(postModifiersList);
             String post = postModifiersList.get(0);
@@ -118,5 +118,13 @@ public class MonsterTemplate {
         }
 
         return name;
+    }
+
+    public Integer getPointsLow() {
+        return pointsLow;
+    }
+
+    public Integer getPointsHigh() {
+        return pointsHigh;
     }
 }

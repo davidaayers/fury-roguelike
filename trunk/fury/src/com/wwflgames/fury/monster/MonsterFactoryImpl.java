@@ -16,7 +16,7 @@ import org.newdawn.slick.util.xml.XMLParser;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.wwflgames.fury.util.XmlHelper.createDeck;
+import static com.wwflgames.fury.util.XmlHelper.*;
 
 @Singleton
 public class MonsterFactoryImpl implements MonsterFactory, SpriteSheetProvider {
@@ -69,20 +69,21 @@ public class MonsterFactoryImpl implements MonsterFactory, SpriteSheetProvider {
             String modType = mod.getName();
 
             if ("boss".equals(pointsStr)) {
-                // use -1 to signify boss
-                //TODO: I dont like this very much
-                addNameModsToMonster(monster, nameMods, modType, "-1");
+                // bosses are automatically the highest level
+                MonsterLevel level = new MonsterLevel(monster.getPointsHigh(), true);
+                addNameModsToMonster(monster, nameMods, modType, level);
             } else {
                 for (String point : pointsStr.split(",")) {
-                    addNameModsToMonster(monster, nameMods, modType, point);
+                    MonsterLevel level = new MonsterLevel(Integer.valueOf(point), false);
+                    addNameModsToMonster(monster, nameMods, modType, level);
                 }
             }
         }
     }
 
-    private void addNameModsToMonster(MonsterTemplate monster, String nameMods, String modType, String point) {
+    private void addNameModsToMonster(MonsterTemplate monster, String nameMods, String modType, MonsterLevel level) {
         for (String modStr : nameMods.split(",")) {
-            monster.addNameModifier(modType, Integer.valueOf(point), modStr);
+            monster.addNameModifier(modType, level, modStr);
         }
     }
 
@@ -115,17 +116,26 @@ public class MonsterFactoryImpl implements MonsterFactory, SpriteSheetProvider {
 
     @Override
     public Monster createMonster(int points) {
+        return createMonsterForLevel(new MonsterLevel(points, false));
+    }
+
+
+    @Override
+    public Monster createBossMonster(int points) {
+        return createMonsterForLevel(new MonsterLevel(points, true));
+    }
+
+    private Monster createMonsterForLevel(MonsterLevel level) {
         List<MonsterTemplate> matchingMonsters = new ArrayList<MonsterTemplate>();
         for (MonsterTemplate template : allMonsters) {
-            if (template.matchesPoints(points)) {
+            if (template.matchesPoints(level.getLevel())) {
                 matchingMonsters.add(template);
             }
         }
 
         Shuffler.shuffle(matchingMonsters);
         MonsterTemplate template = matchingMonsters.get(0);
-        return template.createForPoints(points);
+        return template.createForLevel(level);
     }
-
 
 }

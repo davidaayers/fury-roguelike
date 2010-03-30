@@ -3,7 +3,7 @@ package com.wwflgames.fury.monster;
 import com.wwflgames.fury.mob.Stat;
 import org.junit.Test;
 
-import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.*;
 
 public class MonsterTemplateTest {
     @Test
@@ -26,36 +26,36 @@ public class MonsterTemplateTest {
         StatRange testRange = new StatRange(10, 20);
         t.setStatRange(Stat.HEALTH, testRange);
 
-        Monster m = t.createForPoints(1);
+        Monster m = t.createForLevel(new MonsterLevel(1, false));
         assertEquals(new Integer(10), m.getStatValue(Stat.HEALTH));
-        Monster m2 = t.createForPoints(2);
+        Monster m2 = t.createForLevel(new MonsterLevel(2, false));
         assertEquals(new Integer(15), m2.getStatValue(Stat.HEALTH));
-        Monster m3 = t.createForPoints(3);
+        Monster m3 = t.createForLevel(new MonsterLevel(3, false));
         assertEquals(new Integer(20), m3.getStatValue(Stat.HEALTH));
     }
 
     @Test
     public void testCreateNameWithOnlyPre() throws Exception {
         MonsterTemplate t = new MonsterTemplate("foo", "bar", 1, 3);
-        t.addNameModifier("pre", 1, "strong");
-        Monster m = t.createForPoints(1);
+        t.addNameModifier("pre", new MonsterLevel(1, false), "strong");
+        Monster m = t.createForLevel(new MonsterLevel(1, false));
         assertEquals("strong foo", m.name());
     }
 
     @Test
     public void testCreateNameWithOnlyPost() throws Exception {
         MonsterTemplate t = new MonsterTemplate("foo", "bar", 1, 3);
-        t.addNameModifier("post", 1, "hero");
-        Monster m = t.createForPoints(1);
+        t.addNameModifier("post", new MonsterLevel(1, false), "hero");
+        Monster m = t.createForLevel(new MonsterLevel(1, false));
         assertEquals("foo hero", m.name());
     }
 
     @Test
     public void testCreateNameWithPreAndPost() throws Exception {
         MonsterTemplate t = new MonsterTemplate("foo", "bar", 1, 3);
-        t.addNameModifier("pre", 1, "strong");
-        t.addNameModifier("post", 1, "hero");
-        Monster m = t.createForPoints(1);
+        t.addNameModifier("pre", new MonsterLevel(1, false), "strong");
+        t.addNameModifier("post", new MonsterLevel(1, false), "hero");
+        Monster m = t.createForLevel(new MonsterLevel(1, false));
         assertEquals("strong foo hero", m.name());
     }
 }
