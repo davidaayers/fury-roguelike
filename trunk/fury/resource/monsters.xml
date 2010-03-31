@@ -3,7 +3,7 @@
         <stats>
             <health low="10" high="20"/>
         </stats>
-        <deck>
+        <deck points="default">
             <item name="Mace of Crushing"/>
         </deck>
     </monster>
@@ -11,7 +11,7 @@
         <stats>
             <health low="10" high="10"/>
         </stats>
-        <deck>
+        <deck points="default">
             <item name="Pretty Flowers"/>
         </deck>
     </monster>
@@ -32,10 +32,10 @@
         <deck points="default">
             <item name="Rusty Morningstar"/>
         </deck>
-        <deck points="1,2,3">
+        <deck points="2">
             <item name="Furious Roar"/>
         </deck>
-        <deck points="4,5">
+        <deck points="3">
             <item name="Shield of Protection"/>
         </deck>
         <deck points="boss">
@@ -46,7 +46,7 @@
         <stats>
             <health low="10" high="20"/>
         </stats>
-        <deck>
+        <deck points="default">
             <item name="Enormous Femur"/>
         </deck>
     </monster>

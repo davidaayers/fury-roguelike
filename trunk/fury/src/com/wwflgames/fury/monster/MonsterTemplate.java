@@ -18,6 +18,7 @@ public class MonsterTemplate {
     protected ItemDeck deck;
     protected Map<MonsterLevel, List<String>> preModifiers = new HashMap<MonsterLevel, List<String>>();
     protected Map<MonsterLevel, List<String>> postModifiers = new HashMap<MonsterLevel, List<String>>();
+    protected Map<String, ItemDeck> decks = new HashMap<String, ItemDeck>();
 
     public MonsterTemplate(String baseName, String spriteSheet, Integer pointsLow, Integer pointsHigh) {
         this.baseName = baseName;
@@ -85,6 +86,10 @@ public class MonsterTemplate {
         this.deck = deck;
     }
 
+    public void addDeck(String level, ItemDeck deck) {
+        decks.put(level, deck);
+    }
+
     public boolean matchesPoints(int points) {
         return points >= pointsLow && points <= pointsHigh;
     }
@@ -92,7 +97,29 @@ public class MonsterTemplate {
     public Monster createForLevel(MonsterLevel level) {
         Monster m = new Monster(chooseName(level), spriteSheet, level.getLevel());
         installStats(m);
-        m.setDeck(deck);
+
+        // create the deck for this monster.
+        // we start with the default deck
+        ItemDeck monsterDeck = new ItemDeck();
+        ItemDeck itemDeck = decks.get("default");
+        monsterDeck.addAllItems(itemDeck.getDeck());
+
+        // see if there are level specific cards to be added to the deck
+        ItemDeck levelDeck = decks.get(Integer.toString(level.getLevel()));
+        if (levelDeck != null) {
+            monsterDeck.addAllItems(levelDeck.getDeck());
+        }
+
+        // finally, see if this is a boss, and add the boss items
+        if (level.isBoss()) {
+            ItemDeck bossDeck = decks.get("boss");
+            if (bossDeck != null) {
+                monsterDeck.addAllItems(bossDeck.getDeck());
+            }
+        }
+
+
+        m.setDeck(monsterDeck);
         return m;
     }
 

@@ -3,6 +3,7 @@ package com.wwflgames.fury.monster;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.wwflgames.fury.entity.SpriteSheetProvider;
+import com.wwflgames.fury.item.ItemDeck;
 import com.wwflgames.fury.item.ItemFactory;
 import com.wwflgames.fury.mob.Stat;
 import com.wwflgames.fury.util.Log;
@@ -16,7 +17,7 @@ import org.newdawn.slick.util.xml.XMLParser;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.wwflgames.fury.util.XmlHelper.*;
+import static com.wwflgames.fury.util.XmlHelper.createDeckFromNode;
 
 @Singleton
 public class MonsterFactoryImpl implements MonsterFactory, SpriteSheetProvider {
@@ -47,11 +48,27 @@ public class MonsterFactoryImpl implements MonsterFactory, SpriteSheetProvider {
             MonsterTemplate monster = new MonsterTemplate(name, spriteSheet, low, high);
             // create the monster's deck
             addNameModifiers(childNode, monster);
-            monster.setDeck(createDeck(childNode, itemFactory));
+            createDecks(childNode, monster);
             addStats(childNode, monster);
             allMonsters.add(monster);
             allSpriteSheetNames.add(spriteSheet);
             Log.debug("monster created = " + monster);
+        }
+    }
+
+    private void createDecks(XMLElement childNode, MonsterTemplate monster) {
+        XMLElementList list = childNode.getChildrenByName("deck");
+        for (int idx = 0; idx < list.size(); idx++) {
+            XMLElement xDeck = list.get(idx);
+            String deckPoints = xDeck.getAttribute("points");
+            ItemDeck deck = createDeckFromNode(xDeck, itemFactory);
+            if ("default".equals(deckPoints) || "boss".equals(deckPoints)) {
+                monster.addDeck(deckPoints, deck);
+            } else {
+                for (String ptStr : deckPoints.split(",")) {
+                    monster.addDeck(ptStr, deck);
+                }
+            }
         }
     }
 

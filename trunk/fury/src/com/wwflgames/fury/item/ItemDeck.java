@@ -22,6 +22,10 @@ public class ItemDeck {
         deck.add(item);
     }
 
+    public void addAllItems(List<Item> items) {
+        deck.addAll(items);
+    }
+
     public void removeItem(Item item) {
         deck.remove(item);
     }
