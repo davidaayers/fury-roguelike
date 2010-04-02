@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/fury">
+      <sourceFolder url="file://$MODULE_DIR$/fury/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/fury/testsrc" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/fury/resource" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/lwjgl.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jinput.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/slick.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/lib/slick-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$APPLICATION_HOME_DIR$/lib/junit-4.7.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="guice">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/guice-2.0/guice-multibindings-2.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/guice-2.0/guice-2.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="mockito">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/mockito/com.springsource.org.hamcrest.core-1.1.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/mockito/mockito-core-1.8.3.jar!/" />
+          <root url="jar://$MODULE_DIR$/mockito/com.springsource.org.objenesis-1.0.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="fb">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/facebook/jaxb-impl-2.1.9.jar!/" />
+          <root url="jar://$MODULE_DIR$/facebook/facebook-java-api-3.0.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/facebook/jaxb-api-2.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/facebook/facebook-java-api-annotation-processor-3.0.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/facebook/runtime-0.4.1.5.jar!/" />
+          <root url="jar://$MODULE_DIR$/facebook/commons-logging-1.1.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/facebook/activation-1.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/facebook/json-20080701.jar!/" />
+          <root url="jar://$MODULE_DIR$/facebook/facebook-java-api-schema-3.0.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/facebook/commons-lang-2.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/facebook/stax-api-1.0-2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="lobo">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lobo/lobo-pub.jar!/" />
+          <root url="jar://$MODULE_DIR$/lobo/lobo.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+  </component>
+</module>
+

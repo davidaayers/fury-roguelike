@@ -1,0 +1,62 @@
+<monsters>
+    <monster name="Skelly" sprite-sheet="horned_skelly.png" points-low="2" points-high="5">
+        <stats>
+            <health low="10" high="20"/>
+        </stats>
+        <deck points="default">
+            <item name="Mace of Crushing"/>
+        </deck>
+        <deck points="boss">
+            <item name="Cruel Mace of Killing"/>
+        </deck>
+    </monster>
+    <monster name="Orc Spritualist" sprite-sheet="janes_monster.png" points-low="1" points-high="1">
+        <stats>
+            <health low="10" high="10"/>
+        </stats>
+        <deck points="default">
+            <item name="Pretty Flowers"/>
+        </deck>
+        <deck points="boss">
+            <item name="Cruel Mace of Killing"/>
+        </deck>
+    </monster>
+    <monster name="Orc" sprite-sheet="orc.png" points-low="1" points-high="5">
+        <name-modifiers>
+            <pre points="1,2">,Puny,Weak,Scrawny</pre>
+            <pre points="3,4">Strong,Large,Fierce</pre>
+            <pre points="5">Hulking,Fearsome,Intimidating</pre>
+            <pre points="boss">Enormous,Gigantic,Gargantuan</pre>
+            <post points="3">Grunt,Soldier</post>
+            <post points="4">Lieutenant,Captain</post>
+            <post points="5">Hero</post>
+            <post points="boss">Leader</post>
+        </name-modifiers>
+        <stats>
+            <health low="10" high="20"/>
+        </stats>
+        <deck points="default">
+            <item name="Rusty Morningstar"/>
+        </deck>
+        <deck points="2">
+            <item name="Furious Roar"/>
+        </deck>
+        <deck points="3">
+            <item name="Shield of Protection"/>
+        </deck>
+        <deck points="boss">
+            <item name="Cruel Mace of Killing"/>
+        </deck>
+    </monster>
+    <monster name="Crazy Elf" sprite-sheet="crazy_elf.png" points-low="2" points-high="5">
+        <stats>
+            <health low="10" high="20"/>
+        </stats>
+        <deck points="default">
+            <item name="Enormous Femur"/>
+        </deck>
+        <deck points="boss">
+            <item name="Cruel Mace of Killing"/>
+        </deck>
+    </monster>
+</monsters>
