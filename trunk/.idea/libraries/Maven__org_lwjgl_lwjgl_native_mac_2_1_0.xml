@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.lwjgl:lwjgl-native:mac:2.1.0">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/lwjgl/lwjgl-native/2.1.0/lwjgl-native-2.1.0-mac.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/lwjgl/lwjgl-native/2.1.0/lwjgl-native-2.1.0-mac-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/lwjgl/lwjgl-native/2.1.0/lwjgl-native-2.1.0-mac-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
