@@ -81,8 +81,9 @@ public class DungeonGameState extends BasicGameState {
             Entity monsterEntity = new Entity("monster" + monster.name())
                     .setPosition(new Vector2f(0, 0))
                     .setScale(1)
-                    .addComponent(new SpriteSheetRenderer("monsterRenderer",
-                            spriteSheetFactory.spriteSheetForName(monster.getSpriteSheet())).useSprite(1, 2))
+                    .addComponent(new MonsterRenderer("monsterRenderer",
+                            spriteSheetFactory.spriteSheetForName(monster.getSpriteSheet()), monster)
+                            .useSprite(1, 2))
                     .addComponent(new MobMapPositionAction("mapPosition", monster, playerController));
 
             entityManager.addEntity(monsterEntity);

@@ -59,8 +59,9 @@ public class TitleGameState extends BasicGameState {
         this.monsterFactory = monsterFactory;
         this.appState = appState;
 
+        //TODO: GUICE THESE BAD BOYS UP
         DungeonMapCreator randomCreator = new DungeonMapCreatorImpl(monsterFactory);
-        dungeonCreator = new DungeonCreatorImpl(randomCreator);
+        dungeonCreator = new DungeonCreatorImpl(randomCreator, monsterFactory);
 
     }
 

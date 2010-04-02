@@ -7,6 +7,7 @@ public class Monster extends Mob {
 
     private String spriteSheet;
     private int monsterValue;
+    private boolean isBoss;
 
     public Monster(String name, String spriteSheet, int monsterValue) {
         super(name);
@@ -36,4 +37,13 @@ public class Monster extends Mob {
     public int monsterValue() {
         return monsterValue;
     }
+
+    public boolean isBoss() {
+        return isBoss;
+    }
+
+    public void setBoss(boolean boss) {
+        isBoss = boss;
+    }
+
 }

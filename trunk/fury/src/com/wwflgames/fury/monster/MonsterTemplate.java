@@ -116,6 +116,7 @@ public class MonsterTemplate {
             if (bossDeck != null) {
                 monsterDeck.addAllItems(bossDeck.getDeck());
             }
+            m.setBoss(true);
         }
 
 

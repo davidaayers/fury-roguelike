@@ -6,6 +6,9 @@
         <deck points="default">
             <item name="Mace of Crushing"/>
         </deck>
+        <deck points="boss">
+            <item name="Cruel Mace of Killing"/>
+        </deck>
     </monster>
     <monster name="Orc Spritualist" sprite-sheet="janes_monster.png" points-low="1" points-high="1">
         <stats>
@@ -13,6 +16,9 @@
         </stats>
         <deck points="default">
             <item name="Pretty Flowers"/>
+        </deck>
+        <deck points="boss">
+            <item name="Cruel Mace of Killing"/>
         </deck>
     </monster>
     <monster name="Orc" sprite-sheet="orc.png" points-low="1" points-high="5">
@@ -39,7 +45,7 @@
             <item name="Shield of Protection"/>
         </deck>
         <deck points="boss">
-            <item name="Shield of Protection"/>
+            <item name="Cruel Mace of Killing"/>
         </deck>
     </monster>
     <monster name="Crazy Elf" sprite-sheet="crazy_elf.png" points-low="2" points-high="5">
@@ -48,6 +54,9 @@
         </stats>
         <deck points="default">
             <item name="Enormous Femur"/>
+        </deck>
+        <deck points="boss">
+            <item name="Cruel Mace of Killing"/>
         </deck>
     </monster>
 </monsters>

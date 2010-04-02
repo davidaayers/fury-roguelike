@@ -5,6 +5,12 @@
             <damage type="Crush" value="10"/>
         </usedAgainstEffects>
     </item>
+    <item name="Cruel Mace of Killing">
+        <usedByEffects/>
+        <usedAgainstEffects>
+            <damage type="Crush" value="20"/>
+        </usedAgainstEffects>
+    </item>
     <item name="Rusty Morningstar">
         <usedByEffects/>
         <usedAgainstEffects>

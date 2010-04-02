@@ -27,8 +27,12 @@ public class SpriteSheetRenderer extends Renderer {
         if (owner.isVisible()) {
             Vector2f pos = owner.getPosition();
             float scale = owner.getScale();
-            current().draw(pos.x, pos.y, scale);
+            doDrawSpriteSheet(pos, scale);
         }
+    }
+
+    protected void doDrawSpriteSheet(Vector2f pos, float scale) {
+        current().draw(pos.x, pos.y, scale);
     }
 
     @Override
@@ -37,7 +41,7 @@ public class SpriteSheetRenderer extends Renderer {
 
     }
 
-    private Image current() {
+    protected Image current() {
         return spriteSheet.getSprite(spriteCol, spriteRow);
     }
 }
