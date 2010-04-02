@@ -3,11 +3,15 @@ package com.wwflgames.fury.monster;
 import com.wwflgames.fury.item.ItemDeck;
 import com.wwflgames.fury.mob.Mob;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Monster extends Mob {
 
     private String spriteSheet;
     private int monsterValue;
     private boolean isBoss;
+    private List<MonsterDeathActivity> deathActivities = new ArrayList<MonsterDeathActivity>();
 
     public Monster(String name, String spriteSheet, int monsterValue) {
         super(name);
@@ -44,6 +48,17 @@ public class Monster extends Mob {
 
     public void setBoss(boolean boss) {
         isBoss = boss;
+    }
+
+    // called when this monster is killed.
+    public void died() {
+        for (MonsterDeathActivity activity : deathActivities) {
+            activity.doActivity();
+        }
+    }
+
+    public void addMonsterDeathActivity(MonsterDeathActivity activity) {
+        deathActivities.add(activity);
     }
 
 }

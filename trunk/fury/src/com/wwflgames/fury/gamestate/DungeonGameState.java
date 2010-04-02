@@ -179,7 +179,7 @@ public class DungeonGameState extends BasicGameState {
         if (enemy != null) {
             Log.debug("about to initiate combat");
             initiateCombat(player);
-        } else if (newTile.getType() == TileType.STAIR) {
+        } else if (newTile.getType() == TileType.STAIR && !newTile.getStairs().areLocked()) {
             changeLevel(newTile.getStairs());
         } else if (dungeonMap.inBounds(newX, newY) && dungeonMap.isWalkable(newX, newY)) {
             playerController.movePlayerTo(newX, newY);

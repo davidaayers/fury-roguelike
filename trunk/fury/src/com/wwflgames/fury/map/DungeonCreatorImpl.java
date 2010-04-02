@@ -2,6 +2,7 @@ package com.wwflgames.fury.map;
 
 import com.wwflgames.fury.map.generation.Feature;
 import com.wwflgames.fury.monster.Monster;
+import com.wwflgames.fury.monster.MonsterDeathActivity;
 import com.wwflgames.fury.monster.MonsterFactory;
 import com.wwflgames.fury.util.Rand;
 
@@ -37,13 +38,14 @@ public class DungeonCreatorImpl implements DungeonCreator {
             List<Feature> features = mapA.getFeatureList();
             Feature f = features.get(Rand.get().nextInt(features.size()));
             Tile mapATile = chooseRandomTileInFeature(f);
-            placeBossMonsterInFeature(mapA, f, idx);
             mapATile.setType(TileType.STAIR);
             Tile mapBTile = findRandomTile(mapB);
             mapBTile.setType(TileType.STAIR);
             Stairs s = new Stairs(mapA, mapB, mapATile, mapBTile);
+            s.setAreLocked(true);
             mapATile.setStairs(s);
             mapBTile.setStairs(s);
+            placeBossMonsterInFeature(mapA, f, idx, s);
         }
 
         Dungeon dungeon = new Dungeon(levels);
@@ -51,7 +53,7 @@ public class DungeonCreatorImpl implements DungeonCreator {
         return dungeon;
     }
 
-    private void placeBossMonsterInFeature(DungeonMap map, Feature f, int level) {
+    private void placeBossMonsterInFeature(DungeonMap map, Feature f, int level, final Stairs s) {
         Tile bossTile = null;
         while (bossTile == null) {
             Tile checkTile = chooseRandomTileInFeature(f);
@@ -60,6 +62,12 @@ public class DungeonCreatorImpl implements DungeonCreator {
             }
         }
         Monster boss = monsterFactory.createBossMonster(level + 1);
+        boss.addMonsterDeathActivity(new MonsterDeathActivity() {
+            @Override
+            public void doActivity() {
+                s.setAreLocked(false);
+            }
+        });
         map.addMob(boss, bossTile.getX(), bossTile.getY());
     }
 

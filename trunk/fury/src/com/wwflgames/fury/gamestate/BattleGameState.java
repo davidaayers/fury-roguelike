@@ -349,6 +349,8 @@ public class BattleGameState extends BasicGameState {
                     entityManager.removeEntity(mobEntity);
                     // remove it from the dungeonMap too
                     appState.getMap().removeMob(monster);
+                    // tell the monster to perform it's death activities
+                    ((Monster) monster).died();
                 }
 
                 if (battle.allEnemiesDead()) {

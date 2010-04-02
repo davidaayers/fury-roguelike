@@ -5,6 +5,7 @@ public class Stairs {
     private DungeonMap mapB;
     private Tile mapATile;
     private Tile mapBTile;
+    private boolean areLocked;
 
     public Stairs(DungeonMap mapA, DungeonMap mapB, Tile mapATile, Tile mapBTile) {
         this.mapA = mapA;
@@ -14,7 +15,7 @@ public class Stairs {
     }
 
     public Tile tileAtOtherEndFrom(DungeonMap map) {
-        if ( map.equals(mapA) ) {
+        if (map.equals(mapA)) {
             return mapBTile;
         } else {
             return mapATile;
@@ -22,10 +23,18 @@ public class Stairs {
     }
 
     public DungeonMap mapAtOtherEndFrom(DungeonMap map) {
-        if ( map.equals(mapA) ) {
+        if (map.equals(mapA)) {
             return mapB;
         } else {
             return mapA;
         }
+    }
+
+    public boolean areLocked() {
+        return areLocked;
+    }
+
+    public void setAreLocked(boolean areLocked) {
+        this.areLocked = areLocked;
     }
 }

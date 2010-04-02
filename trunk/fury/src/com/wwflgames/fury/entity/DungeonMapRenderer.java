@@ -2,7 +2,9 @@ package com.wwflgames.fury.entity;
 
 import com.wwflgames.fury.gamestate.PlayerController;
 import com.wwflgames.fury.map.DungeonMap;
+import com.wwflgames.fury.map.Stairs;
 import com.wwflgames.fury.map.Tile;
+import com.wwflgames.fury.map.TileType;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -10,8 +12,11 @@ import org.newdawn.slick.geom.Vector2f;
 
 public class DungeonMapRenderer extends AbstractDungeonMapRenderer {
 
+    private Image lock;
+
     public DungeonMapRenderer(String id, DungeonMap dungeonMap, PlayerController playerController) throws SlickException {
         super(id, dungeonMap, playerController);
+        lock = new Image("lock.png");
     }
 
     @Override
@@ -30,9 +35,14 @@ public class DungeonMapRenderer extends AbstractDungeonMapRenderer {
 
         if (mapTile.hasPlayerSeen()) {
             drawImage.draw(drawX, drawY, scale);
-        }
 
-        //debug map visibility
-        //graphics.drawString(""+mapTile.getPlayerVisibility(),drawX+7,drawY+7);
+            // if the map tile is stairs, and they are locked, also draw the lock image on top
+            if (mapTile.getType() == TileType.STAIR) {
+                Stairs s = mapTile.getStairs();
+                if (s.areLocked()) {
+                    lock.draw(drawX, drawY, scale);
+                }
+            }
+        }
     }
 }
