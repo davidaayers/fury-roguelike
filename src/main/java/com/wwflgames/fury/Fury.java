@@ -42,6 +42,13 @@ import java.util.Set;
  */
 public class Fury extends StateBasedGame {
 
+    public static final int GAME_WIDTH = 760;
+    public static final int GAME_HEIGHT = 600;
+    public static final int TILE_WIDTH = 32;
+    public static final int TILE_HEIGHT = 32;
+    public static final int MAP_WIDTH = GAME_WIDTH/TILE_WIDTH;
+    public static final int MAP_HEIGHT = GAME_HEIGHT/TILE_HEIGHT;
+
     public static final int TITLE_STATE = 1;
     public static final int DUNGEON_GAME_STATE = 2;
     public static final int BATTLE_STATE = 3;
@@ -58,15 +65,6 @@ public class Fury extends StateBasedGame {
     public Fury() {
         super("Fury");
     }
-
-//    @Override
-//    public void initStatesList(GameContainer gameContainer) throws SlickException {
-//        Injector injector = Guice.createInjector(new FuryModule());
-//        addState(injector.getInstance(TitleGameState.class));
-//        addState(injector.getInstance(DungeonGameState.class));
-//        addState(injector.getInstance(BattleGameState.class));
-//        addState(injector.getInstance(ManageDeckGameState.class));
-//    }
 
     @Override
     public void initStatesList(GameContainer gameContainer) throws SlickException {
@@ -114,7 +112,7 @@ public class Fury extends StateBasedGame {
 
         try {
             container = new AppGameContainer(new Fury());
-            container.setDisplayMode(800, 600, false);
+            container.setDisplayMode(GAME_WIDTH, GAME_HEIGHT, false);
             container.setShowFPS(true);
             container.start();
         } catch (SlickException e) {

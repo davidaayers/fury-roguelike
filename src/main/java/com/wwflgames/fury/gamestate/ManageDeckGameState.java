@@ -85,7 +85,7 @@ public class ManageDeckGameState extends BasicGameState {
             y += 20;
         }
 
-        x = 500;
+        x = 460;
         y = 200;
         for (ItemContainer itemContainer : allPlayerItems) {
             final Item item = itemContainer.getItem();
@@ -177,7 +177,7 @@ public class ManageDeckGameState extends BasicGameState {
         // render left side, which contains all items in the current deck
         drawItems(container, g, currentDeckItems, 35, 200);
 
-        drawItems(container, g, allPlayerItems, 520, 200);
+        drawItems(container, g, allPlayerItems, 480, 200);
 
         for (MouseOverArea moa : mouseOvers) {
             moa.render(container, g);
@@ -211,7 +211,7 @@ public class ManageDeckGameState extends BasicGameState {
 
     private void showCard(Graphics g, ItemContainer itemContainer) {
         new Entity("cardEntity")
-                .setPosition(new Vector2f(320, 200))
+                .setPosition(new Vector2f(280, 200))
                 .addComponent(new ItemRenderer(itemContainer.getItem(), font))
                 .render(g);
     }

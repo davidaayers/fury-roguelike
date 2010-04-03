@@ -4,6 +4,8 @@ import com.wwflgames.fury.map.DungeonMap;
 import com.wwflgames.fury.map.TileType;
 import org.newdawn.slick.*;
 
+import static com.wwflgames.fury.Fury.*;
+
 public abstract class MapRenderer extends Renderer {
 
     protected SpriteSheet spriteSheet;
@@ -14,14 +16,14 @@ public abstract class MapRenderer extends Renderer {
 
     public MapRenderer(String id, DungeonMap dungeonMap) throws SlickException {
         super(id);
-        this.spriteSheet = new SpriteSheet("dg_dungeon32.gif", 32, 32);
+        this.spriteSheet = new SpriteSheet("dg_dungeon32.gif", TILE_WIDTH, TILE_HEIGHT);
         this.dungeonMap = dungeonMap;
 
         // create an empty, black square for rendering "EMPTY" tiles
-        empty = new Image(32, 32);
+        empty = new Image(TILE_WIDTH, TILE_HEIGHT);
         Graphics g = empty.getGraphics();
         g.setColor(Color.black);
-        g.fillRect(0, 0, 32, 32);
+        g.fillRect(0, 0, TILE_WIDTH, TILE_HEIGHT);
         g.flush();
 
         lock = new Image("lock.png");

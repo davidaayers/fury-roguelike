@@ -42,8 +42,5 @@ public abstract class AbstractDungeonMapRenderer extends MapRenderer {
 
     @Override
     public void update(int delta) {
-        // based on the player's location on the map, determine our offsets
-
-
     }
 }

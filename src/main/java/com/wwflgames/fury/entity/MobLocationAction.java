@@ -1,8 +1,11 @@
 package com.wwflgames.fury.entity;
 
+import com.wwflgames.fury.Fury;
 import com.wwflgames.fury.map.Tile;
 import com.wwflgames.fury.mob.Mob;
 import org.newdawn.slick.geom.Vector2f;
+
+import static com.wwflgames.fury.Fury.*;
 
 public class MobLocationAction extends Action {
 
@@ -41,8 +44,8 @@ public class MobLocationAction extends Action {
         int drawX = mobTile.getX() - mapOffsetX;
         int drawY = mobTile.getY() - mapOffsetY;
 
-        float screenX = screenOffsetX + (drawX * 32 * owner.getScale()) + (4 * owner.getScale());
-        float screenY = screenOffsetY + (drawY * 32 * owner.getScale());
+        float screenX = screenOffsetX + (drawX * TILE_WIDTH * owner.getScale()) + (4 * owner.getScale());
+        float screenY = screenOffsetY + (drawY * TILE_HEIGHT * owner.getScale());
 
         owner.setPosition(new Vector2f(screenX, screenY));
     }

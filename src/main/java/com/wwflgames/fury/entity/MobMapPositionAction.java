@@ -1,9 +1,12 @@
 package com.wwflgames.fury.entity;
 
+import com.wwflgames.fury.Fury;
 import com.wwflgames.fury.gamestate.PlayerController;
 import com.wwflgames.fury.map.Tile;
 import com.wwflgames.fury.mob.Mob;
 import org.newdawn.slick.geom.Vector2f;
+
+import static com.wwflgames.fury.Fury.*;
 
 public class MobMapPositionAction extends Action {
 
@@ -29,8 +32,8 @@ public class MobMapPositionAction extends Action {
         mapY -= playerController.getOffsetY();
 
 
-        float drawX = mapX * 32 + 4;
-        float drawY = mapY * 32;
+        float drawX = mapX * TILE_WIDTH + 4;
+        float drawY = mapY * TILE_HEIGHT;
         owner.setPosition(new Vector2f(drawX, drawY));
 
         //boolean visible = currentMapTile.getPlayerVisibility() != Tile.NOT_VISIBLE && currentMapTile.hasPlayerSeen();

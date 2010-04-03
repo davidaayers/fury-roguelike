@@ -8,6 +8,9 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 
+import static com.wwflgames.fury.Fury.TILE_HEIGHT;
+import static com.wwflgames.fury.Fury.TILE_WIDTH;
+
 public class MapFogOfWarRenderer extends AbstractDungeonMapRenderer {
 
     public static float START_ALPHA = .65f;
@@ -22,8 +25,8 @@ public class MapFogOfWarRenderer extends AbstractDungeonMapRenderer {
         Vector2f pos = owner.getPosition();
         float scale = owner.getScale();
 
-        float tw = 32 * scale;
-        float th = 32 * scale;
+        float tw = TILE_WIDTH * scale;
+        float th = TILE_HEIGHT * scale;
         float drawX = pos.x + (x * tw * scale);
         float drawY = pos.y + (y * th * scale);
 
