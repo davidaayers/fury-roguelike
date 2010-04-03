@@ -33,6 +33,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.wwflgames.fury.Fury.*;
+import static com.wwflgames.fury.Fury.*;
+
 public class BattleGameState extends BasicGameState {
 
     enum State {
@@ -86,7 +89,7 @@ public class BattleGameState extends BasicGameState {
 
     @Override
     public int getID() {
-        return Fury.BATTLE_STATE;
+        return BATTLE_STATE;
     }
 
     @SuppressWarnings({"unchecked"})
@@ -134,9 +137,13 @@ public class BattleGameState extends BasicGameState {
         int mapOffsetX = playerMapX - 1;
         int mapOffsetY = playerMapY - 1;
 
+        int scale = 4;
+        int dungeonWidth = Fury.TILE_WIDTH * scale * 3;
+        int drawX = Fury.GAME_WIDTH / 2 - dungeonWidth / 2;
+
         Entity mapEntity = new Entity("dungeonMap")
-                .setPosition(new Vector2f(208, 32))
-                .setScale(4)
+                .setPosition(new Vector2f(drawX, 32))
+                .setScale(scale)
                 .addComponent(new BattleMapRenderer("mapRender", appState.getMap(), mapOffsetX, mapOffsetY));
 
         entityManager.addEntity(mapEntity);
@@ -150,7 +157,7 @@ public class BattleGameState extends BasicGameState {
             SpriteSheet monsterSpriteSheet = spriteSheetFactory.spriteSheetForName(monster.getSpriteSheet());
             MobRenderer sprite = new MobRenderer(monster, monsterSpriteSheet);
             sprite.useSprite(1, 2);
-            Entity mobEntity = createMobEntity(mapOffsetX, mapOffsetY, monster, sprite);
+            Entity mobEntity = createMobEntity(mapOffsetX, mapOffsetY, monster, sprite,drawX);
             entityManager.addEntity(mobEntity);
             mobEntities.put(monster, mobEntity);
         }
@@ -160,7 +167,7 @@ public class BattleGameState extends BasicGameState {
 
         heroSprite.useSprite(1, 2);
 
-        playerEntity = createMobEntity(mapOffsetX, mapOffsetY, player, heroSprite);
+        playerEntity = createMobEntity(mapOffsetX, mapOffsetY, player, heroSprite,drawX);
         entityManager.addEntity(playerEntity);
 
 
@@ -186,10 +193,10 @@ public class BattleGameState extends BasicGameState {
     }
 
 
-    private Entity createMobEntity(int mapOffsetX, int mapOffsetY, Mob mob, SpriteSheetRenderer sprite) {
+    private Entity createMobEntity(int mapOffsetX, int mapOffsetY, Mob mob, SpriteSheetRenderer sprite,int drawX) {
         MobLocationAction mobLocationAction = new MobLocationAction(mob.name() + "location")
                 .setMapOffset(mapOffsetX, mapOffsetY)
-                .setScreenOffset(208, 32)
+                .setScreenOffset(drawX, 32)
                 .setMob(mob);
 
         return new Entity(mob.name() + "entity")
@@ -241,8 +248,9 @@ public class BattleGameState extends BasicGameState {
         /////////////////////////////////////////////////////////////////////
 
         int scale = 4;
-        int TILE_WIDTH = 32 * scale;
-        int x = 400 - ((TILE_WIDTH * 3) / 2);
+        int TILE_WIDTH = Fury.TILE_WIDTH * scale;
+        int midPoint = Fury.GAME_WIDTH / 2;
+        int x = midPoint - ((TILE_WIDTH * 3) / 2);
         int y = 32;
 
         String player = appState.getPlayer().name();
@@ -258,7 +266,7 @@ public class BattleGameState extends BasicGameState {
         if (currentMonster != null) {
             String monster = currentMonster.name();
             width = font.getWidth(monster);
-            int mw = 800 - (x + TILE_WIDTH * 3);
+            int mw = Fury.GAME_WIDTH - (x + TILE_WIDTH * 3);
             int mx = (x + TILE_WIDTH * 3) + mw / 2 - width / 2;
             font.drawString(mx, y, monster, Color.white);
         }
@@ -266,13 +274,13 @@ public class BattleGameState extends BasicGameState {
         entityManager.render(g);
 
         if (currentState == State.SHOW_ITEMS_WON) {
-            g.drawImage(victoryImage, 400 - victoryImage.getWidth() / 2, 60);
+            g.drawImage(victoryImage, midPoint - victoryImage.getWidth() / 2, 60);
             String itemStr = "You find the following item(s):";
             int strWidth = g.getFont().getWidth(itemStr);
-            g.drawString(itemStr, 400 - strWidth / 2, victoryImage.getHeight() + 60 + 10);
+            g.drawString(itemStr, midPoint - strWidth / 2, victoryImage.getHeight() + 60 + 10);
             String continueStr = "Press any key to continue";
             strWidth = g.getFont().getWidth(continueStr);
-            g.drawString(continueStr, 400 - strWidth / 2, victoryImage.getHeight() + 60 + 10 + 128 + 65);
+            g.drawString(continueStr, midPoint - strWidth / 2, victoryImage.getHeight() + 60 + 10 + 128 + 65);
         }
     }
 
@@ -280,7 +288,7 @@ public class BattleGameState extends BasicGameState {
         if (effects.isEmpty()) {
             return;
         }
-        int effectY = 32 + 32 * 4 + 42;
+        int effectY = Fury.TILE_HEIGHT + Fury.TILE_HEIGHT * 4 + 42;
         int max = effects.size() > 25 ? 25 : effects.size();
         for (int idx = 0; idx < max; idx++) {
             ItemLogMessage effectStr = effects.get(idx);
@@ -396,7 +404,7 @@ public class BattleGameState extends BasicGameState {
     private void displayItemsWon(List<Item> itemsWon) {
         // allow 128 + 10 for each card to be displayed
         int displayWidth = itemsWon.size() * (128 + 10);
-        int displayX = 400 - displayWidth / 2;
+        int displayX = Fury.GAME_WIDTH/2 - displayWidth / 2;
         for (Item item : itemsWon) {
             ItemRenderer card = new ItemRenderer(item, font);
             Entity cardEntity = new Entity(item.name() + "won").addComponent(card)
@@ -551,7 +559,7 @@ public class BattleGameState extends BasicGameState {
     }
 
     private void addStringToEffects(int pos, List<ItemLogMessage> effects, String string, Color color) {
-        List<String> parts = maybeSplitString(string, 180);
+        List<String> parts = maybeSplitString(string, 160);
         Collections.reverse(parts);
         for (String part : parts) {
             effects.add(pos, new ItemLogMessage(part, color));
@@ -593,7 +601,7 @@ public class BattleGameState extends BasicGameState {
 
         if (currentState == State.SHOW_ITEMS_WON) {
             // go back to dungeon screen
-            game.enterState(Fury.DUNGEON_GAME_STATE);
+            game.enterState(DUNGEON_GAME_STATE);
         }
 
         if (currentState != State.PLAYER_CHOOSE_MONSTER) {

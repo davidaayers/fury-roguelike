@@ -23,6 +23,7 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.wwflgames.fury.Fury.*;
 import static com.wwflgames.fury.map.DifficultyLevel.EASY;
 
 public class TitleGameState extends BasicGameState {
@@ -63,7 +64,7 @@ public class TitleGameState extends BasicGameState {
 
     @Override
     public int getID() {
-        return Fury.TITLE_STATE;
+        return TITLE_STATE;
     }
 
     @Override
@@ -76,7 +77,7 @@ public class TitleGameState extends BasicGameState {
         List<Profession> allProfessions = professionFactory.getAllProfessions();
         int numProfessions = allProfessions.size();
         // figure out how much room we have, and space them out evenly
-        float pixelsPerProfession = 800f / (float) numProfessions;
+        float pixelsPerProfession = (float) GAME_WIDTH / (float) numProfessions;
         float x = pixelsPerProfession / 2;
         float y = 250;
         for (final Profession profession : professionFactory.getAllProfessions()) {
@@ -174,7 +175,7 @@ public class TitleGameState extends BasicGameState {
                 break;
 
             case GAME_START:
-                stateBasedGame.enterState(Fury.DUNGEON_GAME_STATE, new FadeOutTransition(Color.black),
+                stateBasedGame.enterState(DUNGEON_GAME_STATE, new FadeOutTransition(Color.black),
                         new FadeInTransition(Color.black));
                 break;
         }

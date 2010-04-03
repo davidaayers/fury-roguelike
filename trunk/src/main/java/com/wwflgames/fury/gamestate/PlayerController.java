@@ -1,5 +1,6 @@
 package com.wwflgames.fury.gamestate;
 
+import com.wwflgames.fury.Fury;
 import com.wwflgames.fury.map.DungeonMap;
 import com.wwflgames.fury.map.Tile;
 import com.wwflgames.fury.player.Player;
@@ -13,10 +14,10 @@ public class PlayerController {
 
     private int offsetX;
     private int offsetY;
-    private int eastEdgeX = 23;
-    private int westEdgeX = 2;
-    private int northEdgeY = 2;
-    private int southEdgeY = 23;
+    private int eastEdgeX;
+    private int westEdgeX;
+    private int northEdgeY;
+    private int southEdgeY;
     private Player player;
     private DungeonMap map;
 
@@ -32,10 +33,10 @@ public class PlayerController {
         // appropriately
         Integer playerX = player.getMapX();
         Integer playerY = player.getMapY();
-        offsetX = playerX - 12;
-        offsetY = playerY - 9;
-        eastEdgeX = playerX + 11;
-        westEdgeX = playerX - 10;
+        offsetX = playerX - Fury.MAP_WIDTH/2;
+        offsetY = playerY - Fury.MAP_HEIGHT/2;
+        eastEdgeX = playerX + 9;
+        westEdgeX = playerX - 9;
         southEdgeY = playerY + 6;
         northEdgeY = playerY - 7;
         printStuff();
@@ -73,6 +74,7 @@ public class PlayerController {
                 westEdgeX++;
             }
         }
+        // WEST
         if (dx == -1) {
             if (x < westEdgeX) {
                 offsetX--;
@@ -80,6 +82,7 @@ public class PlayerController {
                 eastEdgeX--;
             }
         }
+        // SOUTH
         if (dy == 1) {
             if (y > southEdgeY) {
                 offsetY++;
@@ -87,6 +90,7 @@ public class PlayerController {
                 northEdgeY++;
             }
         }
+        // NORTH
         if (dy == -1) {
             if (y < northEdgeY) {
                 offsetY--;
@@ -100,11 +104,6 @@ public class PlayerController {
     }
 
     private void updateCurrentFeatureSeen() {
-//        Feature current = map.findFeatureFor(player.getMapX(), player.getMapY());
-//        for (Tile tile : current.getAllTiles()) {
-//            tile.setHasPlayerSeen(true);
-//        }
-
         // now, update the player visibility level
         map.resetVisibility();
 
