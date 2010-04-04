@@ -10,6 +10,7 @@ public class AppStateImpl implements AppState {
     private Player player;
     private boolean playerInitiative;
     private Dungeon dungeon;
+    private boolean gameOver;
 
     @Override
     public Player getPlayer() {
@@ -44,6 +45,16 @@ public class AppStateImpl implements AppState {
     @Override
     public void setDungeon(Dungeon dungeon) {
         this.dungeon = dungeon;
+    }
+
+    @Override
+    public void setGameOver(boolean flag) {
+        this.gameOver = flag;
+    }
+
+    @Override
+    public boolean isGameOver() {
+        return gameOver;
     }
 
 

@@ -18,4 +18,8 @@ public interface AppState {
     Dungeon getDungeon();
 
     void setDungeon(Dungeon dungeon);
+
+    void setGameOver(boolean flag);
+
+    boolean isGameOver();
 }
