@@ -38,7 +38,6 @@ import static com.wwflgames.fury.Fury.*;
 import static com.wwflgames.fury.Fury.*;
 
 public class BattleGameState extends BasicGameState {
-
     enum State {
         PLAYER_CHOOSE_MONSTER,
         MONSTER_CHOSEN,
@@ -81,6 +80,8 @@ public class BattleGameState extends BasicGameState {
     private int monsterCardOffset;
     private boolean enterCalled = false;
     private Image victoryImage;
+    private int expEarned;
+    
 
     public BattleGameState(AppState appState, SpriteSheetFactory spriteSheetFactory, ItemFactory itemFactory) {
         this.appState = appState;
@@ -276,12 +277,12 @@ public class BattleGameState extends BasicGameState {
 
         if (currentState == State.SHOW_ITEMS_WON) {
             g.drawImage(victoryImage, midPoint - victoryImage.getWidth() / 2, 60);
-            String itemStr = "You find the following item(s):";
-            int strWidth = g.getFont().getWidth(itemStr);
-            g.drawString(itemStr, midPoint - strWidth / 2, victoryImage.getHeight() + 60 + 10);
-            String continueStr = "Press any key to continue";
-            strWidth = g.getFont().getWidth(continueStr);
-            g.drawString(continueStr, midPoint - strWidth / 2, victoryImage.getHeight() + 60 + 10 + 128 + 65);
+            int textY = victoryImage.getHeight() + 60 + 10;
+            TextUtil.centerText(container,g,"You find the following item(s):",textY);
+            textY += 128+65;
+            TextUtil.centerText(container,g,"You earned " + expEarned + " experience!",textY);
+            textY += 20;
+            TextUtil.centerText(container,g,"Press any key to continue",textY);
         }
     }
 
@@ -373,6 +374,7 @@ public class BattleGameState extends BasicGameState {
             case BATTLE_OVER:
 
                 generateItemsWon();
+                computeExperienceEarned();
 
                 currentState = State.SHOW_ITEMS_WON;
 
@@ -400,6 +402,15 @@ public class BattleGameState extends BasicGameState {
         }
 
         displayItemsWon(itemsWon);
+    }
+
+    private void computeExperienceEarned() {
+        expEarned = 0;
+        for ( Monster monster : battle.getOriginalEnemies() ) {
+            expEarned += monster.computeExp();
+        }
+        // add the exp to the player
+        appState.getPlayer().addExp(expEarned);
     }
 
     private void displayItemsWon(List<Item> itemsWon) {
