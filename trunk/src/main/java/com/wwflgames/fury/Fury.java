@@ -68,6 +68,9 @@ public class Fury extends StateBasedGame {
 
     @Override
     public void initStatesList(GameContainer gameContainer) throws SlickException {
+        // why do we have to do this here? ugh
+        setupGame(gameContainer);
+
         createDependencies();
         addState(createTitleGameState());
         addState(createDungeonGameState());
@@ -75,6 +78,10 @@ public class Fury extends StateBasedGame {
         addState(createManageDeckGameState());
         addState(createGameWonState());
         addState(createHelpState());
+    }
+
+    private void setupGame(GameContainer gameContainer) {
+        gameContainer.setShowFPS(false);
     }
 
     private void createDependencies() throws SlickException {
