@@ -175,6 +175,10 @@ public class DungeonGameState extends BasicGameState {
             if ( y < r.getMinY() ) {
                 dy = -1;
             }
+            // player didn't move, probably clicked on themselves
+            if ( dx == 0 && dy == 0 ) {
+                return;
+            }
             try {
                 tryMoveAndMaybeAttack(dx,dy);
             } catch (SlickException e) {
