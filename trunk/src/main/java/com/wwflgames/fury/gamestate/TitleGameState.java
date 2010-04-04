@@ -117,6 +117,7 @@ public class TitleGameState extends BasicGameState {
             professionChoices.add(moa);
             x += pixelsPerProfession;
         }
+
     }
 
     @Override
@@ -137,6 +138,7 @@ public class TitleGameState extends BasicGameState {
         graphics.drawImage(titleImage, 400 - titleImage.getWidth() / 2, 25);
         if (currentState == State.WAITING_FOR_PROFESSION_CHOICE) {
             TextUtil.centerText(gameContainer, graphics, "Choose your profession:", 220);
+            TextUtil.centerText(gameContainer, graphics, "Press 'h' for help",520);
         }
 
         for (MouseOverArea moa : professionChoices) {
@@ -147,6 +149,16 @@ public class TitleGameState extends BasicGameState {
             TextUtil.centerText(gameContainer, graphics, "Generating dungeon...", 520);
         }
 
+
+
+    }
+
+    @Override
+    public void keyPressed(int key, char c) {
+        if ( c == 'h' && currentState == State.WAITING_FOR_PROFESSION_CHOICE ) {
+            appState.setHelpReturnScreen(Fury.TITLE_STATE);
+            stateBasedGame.enterState(Fury.HELP_STATE);
+        }
     }
 
     @Override
