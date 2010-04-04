@@ -61,4 +61,14 @@ public class Monster extends Mob {
         deathActivities.add(activity);
     }
 
+    //TODO: decide how we're going to do this
+    public int computeExp() {
+        // bosses earn 2x experience!
+        if ( isBoss ) {
+            return monsterValue * 2;
+        } else {
+            return monsterValue;
+        }
+    }
+
 }

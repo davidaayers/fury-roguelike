@@ -106,6 +106,19 @@ public class DungeonGameState extends BasicGameState {
                 .addComponent(new MiniDungeonMapRenderer("mapRender", map, playerController));
 
         entityManager.addEntity(miniMap);
+
+        // add the hud
+        Entity hud = new Entity("hud")
+                .setPosition(new Vector2f(0,0))
+                .setScale(1)
+                .addComponent(new DungeonHudRenderer(
+                        "hudRenderer",
+                        appState.getPlayer(),
+                        spriteSheetFactory.spriteSheetForName(appState.getPlayer().getProfession().getSpriteSheet()
+                )));
+
+        entityManager.addEntity(hud);
+
     }
 
     @Override
