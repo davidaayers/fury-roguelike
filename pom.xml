@@ -161,7 +161,7 @@
                         </goals>
                         <configuration>
                             <tasks>
-                                <ftp server="ftp.iamagiantnerd.com"
+                                <ftp server="${ftp.site}"
                                      remotedir="/fury"
                                      userid="${ftp.user}"
                                      password="${ftp.pass}"
