@@ -141,6 +141,11 @@ public class DungeonGameState extends BasicGameState {
             stateBasedGame.enterState(Fury.MANAGE_DECK_STATE);
         }
 
+        if ( c == 'h' ) {
+            appState.setHelpReturnScreen(Fury.DUNGEON_GAME_STATE);
+            stateBasedGame.enterState(Fury.HELP_STATE);
+        }
+
         if (key == 50) {
             miniMap.setVisible(!miniMap.isVisible());
         }

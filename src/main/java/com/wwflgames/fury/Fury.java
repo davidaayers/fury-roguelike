@@ -52,6 +52,7 @@ public class Fury extends StateBasedGame {
     public static final int BATTLE_STATE = 3;
     public static final int MANAGE_DECK_STATE = 4;
     public static final int GAME_WON_STATE = 5;
+    public static final int HELP_STATE = 6;
 
     private static AppGameContainer container;
     private ProfessionFactoryImpl professionFactory;
@@ -73,6 +74,7 @@ public class Fury extends StateBasedGame {
         addState(createBattleGameState());
         addState(createManageDeckGameState());
         addState(createGameWonState());
+        addState(createHelpState());
     }
 
     private void createDependencies() throws SlickException {
@@ -107,6 +109,10 @@ public class Fury extends StateBasedGame {
 
     private GameWonGameState createGameWonState() {
         return new GameWonGameState();
+    }
+
+    private HelpGameState createHelpState() {
+        return new HelpGameState(appState);
     }
 
     public static void main(String[] args) {

@@ -11,6 +11,7 @@ public class AppStateImpl implements AppState {
     private boolean playerInitiative;
     private Dungeon dungeon;
     private boolean gameOver;
+    private int helpReturnScreen;
 
     @Override
     public Player getPlayer() {
@@ -55,6 +56,16 @@ public class AppStateImpl implements AppState {
     @Override
     public boolean isGameOver() {
         return gameOver;
+    }
+
+    @Override
+    public void setHelpReturnScreen(int state) {
+        this.helpReturnScreen = state;
+    }
+
+    @Override
+    public int getHelpReturnScreen() {
+        return helpReturnScreen;
     }
 
 

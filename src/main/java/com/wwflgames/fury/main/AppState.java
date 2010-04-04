@@ -22,4 +22,8 @@ public interface AppState {
     void setGameOver(boolean flag);
 
     boolean isGameOver();
+
+    void setHelpReturnScreen(int state);
+
+    int getHelpReturnScreen();
 }
