@@ -1,5 +1,6 @@
 package com.wwflgames.fury.map;
 
+import com.wwflgames.fury.main.AppState;
 import com.wwflgames.fury.map.generation.Feature;
 import com.wwflgames.fury.monster.Monster;
 import com.wwflgames.fury.monster.MonsterDeathActivity;
@@ -13,10 +14,12 @@ public class DungeonCreatorImpl implements DungeonCreator {
 
     private DungeonMapCreator mapCreator;
     private MonsterFactory monsterFactory;
+    private AppState appState;
 
-    public DungeonCreatorImpl(DungeonMapCreator mapCreator, MonsterFactory monsterFactory) {
+    public DungeonCreatorImpl(DungeonMapCreator mapCreator, MonsterFactory monsterFactory, AppState appState) {
         this.mapCreator = mapCreator;
         this.monsterFactory = monsterFactory;
+        this.appState = appState;
     }
 
     @Override
@@ -35,8 +38,7 @@ public class DungeonCreatorImpl implements DungeonCreator {
         for (int idx = 0; idx < floorsToCreate - 1; idx++) {
             DungeonMap mapA = levels.get(idx);
             DungeonMap mapB = levels.get(idx + 1);
-            List<Feature> features = mapA.getFeatureList();
-            Feature f = features.get(Rand.get().nextInt(features.size()));
+            Feature f = findRandomFeature(mapA);
             Tile mapATile = chooseRandomTileInFeature(f);
             mapATile.setType(TileType.STAIR);
             Tile mapBTile = findRandomTile(mapB);
@@ -49,7 +51,23 @@ public class DungeonCreatorImpl implements DungeonCreator {
         }
 
         // finally, place the Big Boss of the dungeon somewhere on the last level
-        DungeonMap lastLevel = levels.get(levels.size()-1); 
+        DungeonMap lastLevel = levels.get(levels.size()-1);
+        Feature f = findRandomFeature(lastLevel);
+        Tile bossTile = null;
+        while (bossTile == null) {
+            Tile t = chooseRandomTileInFeature(f);
+            if ( t.getMob() == null && t.getType() != TileType.STAIR ) {
+                bossTile = t;       
+            }
+        }
+        Monster bigBoss = monsterFactory.createBossMonster(levels.size()-1);
+        bigBoss.addMonsterDeathActivity(new MonsterDeathActivity() {
+            @Override
+            public void doActivity() {
+                appState.setGameOver(true);    
+            }
+        });
+        lastLevel.addMob(bigBoss,bossTile.getX(),bossTile.getY());
 
         Dungeon dungeon = new Dungeon(levels);
 
@@ -74,9 +92,13 @@ public class DungeonCreatorImpl implements DungeonCreator {
         map.addMob(boss, bossTile.getX(), bossTile.getY());
     }
 
-    private Tile findRandomTile(DungeonMap map) {
+    private Feature findRandomFeature(DungeonMap map) {
         List<Feature> features = map.getFeatureList();
-        Feature f = features.get(Rand.get().nextInt(features.size()));
+        return features.get(Rand.get().nextInt(features.size()));
+    }
+
+    private Tile findRandomTile(DungeonMap map) {
+        Feature f = findRandomFeature(map);
         return chooseRandomTileInFeature(f);
     }
 

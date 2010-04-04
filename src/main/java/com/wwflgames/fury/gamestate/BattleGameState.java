@@ -600,8 +600,13 @@ public class BattleGameState extends BasicGameState {
     public void keyPressed(int key, char c) {
 
         if (currentState == State.SHOW_ITEMS_WON) {
-            // go back to dungeon screen
-            game.enterState(DUNGEON_GAME_STATE);
+            // if we have won the game, go to the game won screen
+            // otherwise, back to the dungeon!
+            if ( appState.isGameOver() ) {
+                game.enterState(GAME_WON_STATE);
+            } else {
+                game.enterState(DUNGEON_GAME_STATE);
+            }
         }
 
         if (currentState != State.PLAYER_CHOOSE_MONSTER) {
