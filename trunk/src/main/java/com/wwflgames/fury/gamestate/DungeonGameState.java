@@ -11,7 +11,9 @@ import com.wwflgames.fury.player.PlayerController;
 import com.wwflgames.fury.util.Log;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -148,6 +150,33 @@ public class DungeonGameState extends BasicGameState {
             //TODO: meh i dont like the slick exception that has propogated to here :(
             try {
                 tryMoveAndMaybeAttack(d.getDx(), d.getDy());
+            } catch (SlickException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void mouseClicked(int button, int x, int y, int clickCount) {
+        if ( button == Input.MOUSE_LEFT_BUTTON && clickCount == 1) {
+            Log.debug("Mouse clicked at " + x + "," + y);
+            Rectangle r = playerController.getPlayerRectangle();
+            int dx = 0;
+            int dy = 0;
+            if ( x > r.getMaxX() ) {
+                dx = 1;
+            }
+            if ( x < r.getMinX() ) {
+                dx = -1;
+            }
+            if ( y > r.getMaxY() ) {
+                dy = 1;
+            }
+            if ( y < r.getMinY() ) {
+                dy = -1;
+            }
+            try {
+                tryMoveAndMaybeAttack(dx,dy);
             } catch (SlickException e) {
                 e.printStackTrace();
             }
