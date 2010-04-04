@@ -1,4 +1,4 @@
-package com.wwflgames.fury.gamestate;
+package com.wwflgames.fury.player;
 
 import com.wwflgames.fury.Fury;
 import com.wwflgames.fury.map.DungeonMap;
