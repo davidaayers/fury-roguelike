@@ -42,7 +42,7 @@ import java.util.Set;
  */
 public class Fury extends StateBasedGame {
 
-    public static final int GAME_WIDTH = 760;
+    public static final int GAME_WIDTH = 750;
     public static final int GAME_HEIGHT = 600;
     public static final int TILE_WIDTH = 32;
     public static final int TILE_HEIGHT = 32;
