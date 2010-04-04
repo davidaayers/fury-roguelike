@@ -1,6 +1,6 @@
 package com.wwflgames.fury.entity;
 
-import com.wwflgames.fury.gamestate.PlayerController;
+import com.wwflgames.fury.player.PlayerController;
 import com.wwflgames.fury.map.DungeonMap;
 import com.wwflgames.fury.map.Tile;
 import org.newdawn.slick.Graphics;

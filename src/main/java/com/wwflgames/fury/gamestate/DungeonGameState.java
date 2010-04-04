@@ -7,6 +7,7 @@ import com.wwflgames.fury.map.*;
 import com.wwflgames.fury.mob.Mob;
 import com.wwflgames.fury.monster.Monster;
 import com.wwflgames.fury.player.Player;
+import com.wwflgames.fury.player.PlayerController;
 import com.wwflgames.fury.util.Log;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;

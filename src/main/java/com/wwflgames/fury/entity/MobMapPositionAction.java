@@ -1,7 +1,6 @@
 package com.wwflgames.fury.entity;
 
-import com.wwflgames.fury.Fury;
-import com.wwflgames.fury.gamestate.PlayerController;
+import com.wwflgames.fury.player.PlayerController;
 import com.wwflgames.fury.map.Tile;
 import com.wwflgames.fury.mob.Mob;
 import org.newdawn.slick.geom.Vector2f;
