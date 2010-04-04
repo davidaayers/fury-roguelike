@@ -22,6 +22,7 @@ import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.font.effects.ColorEffect;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -600,13 +601,8 @@ public class BattleGameState extends BasicGameState {
     public void keyPressed(int key, char c) {
 
         if (currentState == State.SHOW_ITEMS_WON) {
-            // if we have won the game, go to the game won screen
-            // otherwise, back to the dungeon!
-            if ( appState.isGameOver() ) {
-                game.enterState(GAME_WON_STATE);
-            } else {
-                game.enterState(DUNGEON_GAME_STATE);
-            }
+            transitionToNextScreen();
+
         }
 
         if (currentState != State.PLAYER_CHOOSE_MONSTER) {
@@ -622,6 +618,55 @@ public class BattleGameState extends BasicGameState {
             attackX = d.getDx();
             attackY = d.getDy();
             currentState = State.MONSTER_CHOSEN;
+        }
+    }
+
+    private void transitionToNextScreen() {
+        // if we have won the game, go to the game won screen
+        // otherwise, back to the dungeon!
+        if ( appState.isGameOver() ) {
+            game.enterState(GAME_WON_STATE);
+        } else {
+            game.enterState(DUNGEON_GAME_STATE);
+        }
+    }
+
+    @Override
+    public void mouseClicked(int button, int x, int y, int clickCount) {
+
+        if (currentState == State.SHOW_ITEMS_WON) {
+            transitionToNextScreen();
+        }
+
+        if ( button == Input.MOUSE_LEFT_BUTTON && clickCount == 1) {
+            Log.debug("Mouse clicked at " + x + "," + y);
+            Vector2f playerDrawLoc = playerEntity.getPosition();
+            float drawX = playerDrawLoc.getX();
+            float drawY = playerDrawLoc.getY();
+            float width = TILE_WIDTH * 4;
+            float height = TILE_HEIGHT *4;
+            Rectangle r = new Rectangle(drawX,drawY,width,height);
+            int dx = 0;
+            int dy = 0;
+            if ( x > r.getMaxX() ) {
+                dx = 1;
+            }
+            if ( x < r.getMinX() ) {
+                dx = -1;
+            }
+            if ( y > r.getMaxY() ) {
+                dy = 1;
+            }
+            if ( y < r.getMinY() ) {
+                dy = -1;
+            }
+
+            if ( dx != 0 || dy != 0 ) {
+                attackX = dx;
+                attackY = dy;
+                currentState = State.MONSTER_CHOSEN;
+            }
+
         }
     }
 

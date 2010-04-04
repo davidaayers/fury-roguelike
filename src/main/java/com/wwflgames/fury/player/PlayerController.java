@@ -6,9 +6,13 @@ import com.wwflgames.fury.map.Tile;
 import com.wwflgames.fury.player.Player;
 import com.wwflgames.fury.util.BresenhamLine;
 import com.wwflgames.fury.util.Log;
+import org.newdawn.slick.geom.Rectangle;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.wwflgames.fury.Fury.TILE_HEIGHT;
+import static com.wwflgames.fury.Fury.TILE_WIDTH;
 
 public class PlayerController {
 
@@ -52,6 +56,26 @@ public class PlayerController {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public Rectangle getPlayerRectangle() {
+        return new Rectangle(getDrawX(),getDrawY(),TILE_WIDTH,TILE_HEIGHT);
+    }
+
+    public float getDrawX() {
+        Tile currentMapTile = player.getCurrentMapTile();
+        int mapX = currentMapTile.getX();
+        mapX -= this.getOffsetX();
+        float drawX = mapX * TILE_WIDTH;
+        return drawX;
+    }
+
+    public float getDrawY() {
+        Tile currentMapTile = player.getCurrentMapTile();
+        int mapY = currentMapTile.getY();
+        mapY -= this.getOffsetY();
+        float drawY = mapY * TILE_HEIGHT;
+        return drawY;
     }
 
     public void movePlayerTo(int x, int y) {
