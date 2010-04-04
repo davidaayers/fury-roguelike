@@ -23,7 +23,7 @@
     <param name="al_progressbar" value="appletprogress.gif">
     
     <!-- List of Jars to add to classpath -->
-    <param name="al_jars" value="slick.jar,fury-roguelike-1.0.jar,lwjgl.jar.pack.lzma, jinput.jar.pack.lzma, lwjgl_util.jar.pack.lzma, res.jar.lzma">
+    <param name="al_jars" value="slick.jar,${project.build.finalName}.jar,lwjgl.jar.pack.lzma, jinput.jar.pack.lzma, lwjgl_util.jar.pack.lzma, res.jar.lzma">
     
     <!-- signed windows natives jar in a jar --> 
     <param name="al_windows" value="windows_natives.jar.lzma">
@@ -40,22 +40,22 @@
     <!-- Tags under here are optional -->
     
     <!-- Version of Applet, important otherwise applet won't be cached, version change will update applet, must be int or float -->
-    <!-- <param name="al_version" value="0.1"> -->
+    <param name="al_version" value="${project.version}">
     
     <!-- background color to paint with, defaults to white -->
-    <!-- <param name="al_bgcolor" value="000000"> -->
+    <param name="al_bgcolor" value="ffffff">
     
     <!-- foreground color to paint with, defaults to black -->
-    <!-- <param name="al_fgcolor" value="ffffff"> -->
+    <param name="al_fgcolor" value="000000">
     
     <!-- error color to paint with, defaults to red -->
     <!-- <param name="al_errorcolor" value="ff0000"> -->
     
     <!-- whether to run in debug mode -->
-    <param name="al_debug" value="false">
+    <!--<param name="al_debug" value="true">-->
     
     <!-- whether to prepend host to cache path - defaults to true -->
-    <param name="al_prepend_host" value="false">
+    <param name="al_prepend_host" value="true">
     
   
   </applet>
