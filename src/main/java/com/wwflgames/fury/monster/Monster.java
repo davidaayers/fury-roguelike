@@ -2,6 +2,7 @@ package com.wwflgames.fury.monster;
 
 import com.wwflgames.fury.item.ItemDeck;
 import com.wwflgames.fury.mob.Mob;
+import com.wwflgames.fury.monster.ai.AI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ public class Monster extends Mob {
     private int monsterValue;
     private boolean isBoss;
     private List<MonsterDeathActivity> deathActivities = new ArrayList<MonsterDeathActivity>();
+    private AI ai;
 
     public Monster(String name, String spriteSheet, int monsterValue) {
         super(name);
@@ -48,6 +50,20 @@ public class Monster extends Mob {
 
     public void setBoss(boolean boss) {
         isBoss = boss;
+    }
+
+    public AI getAi() {
+        return ai;
+    }
+
+    public void setAi(AI ai) {
+        this.ai = ai;
+    }
+
+    public void think() {
+        if ( ai != null ) {
+            ai.think();
+        }
     }
 
     // called when this monster is killed.

@@ -6,6 +6,7 @@ import com.wwflgames.fury.main.AppState;
 import com.wwflgames.fury.map.*;
 import com.wwflgames.fury.mob.Mob;
 import com.wwflgames.fury.monster.Monster;
+import com.wwflgames.fury.monster.MonsterController;
 import com.wwflgames.fury.player.Player;
 import com.wwflgames.fury.player.PlayerController;
 import com.wwflgames.fury.util.Log;
@@ -26,6 +27,7 @@ public class DungeonGameState extends BasicGameState {
     private SpriteSheetFactory spriteSheetFactory;
     private PlayerController playerController;
     private Entity miniMap;
+    private MonsterController monsterController;
 
     public DungeonGameState(AppState appState, SpriteSheetFactory spriteSheetFactory) {
         this.appState = appState;
@@ -54,6 +56,7 @@ public class DungeonGameState extends BasicGameState {
 
         DungeonMap map = appState.getMap();
 
+        monsterController = new MonsterController(map);
         playerController = new PlayerController(appState.getPlayer(), map);
 
         // create a dungeonMap entity
@@ -231,9 +234,12 @@ public class DungeonGameState extends BasicGameState {
             changeLevel(newTile.getStairs());
         } else if (dungeonMap.inBounds(newX, newY) && dungeonMap.isWalkable(newX, newY)) {
             playerController.movePlayerTo(newX, newY);
+            // now the monsters get a chance to move
+            monsterController.think();
         } else {
             Log.debug("Hit a wall!");
         }
+
     }
 
     private void changeLevel(Stairs stairs) throws SlickException {

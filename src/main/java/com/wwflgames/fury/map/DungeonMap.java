@@ -3,6 +3,7 @@ package com.wwflgames.fury.map;
 import com.wwflgames.fury.map.generation.Feature;
 import com.wwflgames.fury.mob.Mob;
 import com.wwflgames.fury.monster.Monster;
+import org.lwjgl.input.Mouse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,21 +56,34 @@ public class DungeonMap implements Cloneable {
     }
 
     public void addMob(Mob mob, int x, int y) {
-        Tile tile = getTileAt(x, y);
-        tile.setMob(mob);
-        mob.setCurrentMapTile(tile);
+        addMobToTileAt(mob, x, y);
         if (mob instanceof Monster) {
             monsterList.add((Monster) mob);
         }
     }
 
     public void removeMob(Mob mob) {
-        Tile tile = mob.getCurrentMapTile();
-        tile.setMob(null);
-        mob.setCurrentMapTile(null);
+        removeMobFromTile(mob);
         if (mob instanceof Monster) {
             monsterList.remove(mob);
         }
+    }
+
+    private void addMobToTileAt(Mob mob, int x, int y) {
+        Tile tile = getTileAt(x, y);
+        tile.setMob(mob);
+        mob.setCurrentMapTile(tile);
+    }
+
+    private void removeMobFromTile(Mob mob) {
+        Tile tile = mob.getCurrentMapTile();
+        tile.setMob(null);
+        mob.setCurrentMapTile(null);
+    }
+
+    public void moveMonster(Monster monster, Tile newTile) {
+        removeMobFromTile(monster);
+        addMobToTileAt(monster,newTile.getX(),newTile.getY());
     }
 
     public List<Monster> getMonsterList() {

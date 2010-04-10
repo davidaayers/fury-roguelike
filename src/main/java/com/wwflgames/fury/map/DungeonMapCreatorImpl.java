@@ -3,6 +3,8 @@ package com.wwflgames.fury.map;
 import com.wwflgames.fury.map.generation.*;
 import com.wwflgames.fury.monster.Monster;
 import com.wwflgames.fury.monster.MonsterFactory;
+import com.wwflgames.fury.monster.ai.AI;
+import com.wwflgames.fury.monster.ai.RandomMonsterAI;
 import com.wwflgames.fury.util.AsciiMapPrinter;
 import com.wwflgames.fury.util.Log;
 import com.wwflgames.fury.util.Rand;
@@ -122,6 +124,11 @@ public class DungeonMapCreatorImpl implements DungeonMapCreator {
                 Monster monster = monsterFactory.createMonster(level);
                 Log.debug("Adding monsters " + monster.name());
                 map.addMob(monster, randomTile.getX(), randomTile.getY());
+
+                // create the ai for the monster
+                AI monsterAi = new RandomMonsterAI(monster,map);
+                monster.setAi(monsterAi);
+
                 cnt++;
             }
         }
