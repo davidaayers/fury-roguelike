@@ -1,6 +1,6 @@
 package com.wwflgames.fury.item.effect;
 
-import com.wwflgames.fury.battle.ItemUsageResult;
+import com.wwflgames.fury.battle.ItemUsage;
 import com.wwflgames.fury.item.Item;
 import com.wwflgames.fury.item.effect.damage.Damage;
 import com.wwflgames.fury.monster.Monster;
@@ -21,7 +21,7 @@ public class AttackBuffEffectTest {
 
         AttackBuffEffect effect = new AttackBuffEffect(Damage.MELEE_DAMAGE, 8,1);
         Item item = null;
-        ItemUsageResult result = new ItemUsageResult(item, player);
+        ItemUsage result = new ItemUsage(item, player);
         effect.applyEffect(player, monster, result);
 
         assertEquals(1, player.getBuffs().size());

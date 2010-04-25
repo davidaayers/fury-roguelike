@@ -6,23 +6,23 @@ import com.wwflgames.fury.mob.Mob;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemUsageResult {
+public class ItemUsage {
     private List<ItemEffectResult> effectResults = new ArrayList<ItemEffectResult>();
 
     private Item item;
     private Mob mob;
 
-    public ItemUsageResult(Item item, Mob mob) {
+    public ItemUsage(Item item, Mob mob) {
         this.item = item;
         this.mob = mob;
     }
 
-    public ItemUsageResult add(ItemEffectResult effectResult) {
+    public ItemUsage add(ItemEffectResult effectResult) {
         effectResults.add(effectResult);
         return this;
     }
 
-    public ItemUsageResult addAtFront(ItemEffectResult effectResult) {
+    public ItemUsage addAtFront(ItemEffectResult effectResult) {
         effectResults.add(0, effectResult);
         return this;
     }

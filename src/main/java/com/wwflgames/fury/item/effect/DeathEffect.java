@@ -1,6 +1,6 @@
 package com.wwflgames.fury.item.effect;
 
-import com.wwflgames.fury.battle.ItemUsageResult;
+import com.wwflgames.fury.battle.ItemUsage;
 import com.wwflgames.fury.mob.Mob;
 
 public class DeathEffect extends ItemEffect {
@@ -10,7 +10,7 @@ public class DeathEffect extends ItemEffect {
     }
 
     @Override
-    public void applyEffect(Mob itemUser, Mob itemUsedUpon, ItemUsageResult result) {
+    public void applyEffect(Mob itemUser, Mob itemUsedUpon, ItemUsage result) {
         // they are already dead
     }
 }

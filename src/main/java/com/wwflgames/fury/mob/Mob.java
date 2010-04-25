@@ -2,6 +2,7 @@ package com.wwflgames.fury.mob;
 
 import com.wwflgames.fury.item.ItemDeck;
 import com.wwflgames.fury.item.effect.BuffEffect;
+import com.wwflgames.fury.item.effect.DebuffEffect;
 import com.wwflgames.fury.map.Tile;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class Mob implements StatHolder {
     protected Map<Stat, Integer> battleStats;
     protected ItemDeck deck;
     private List<BuffEffect> buffs = new ArrayList<BuffEffect>();
+    private List<DebuffEffect> debuffs = new ArrayList<DebuffEffect>();
     private String name;
     private Tile currentMapTile;
     private Integer mapX;
@@ -144,6 +146,18 @@ public class Mob implements StatHolder {
 
     public List<BuffEffect> getBuffs() {
         return buffs;
+    }
+
+    public void addDebuff(DebuffEffect debuff) {
+        debuffs.add(debuff);
+    }
+
+    public void removeDebuff(DebuffEffect debuff) {
+        debuffs.remove(debuff);
+    }
+
+    public List<DebuffEffect> getDebuffs() {
+        return debuffs;
     }
 
     @Override

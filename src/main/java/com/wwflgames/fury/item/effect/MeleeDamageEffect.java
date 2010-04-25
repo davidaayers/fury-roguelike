@@ -1,7 +1,7 @@
 package com.wwflgames.fury.item.effect;
 
 import com.wwflgames.fury.battle.ItemEffectResult;
-import com.wwflgames.fury.battle.ItemUsageResult;
+import com.wwflgames.fury.battle.ItemUsage;
 import com.wwflgames.fury.item.effect.damage.*;
 import com.wwflgames.fury.mob.Mob;
 import com.wwflgames.fury.mob.Stat;
@@ -16,7 +16,7 @@ public class MeleeDamageEffect extends AbstractDamageEffect {
     }
 
     @Override
-    public void applyEffect(Mob itemUser, Mob itemUsedUpon, ItemUsageResult result) {
+    public void applyEffect(Mob itemUser, Mob itemUsedUpon, ItemUsage result) {
         if (damage instanceof CrushDamage) {
             applyCrushDamage(itemUser, itemUsedUpon, result);
         } else if (damage instanceof SlashDamage) {
@@ -28,7 +28,7 @@ public class MeleeDamageEffect extends AbstractDamageEffect {
 
     // crush damage gets applied to armor first (and destroys it, at least
     // for this combat round), then to health
-    private void applyCrushDamage(Mob itemUser, Mob usedOn, ItemUsageResult result) {
+    private void applyCrushDamage(Mob itemUser, Mob usedOn, ItemUsage result) {
 
         List<AttackBuffEffect> attackBuffs = EffectHelper.findAndRemoveApplicableBuffs(itemUser, Damage.CRUSH_DAMAGE);
 
@@ -49,8 +49,9 @@ public class MeleeDamageEffect extends AbstractDamageEffect {
         int origDmg = dmg;
         dmg *= multiplier;
         if (origDmg != dmg) {
-            String msg = "{0} strength increased the attack by {2}!";
-            result.add(ItemEffectResult.newBuffItemEffect(msg, dmg - origDmg, itemUser));
+            int increase = dmg - origDmg;
+            String msg = "{0} strength increased the attack by "+increase+"!";
+            result.add(ItemEffectResult.newBuffItemEffect(msg, itemUser));
         }
 
 
@@ -77,27 +78,27 @@ public class MeleeDamageEffect extends AbstractDamageEffect {
         int armorDelta = armorBefore - armorAfter;
         int healthDelta = healthBefore - healthAfter;
 
-        String armorDesc = "{0} armor is crushed for {2}";
-        String healthDesc = "{1} takes {2} damage!";
+        String armorDesc = "{0} armor is crushed for " +armorDelta;
+        String healthDesc = "{1} takes "+healthDelta+" damage!";
         if (armorBefore != 0 && armorDelta != 0) {
-            result.add(ItemEffectResult.newDamageItemEffect(armorDesc, armorDelta, usedOn));
+            result.add(ItemEffectResult.newDamageItemEffect(armorDesc, usedOn));
         }
         if (healthDelta != 0) {
-            result.add(ItemEffectResult.newDamageItemEffect(healthDesc, healthDelta, usedOn));
+            result.add(ItemEffectResult.newDamageItemEffect(healthDesc, usedOn));
         } else {
-            result.add(ItemEffectResult.newDamageItemEffect("{0} armor absorbed all damage!", armorDelta, usedOn));
+            result.add(ItemEffectResult.newDamageItemEffect("{0} armor absorbed all damage!", usedOn));
         }
     }
 
     // slash damage is reduced by 10% for every 10 points of armor. So
     // if the mob has 100 armor or more, they are basically immune to
     // slash damage
-    private void applySlashDamage(Mob itemUser, Mob mob, ItemUsageResult result) {
+    private void applySlashDamage(Mob itemUser, Mob mob, ItemUsage result) {
 
     }
 
     // not sure how stab damage should work. Ignore armor?
-    private void applyStabDamage(Mob itemUser, Mob mob, ItemUsageResult result) {
+    private void applyStabDamage(Mob itemUser, Mob mob, ItemUsage result) {
 
     }
 

@@ -1,6 +1,6 @@
 package com.wwflgames.fury.item.effect;
 
-import com.wwflgames.fury.battle.ItemUsageResult;
+import com.wwflgames.fury.battle.ItemUsage;
 import com.wwflgames.fury.item.Item;
 import com.wwflgames.fury.mob.Mob;
 
@@ -18,6 +18,6 @@ public abstract class ItemEffect {
 
     public abstract String getDesc();
 
-    public abstract void applyEffect(Mob itemUser, Mob itemUsedUpon, ItemUsageResult result);
+    public abstract void applyEffect(Mob itemUser, Mob itemUsedUpon, ItemUsage result);
 
 }
