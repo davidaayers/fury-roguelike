@@ -116,13 +116,13 @@ public class ItemFactoryImpl implements ItemFactory {
         ItemImpl item = new ItemImpl(name, usedByEffects, usedAgainstEffects);
         if (usedByEffects != null) {
             for (ItemEffect usedBy : usedByEffects) {
-                AbstractItemEffect eff = (AbstractItemEffect) usedBy;
+                ItemEffect eff = (ItemEffect) usedBy;
                 eff.setItem(item);
             }
         }
         if (usedAgainstEffects != null) {
             for (ItemEffect usedAgainst : usedAgainstEffects) {
-                AbstractItemEffect eff = (AbstractItemEffect) usedAgainst;
+                ItemEffect eff = (ItemEffect) usedAgainst;
                 eff.setItem(item);
             }
         }

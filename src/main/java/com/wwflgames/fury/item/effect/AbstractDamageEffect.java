@@ -8,7 +8,7 @@ import com.wwflgames.fury.mob.Stat;
 
 import java.util.List;
 
-public abstract class AbstractDamageEffect extends AbstractItemEffect {
+public abstract class AbstractDamageEffect extends ItemEffect {
     protected Damage damage;
     protected int damageAmount;
 
