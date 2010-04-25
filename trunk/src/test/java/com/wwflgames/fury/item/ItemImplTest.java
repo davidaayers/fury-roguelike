@@ -1,6 +1,6 @@
 package com.wwflgames.fury.item;
 
-import com.wwflgames.fury.battle.ItemUsageResult;
+import com.wwflgames.fury.battle.ItemUsage;
 import com.wwflgames.fury.item.effect.AttackBuffEffect;
 import com.wwflgames.fury.item.effect.ItemEffect;
 import com.wwflgames.fury.item.effect.damage.Damage;
@@ -21,7 +21,7 @@ public class ItemImplTest {
         Monster monster = new Monster("bar", "sprite-sheet", 0);
         AttackBuffEffect effect = new AttackBuffEffect(Damage.MELEE_DAMAGE, 8,1);
         ItemImpl item = new ItemImpl("foo", new ItemEffect[]{effect}, null);
-        ItemUsageResult result = new ItemUsageResult(item, player);
+        ItemUsage result = new ItemUsage(item, player);
         item.usedBy(player, result);
 
         assertEquals(1, player.getBuffs().size());

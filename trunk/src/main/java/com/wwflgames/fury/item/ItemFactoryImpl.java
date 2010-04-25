@@ -103,10 +103,19 @@ public class ItemFactoryImpl implements ItemFactory {
             Log.debug("Creating attack-buff");
             String attackType = childNode.getAttribute("type");
             int value = childNode.getIntAttribute("value");
-            int numAttacks = childNode.getIntAttribute("num-attacks");
+            int uses = childNode.getIntAttribute("uses");
             Damage damage = Damage.forType(attackType);
-            AttackBuffEffect attackBuff = new AttackBuffEffect(damage, value, numAttacks);
+            AttackBuffEffect attackBuff = new AttackBuffEffect(damage, value, uses);
             return attackBuff;
+        } else if ( childNode.getName().equals("stat-debuff")) {
+            Log.debug("Creating stat-buff");
+            String statName = childNode.getAttribute("stat");
+            int value = childNode.getIntAttribute("value");
+            int uses = childNode.getIntAttribute("uses");
+            Stat stat = Stat.valueOf(statName.toUpperCase());
+            Log.debug("stat was " + stat);
+            StatDebuffEffect debuffEffect = new StatDebuffEffect(stat, value,uses);
+            return debuffEffect;
         }
         return null;
     }

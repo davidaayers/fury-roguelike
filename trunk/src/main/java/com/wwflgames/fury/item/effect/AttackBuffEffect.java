@@ -1,8 +1,7 @@
 package com.wwflgames.fury.item.effect;
 
 import com.wwflgames.fury.battle.ItemEffectResult;
-import com.wwflgames.fury.battle.ItemUsageResult;
-import com.wwflgames.fury.item.Item;
+import com.wwflgames.fury.battle.ItemUsage;
 import com.wwflgames.fury.item.effect.damage.Damage;
 import com.wwflgames.fury.mob.Mob;
 
@@ -10,35 +9,38 @@ public class AttackBuffEffect extends BuffEffect {
 
     private Damage damage;
     private int amount;
-    private int numAttacks;
 
     public AttackBuffEffect(Damage damage, int amount, int numAttacks) {
+        super(numAttacks);
         this.damage = damage;
         this.amount = amount;
-        this.numAttacks = numAttacks;
     }
 
     @Override
     public String getDesc() {
-        return "+" + amount + " " + damage.getType() + " damage";
+        String desc = "+" + amount + " " + damage.getType() + " dmg";
+        if ( uses > 1 ) {
+            desc += "("+uses+"X)";
+        }
+        return desc;
     }
 
     @Override
-    public void applyEffect(Mob itemUser, Mob itemUsedUpon, ItemUsageResult result) {
+    public void applyEffect(Mob itemUser, Mob itemUsedUpon, ItemUsage result) {
         // add the buff to the itemUser, and report it
         itemUser.addBuff(this);
         String desc = "{0} next ";
-        if ( numAttacks > 1 ) {
-            desc += numAttacks + " ";
+        if ( uses > 1 ) {
+            desc += uses + " ";
         }
         desc += damage.getType() + " ";
-        if ( numAttacks > 1 ) {
+        if ( uses > 1 ) {
             desc += "attacks are ";
         } else {
             desc += "attack is ";
         }
-        desc += "increased by {2}";
-        result.add(ItemEffectResult.newBuffItemEffect(desc, amount, itemUser));
+        desc += "increased by " + amount;
+        result.add(ItemEffectResult.newBuffItemEffect(desc, itemUser));
     }
 
     public Damage getDamage() {
@@ -49,13 +51,7 @@ public class AttackBuffEffect extends BuffEffect {
         return amount;
     }
 
-    public void used() {
-        numAttacks--;
-    }
 
-    public boolean stillActive() {
-        return numAttacks != 0;
-    }
 
 
 }

@@ -1,6 +1,6 @@
 package com.wwflgames.fury.item;
 
-import com.wwflgames.fury.battle.ItemUsageResult;
+import com.wwflgames.fury.battle.ItemUsage;
 import com.wwflgames.fury.item.effect.ItemEffect;
 import com.wwflgames.fury.mob.Mob;
 
@@ -22,7 +22,7 @@ public class ItemImpl implements Item {
     }
 
     @Override
-    public Item usedBy(Mob usedBy, ItemUsageResult result) {
+    public Item usedBy(Mob usedBy, ItemUsage result) {
         if (usedByEffects != null) {
             applyEffects(usedByEffects, usedBy, null, result);
         }
@@ -30,14 +30,14 @@ public class ItemImpl implements Item {
     }
 
     @Override
-    public Item usedAgainst(Mob usedBy, Mob usedAgainst, ItemUsageResult result) {
+    public Item usedAgainst(Mob usedBy, Mob usedAgainst, ItemUsage result) {
         if (usedAgainstEffects != null) {
             applyEffects(usedAgainstEffects, usedBy, usedAgainst, result);
         }
         return this;
     }
 
-    private void applyEffects(ItemEffect[] effects, Mob usedBy, Mob usedAgainst, ItemUsageResult result) {
+    private void applyEffects(ItemEffect[] effects, Mob usedBy, Mob usedAgainst, ItemUsage result) {
         for (ItemEffect effect : effects) {
             effect.applyEffect(usedBy, usedAgainst, result);
         }

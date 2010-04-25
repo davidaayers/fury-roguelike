@@ -1,6 +1,6 @@
 package com.wwflgames.fury.item;
 
-import com.wwflgames.fury.battle.ItemUsageResult;
+import com.wwflgames.fury.battle.ItemUsage;
 import com.wwflgames.fury.mob.Mob;
 import com.wwflgames.fury.util.Shuffler;
 import org.junit.Before;
@@ -61,12 +61,12 @@ public class ItemDeckTest {
             }
 
             @Override
-            public Item usedBy(Mob mob, ItemUsageResult result) {
+            public Item usedBy(Mob mob, ItemUsage result) {
                 return null;
             }
 
             @Override
-            public Item usedAgainst(Mob mob, Mob mob2, ItemUsageResult result) {
+            public Item usedAgainst(Mob mob, Mob mob2, ItemUsage result) {
                 return null;
             }
         };

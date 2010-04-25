@@ -1,7 +1,6 @@
 package com.wwflgames.fury.battle;
 
 import com.wwflgames.fury.item.Item;
-import com.wwflgames.fury.item.effect.DeathEffect;
 import com.wwflgames.fury.mob.Mob;
 import com.wwflgames.fury.monster.Monster;
 import com.wwflgames.fury.util.Log;
@@ -12,7 +11,7 @@ import java.util.List;
 public class BattleSystem {
 
     private Battle battle;
-    private int battleRound;
+    private int round;
     private boolean battleOver = false;
     private boolean playerWon = false;
 
@@ -22,7 +21,7 @@ public class BattleSystem {
 
     public void startBattle() {
         Log.debug("Starting battle...");
-        battleRound = 1;
+        round = 1;
         // prepare all of the mobs for battle. This will set their
         // battle stats. Also, shuffle all of their decks.
         for (Mob mob : battle.getAllBattleParticipants()) {
@@ -31,33 +30,33 @@ public class BattleSystem {
         }
     }
 
-    public BattleRoundResult performBattleRound(Monster monster) {
+    public BattleRound performBattleRound(Monster monster) {
         // increment the battle Round
-        battleRound++;
-        BattleRoundResult battleRoundResult = new BattleRoundResult(battleRound);
-        Log.debug("=========( Round " + battleRound + " )==============");
+        round++;
+        BattleRound battleRound = new BattleRound(this.round);
+        Log.debug("=========( Round " + this.round + " )==============");
 
 
         // see who got initiate and let them go first
         if (battle.isPlayerInitiate()) {
-            doPlayerRoundAndCheckIfPlayerWon(monster, battleRoundResult);
+            doPlayerRoundAndCheckIfPlayerWon(monster, battleRound);
         } else {
-            doEnemyRoundAndCheckIfPlayerLost(battleRoundResult);
+            doEnemyRoundAndCheckIfPlayerLost(battleRound);
         }
 
         // now, let the other side attack
         if (battle.isPlayerInitiate()) {
-            doEnemyRoundAndCheckIfPlayerLost(battleRoundResult);
+            doEnemyRoundAndCheckIfPlayerLost(battleRound);
         } else {
-            doPlayerRoundAndCheckIfPlayerWon(monster, battleRoundResult);
+            doPlayerRoundAndCheckIfPlayerWon(monster, battleRound);
         }
 
-        Log.debug("Round " + battleRound + " is over");
-        return battleRoundResult;
+        Log.debug("Round " + this.round + " is over");
+        return battleRound;
     }
 
-    private void doPlayerRoundAndCheckIfPlayerWon(Monster monster, BattleRoundResult result) {
-        doNextItemInDeck(battle.getPlayer(), monster, result);
+    private void doPlayerRoundAndCheckIfPlayerWon(Monster monster, BattleRound battleRound) {
+        doNextItemInDeck(battle.getPlayer(), monster, battleRound);
         removeDeadMonstersFromBattle();
 
         if (battle.allEnemiesDead()) {
@@ -65,9 +64,9 @@ public class BattleSystem {
         }
     }
 
-    private void doEnemyRoundAndCheckIfPlayerLost(BattleRoundResult result) {
+    private void doEnemyRoundAndCheckIfPlayerLost(BattleRound battleRound) {
         for (Mob enemy : battle.getEnemies()) {
-            doNextItemInDeck(enemy, battle.getPlayer(), result);
+            doNextItemInDeck(enemy, battle.getPlayer(), battleRound);
         }
 
         if (battle.getPlayer().isDead()) {
@@ -75,14 +74,19 @@ public class BattleSystem {
         }
     }
 
-    private void doNextItemInDeck(Mob attacker, Mob defender, BattleRoundResult result) {
+    private void doNextItemInDeck(Mob attacker, Mob defender, BattleRound battleRound) {
         Log.debug("Next item in deck, attacker = " + attacker.name() + ", defender = " + defender.name());
         // grab the next item from the attackers deck
         Item item = attacker.getDeck().nextItem();
 
         Log.debug("Item chosen from deck is " + item.name());
 
-        ItemUsageResult itemUsage = new ItemUsageResult(item, attacker);
+        // set the item used on the round for this mob
+        battleRound.addItemUsedBy(attacker,item);
+
+
+
+        ItemUsage itemUsage = new ItemUsage(item, attacker);
         // change order here -- do attacks first, then buffs. That way items that do both buffs and
         // attacks have the buffs apply to the next attack, rather than this attack
         item.usedAgainst(attacker, defender, itemUsage).usedBy(attacker, itemUsage);
@@ -91,7 +95,10 @@ public class BattleSystem {
             String deathBlow = defender.name() + " was killed by " + item.name();
             itemUsage.addAtFront(ItemEffectResult.newDeathItemEffect(deathBlow, defender));
         }
-        result.addItemUsageResultFor(attacker, itemUsage);
+
+        for ( ItemEffectResult itemResult : itemUsage.get() ) {
+            battleRound.addBattleResult(attacker,itemResult);
+        }
     }
 
     private void removeDeadMonstersFromBattle() {
@@ -130,7 +137,7 @@ public class BattleSystem {
         return playerWon;
     }
 
-    public int getBattleRound() {
-        return battleRound;
+    public int getRound() {
+        return round;
     }
 }

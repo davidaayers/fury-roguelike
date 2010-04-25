@@ -1,7 +1,7 @@
 package com.wwflgames.fury.item.effect;
 
 import com.wwflgames.fury.battle.ItemEffectResult;
-import com.wwflgames.fury.battle.ItemUsageResult;
+import com.wwflgames.fury.battle.ItemUsage;
 import com.wwflgames.fury.item.effect.damage.Damage;
 import com.wwflgames.fury.mob.Mob;
 import com.wwflgames.fury.mob.Stat;
@@ -27,13 +27,13 @@ public abstract class AbstractDamageEffect extends ItemEffect {
         return 1f + ((float) statValue / 100f);
     }
 
-    protected int calculateBuffDamageIncrease(Mob mob, ItemUsageResult result, List<AttackBuffEffect> attackBuffs) {
+    protected int calculateBuffDamageIncrease(Mob mob, ItemUsage result, List<AttackBuffEffect> attackBuffs) {
         int buffAmt = 0;
         for (AttackBuffEffect effect : attackBuffs) {
             buffAmt += effect.getAmount();
             // add message about the buff
-            String msg = effect.getItem().name() + " increased the attack by {2}";
-            result.add(ItemEffectResult.newBuffItemEffect(msg, effect.getAmount(), mob));
+            String msg = effect.getItem().name() + " increased the attack by " + effect.getAmount();
+            result.add(ItemEffectResult.newBuffItemEffect(msg, mob));
         }
         return buffAmt;
     }

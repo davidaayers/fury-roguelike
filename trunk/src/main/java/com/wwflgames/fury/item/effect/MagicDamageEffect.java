@@ -1,7 +1,7 @@
 package com.wwflgames.fury.item.effect;
 
 import com.wwflgames.fury.battle.ItemEffectResult;
-import com.wwflgames.fury.battle.ItemUsageResult;
+import com.wwflgames.fury.battle.ItemUsage;
 import com.wwflgames.fury.item.effect.damage.Damage;
 import com.wwflgames.fury.item.effect.damage.MagicDamage;
 import com.wwflgames.fury.mob.Mob;
@@ -17,7 +17,7 @@ public class MagicDamageEffect extends AbstractDamageEffect {
     }
 
     @Override
-    public void applyEffect(Mob itemUser, Mob itemUsedUpon, ItemUsageResult result) {
+    public void applyEffect(Mob itemUser, Mob itemUsedUpon, ItemUsage result) {
 
         List<AttackBuffEffect> attackBuffs = EffectHelper.findAndRemoveApplicableBuffs(itemUser, Damage.MAGIC_DAMAGE);
 
@@ -32,13 +32,14 @@ public class MagicDamageEffect extends AbstractDamageEffect {
         int origDmg = dmg;
         dmg *= multiplier;
         if (origDmg != dmg) {
-            String msg = "{0} magic increased the attack by {2}!";
-            result.add(ItemEffectResult.newBuffItemEffect(msg, dmg - origDmg, itemUser));
+            int dmgIncrease = dmg - origDmg;
+            String msg = "{0} magic increased the attack by "+dmgIncrease+"!";
+            result.add(ItemEffectResult.newBuffItemEffect(msg, itemUser));
         }
 
-        String healthDesc = "{1} takes {2} damage!";
+        String healthDesc = "{1} takes "+dmg+" damage!";
         itemUsedUpon.modifyStatValue(Stat.HEALTH, -dmg);
         Log.debug(itemUsedUpon.name() + " health is now " + itemUsedUpon.getStatValue(Stat.HEALTH));
-        result.add(ItemEffectResult.newDamageItemEffect(healthDesc, dmg, itemUsedUpon));
+        result.add(ItemEffectResult.newDamageItemEffect(healthDesc, itemUsedUpon));
     }
 }
