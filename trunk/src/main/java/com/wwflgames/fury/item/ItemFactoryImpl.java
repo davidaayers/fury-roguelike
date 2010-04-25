@@ -112,7 +112,20 @@ public class ItemFactoryImpl implements ItemFactory {
 
 
     private Item createItem(String name, ItemEffect[] usedByEffects, ItemEffect[] usedAgainstEffects) {
-        return new ItemImpl(name, usedByEffects, usedAgainstEffects);
+        ItemImpl item = new ItemImpl(name, usedByEffects, usedAgainstEffects);
+        if (usedByEffects != null) {
+            for (ItemEffect usedBy : usedByEffects) {
+                AbstractItemEffect eff = (AbstractItemEffect) usedBy;
+                eff.setItem(item);
+            }
+        }
+        if (usedAgainstEffects != null) {
+            for (ItemEffect usedAgainst : usedAgainstEffects) {
+                AbstractItemEffect eff = (AbstractItemEffect) usedAgainst;
+                eff.setItem(item);
+            }
+        }
+        return item;
     }
 
     @Override

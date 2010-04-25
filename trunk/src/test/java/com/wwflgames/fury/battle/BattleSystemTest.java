@@ -7,7 +7,11 @@ import com.wwflgames.fury.item.ItemFactoryImpl;
 import com.wwflgames.fury.mob.Mob;
 import com.wwflgames.fury.mob.Stat;
 import com.wwflgames.fury.monster.Monster;
+import com.wwflgames.fury.monster.MonsterFactory;
+import com.wwflgames.fury.monster.MonsterFactoryImpl;
 import com.wwflgames.fury.player.Player;
+import com.wwflgames.fury.player.Profession;
+import com.wwflgames.fury.player.ProfessionFactoryImpl;
 import com.wwflgames.fury.util.Shuffler;
 import org.junit.After;
 import org.junit.Before;
@@ -24,6 +28,8 @@ public class BattleSystemTest {
 
     private BattleSystem battleSystem;
     private ItemFactory itemFactory;
+    private ProfessionFactoryImpl professionFactory;
+    private MonsterFactory monsterFactory;
 
     @Before
     public void setUp() throws Exception {
@@ -34,6 +40,8 @@ public class BattleSystemTest {
         });
 
         itemFactory = new ItemFactoryImpl();
+        professionFactory = new ProfessionFactoryImpl(itemFactory);
+        monsterFactory = new MonsterFactoryImpl(itemFactory);
     }
 
     @After
@@ -42,108 +50,38 @@ public class BattleSystemTest {
     }
 
     @Test
-    @Ignore
     public void testOneRoundBattleAgainstOneMobWithPlayerInitiative() {
-        Battle b = createBattle(10, 10, 5, 1, true);
+
+        // create the player
+        Profession p = professionFactory.getProfessionByName("Warrior");
+
+        Player player = new Player("Bob",p);
+        ItemDeck playerDeck = new ItemDeck();
+        playerDeck.addItem(itemFactory.getItemByName("Crushing Blow"));
+        player.installDeck(0,playerDeck);
+        player.setDefaultDeck(0);
+        player.setStatValue(Stat.HEALTH,50);
+
+        Monster monster = new Monster("foo","sprites",1);
+        ItemDeck monsterDeck = new ItemDeck();
+        monsterDeck.addItem(itemFactory.getItemByName("Crushing Blow"));
+        monster.setDeck(monsterDeck);
+        List<Monster> monsters = new ArrayList<Monster>();
+        monsters.add(monster);
+        monster.setStatValue(Stat.HEALTH,10);
+
+
+        Battle b = new Battle(player,monsters,true);
         battleSystem = new BattleSystem(b);
 
         doBattle(b);
 
-        assertTrue(battleSystem.didPlayerWin());
-        assertEquals(new Integer(10), b.getPlayer().getStatValue(Stat.HEALTH));
-        assertEquals(new Integer(-5), b.getOriginalEnemies().get(0).getStatValue(Stat.HEALTH));
+        assertTrue("Player lost when they should have won!",battleSystem.didPlayerWin());
+        assertEquals(new Integer(45), b.getPlayer().getStatValue(Stat.HEALTH));
+        assertEquals(new Integer(-4), b.getOriginalEnemies().get(0).getStatValue(Stat.HEALTH));
     }
 
-    @Test
-    @Ignore
-    public void testOneRoundBattleAgainstOneMobWithMobInitiative() {
-        Battle b = createBattle(10, 10, 5, 1, false);
-        battleSystem = new BattleSystem(b);
 
-        doBattle(b);
-
-        assertTrue(battleSystem.didPlayerWin());
-        assertEquals(new Integer(9), b.getPlayer().getStatValue(Stat.HEALTH));
-        assertEquals(new Integer(-5), b.getOriginalEnemies().get(0).getStatValue(Stat.HEALTH));
-    }
-
-    @Test
-    @Ignore
-    public void testTwoRoundBattleAgainstOneMobWithPlayerInitiative() {
-        Battle b = createBattle(10, 5, 10, 1, true);
-        battleSystem = new BattleSystem(b);
-
-        doBattle(b);
-
-        assertTrue(battleSystem.didPlayerWin());
-        assertEquals(new Integer(9), b.getPlayer().getStatValue(Stat.HEALTH));
-        assertEquals(new Integer(0), b.getOriginalEnemies().get(0).getStatValue(Stat.HEALTH));
-    }
-
-    @Test
-    @Ignore
-    public void testTwoRoundBattleAgainstOneMobWithMobInitiative() {
-        Battle b = createBattle(10, 5, 10, 1, false);
-        battleSystem = new BattleSystem(b);
-
-        doBattle(b);
-
-        assertTrue(battleSystem.didPlayerWin());
-        assertEquals(new Integer(8), b.getPlayer().getStatValue(Stat.HEALTH));
-        assertEquals(new Integer(0), b.getOriginalEnemies().get(0).getStatValue(Stat.HEALTH));
-    }
-
-    @Test
-    @Ignore
-    public void testBattleRoundResult() {
-        Battle b = createBattle(10, 5, 10, 1, false);
-        battleSystem = new BattleSystem(b);
-        battleSystem.startBattle();
-        BattleRoundResult result = battleSystem.performBattleRound((Monster) b.getEnemies().get(0));
-
-        System.out.println("========= replaying battle ==========");
-//        List<ItemUsageResult> playerEffects = result.monsterItemEffectList();
-//        printBattleEffectList(playerEffects);
-//        List<ItemUsageResult> monsterEffects = result.playerItemEffectList();
-//        printBattleEffectList(monsterEffects);
-    }
-
-    private void printBattleEffectList(List<ItemUsageResult> playerEffects) {
-        for (ItemUsageResult bel : playerEffects) {
-            System.out.println(bel.mob().name() + " was effected by " + bel.item().name());
-            List<ItemEffectResult> beList = bel.get();
-            for (ItemEffectResult be : beList) {
-                System.out.println(" " + be.toString());
-            }
-        }
-    }
-
-    private Battle createBattle(int playerHealth, int playerDmg, int mobHealth, int mobDamage,
-                                boolean playerInitiative) {
-        Player player = newPlayer("Player", playerHealth);
-        player.getDeck().addItem(newItem(playerDmg));
-        Monster enemy = newMonster("Enemy 1", mobHealth);
-        enemy.getDeck().addItem(newItem(mobDamage));
-        List<Monster> mobs = new ArrayList<Monster>();
-        mobs.add(enemy);
-
-        Battle b = new Battle(player, mobs, playerInitiative);
-        return b;
-    }
-
-    private Monster newMonster(String s, int mobHealth) {
-        Monster mob = new Monster(s, "foo", 0);
-        mob.setStatValue(Stat.HEALTH, mobHealth);
-        mob.setDeck(new ItemDeck());
-        return mob;
-    }
-
-    private Player newPlayer(String s, int mobHealth) {
-        Player mob = new Player(s, null);
-        mob.setStatValue(Stat.HEALTH, mobHealth);
-        mob.setDeck(new ItemDeck());
-        return mob;
-    }
 
     private void doBattle(Battle battle) {
         battleSystem.startBattle();
@@ -151,16 +89,4 @@ public class BattleSystemTest {
             battleSystem.performBattleRound((Monster) battle.getEnemies().get(0));
         }
     }
-
-    private Mob newMob(String name, int health) {
-        Mob mob = new Mob(name);
-        mob.setStatValue(Stat.HEALTH, health);
-        mob.setDeck(new ItemDeck());
-        return mob;
-    }
-
-    private Item newItem(final int damage) {
-        return null;
-    }
-
 }

@@ -8,7 +8,7 @@ import com.wwflgames.fury.mob.Stat;
 
 import java.util.List;
 
-public abstract class AbstractDamageEffect implements ItemEffect {
+public abstract class AbstractDamageEffect extends AbstractItemEffect {
     protected Damage damage;
     protected int damageAmount;
 
@@ -23,7 +23,7 @@ public abstract class AbstractDamageEffect implements ItemEffect {
     }
 
     protected float multiplierFor(Mob itemUser, Stat stat) {
-        int statValue = itemUser.getStatValue(stat);
+        int statValue = itemUser.getBattleStatValue(stat);
         return 1f + ((float) statValue / 100f);
     }
 
@@ -32,8 +32,8 @@ public abstract class AbstractDamageEffect implements ItemEffect {
         for (AttackBuffEffect effect : attackBuffs) {
             buffAmt += effect.getAmount();
             // add message about the buff
-            String msg = "{1} attack is increased by {2}!";
-            result.add(new ItemEffectResult(msg, effect.getAmount(), mob, effect));
+            String msg = effect.getItem().name() + " increased the attack by {2}";
+            result.add(ItemEffectResult.newBuffItemEffect(msg, effect.getAmount(), mob));
         }
         return buffAmt;
     }

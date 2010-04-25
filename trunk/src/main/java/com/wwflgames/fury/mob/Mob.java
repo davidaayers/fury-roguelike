@@ -69,8 +69,11 @@ public class Mob implements StatHolder {
         // clear out anything that's already in battle stats
         battleStats.clear();
 
-        // add anything in stats that's a battle stat to battle stats. This
-        // is the mob's initial battle stats.
+        // clear out any buffs that may be left over
+        buffs.clear();
+
+        // copy all of the mobs stats into battle stats. Any temporary buffs that
+        // change stats will apply to these, rather than the original stats.
         for (Stat stat : stats.keySet()) {
             battleStats.put(stat, getStatValue(stat));
         }

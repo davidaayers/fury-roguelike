@@ -50,7 +50,7 @@ public class MeleeDamageEffect extends AbstractDamageEffect {
         dmg *= multiplier;
         if (origDmg != dmg) {
             String msg = "{0} strength increased the attack by {2}!";
-            result.add(new ItemEffectResult(msg, dmg - origDmg, itemUser, this));
+            result.add(ItemEffectResult.newBuffItemEffect(msg, dmg - origDmg, itemUser));
         }
 
 
@@ -80,12 +80,12 @@ public class MeleeDamageEffect extends AbstractDamageEffect {
         String armorDesc = "{0} armor is crushed for {2}";
         String healthDesc = "{1} takes {2} damage!";
         if (armorBefore != 0 && armorDelta != 0) {
-            result.add(new ItemEffectResult(armorDesc, armorDelta, usedOn, this));
+            result.add(ItemEffectResult.newDamageItemEffect(armorDesc, armorDelta, usedOn));
         }
         if (healthDelta != 0) {
-            result.add(new ItemEffectResult(healthDesc, healthDelta, usedOn, this));
+            result.add(ItemEffectResult.newDamageItemEffect(healthDesc, healthDelta, usedOn));
         } else {
-            result.add(new ItemEffectResult("{0} armor absorbed all damage!", armorDelta, usedOn, this));
+            result.add(ItemEffectResult.newDamageItemEffect("{0} armor absorbed all damage!", armorDelta, usedOn));
         }
     }
 

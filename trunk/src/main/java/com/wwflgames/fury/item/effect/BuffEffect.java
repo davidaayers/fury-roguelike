@@ -1,4 +1,7 @@
 package com.wwflgames.fury.item.effect;
 
-public abstract class BuffEffect implements ItemEffect {
+import com.wwflgames.fury.item.Item;
+
+public abstract class BuffEffect extends AbstractItemEffect {
+    
 }

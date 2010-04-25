@@ -41,6 +41,21 @@
         </usedByEffects>
         <usedAgainstEffects/>
     </item>
+    <item name="Crushing Blow">
+        <usedByEffects>
+            <attack-buff type="Melee" value="4"/>
+        </usedByEffects>
+        <usedAgainstEffects>
+            <damage type="Crush" value="5"/>
+        </usedAgainstEffects>
+    </item>
+    <item name="Killing Rage">
+        <usedByEffects>
+            <stat-buff stat="strength" value="10"/>
+            <attack-buff type="Melee" value="5"/>
+        </usedByEffects>
+        <usedAgainstEffects/>
+    </item>
     <item name="Magic Missile">
         <usedByEffects/>
         <usedAgainstEffects>

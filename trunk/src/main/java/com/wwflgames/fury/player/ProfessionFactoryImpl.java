@@ -53,4 +53,14 @@ public class ProfessionFactoryImpl implements SpriteSheetProvider, ProfessionFac
     public List<Profession> getAllProfessions() {
         return allProfessions;
     }
+
+    @Override
+    public Profession getProfessionByName(String name) {
+        for ( Profession profession : allProfessions ) {
+            if ( profession.getName().equals(name)) {
+                return profession;
+            }
+        }
+        return null;
+    }
 }

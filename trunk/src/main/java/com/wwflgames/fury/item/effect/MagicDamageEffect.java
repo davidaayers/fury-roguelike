@@ -33,12 +33,12 @@ public class MagicDamageEffect extends AbstractDamageEffect {
         dmg *= multiplier;
         if (origDmg != dmg) {
             String msg = "{0} magic increased the attack by {2}!";
-            result.add(new ItemEffectResult(msg, dmg - origDmg, itemUser, this));
+            result.add(ItemEffectResult.newBuffItemEffect(msg, dmg - origDmg, itemUser));
         }
 
         String healthDesc = "{1} takes {2} damage!";
         itemUsedUpon.modifyStatValue(Stat.HEALTH, -dmg);
         Log.debug(itemUsedUpon.name() + " health is now " + itemUsedUpon.getStatValue(Stat.HEALTH));
-        result.add(new ItemEffectResult(healthDesc, dmg, itemUsedUpon, this));
+        result.add(ItemEffectResult.newDamageItemEffect(healthDesc, dmg, itemUsedUpon));
     }
 }
