@@ -4,10 +4,20 @@ import com.wwflgames.fury.battle.ItemUsageResult;
 import com.wwflgames.fury.item.Item;
 import com.wwflgames.fury.mob.Mob;
 
-public interface ItemEffect {
-    String getDesc();
+public abstract class ItemEffect {
 
-    Item getItem();
+    protected Item item;
 
-    void applyEffect(Mob itemUser, Mob itemUsedUpon, ItemUsageResult result);
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
+    }
+
+    public abstract String getDesc();
+
+    public abstract void applyEffect(Mob itemUser, Mob itemUsedUpon, ItemUsageResult result);
+
 }
