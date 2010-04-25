@@ -21,7 +21,7 @@ public class MeleeDamageEffectTest {
         Monster monster = new Monster("bar", "sprite-sheet", 0);
 
         // add a buff to the player
-        AttackBuffEffect effect = new AttackBuffEffect(Damage.CRUSH_DAMAGE, 8);
+        AttackBuffEffect effect = new AttackBuffEffect(Damage.CRUSH_DAMAGE, 8,1);
         player.addBuff(effect);
 
         List<AttackBuffEffect> foundBuffs = EffectHelper.findAndRemoveApplicableBuffs(player, Damage.CRUSH_DAMAGE);
@@ -37,7 +37,7 @@ public class MeleeDamageEffectTest {
         Monster monster = new Monster("bar", "sprite-sheet", 0);
 
         // add a buff to the player
-        AttackBuffEffect effect = new AttackBuffEffect(Damage.MELEE_DAMAGE, 8);
+        AttackBuffEffect effect = new AttackBuffEffect(Damage.MELEE_DAMAGE, 8,1);
         player.addBuff(effect);
 
         List<AttackBuffEffect> foundBuffs = EffectHelper.findAndRemoveApplicableBuffs(player, Damage.CRUSH_DAMAGE);

@@ -103,8 +103,9 @@ public class ItemFactoryImpl implements ItemFactory {
             Log.debug("Creating attack-buff");
             String attackType = childNode.getAttribute("type");
             int value = childNode.getIntAttribute("value");
+            int numAttacks = childNode.getIntAttribute("num-attacks");
             Damage damage = Damage.forType(attackType);
-            AttackBuffEffect attackBuff = new AttackBuffEffect(damage, value);
+            AttackBuffEffect attackBuff = new AttackBuffEffect(damage, value, numAttacks);
             return attackBuff;
         }
         return null;

@@ -10,10 +10,12 @@ public class AttackBuffEffect extends BuffEffect {
 
     private Damage damage;
     private int amount;
+    private int numAttacks;
 
-    public AttackBuffEffect(Damage damage, int amount) {
+    public AttackBuffEffect(Damage damage, int amount, int numAttacks) {
         this.damage = damage;
         this.amount = amount;
+        this.numAttacks = numAttacks;
     }
 
     @Override
@@ -25,7 +27,17 @@ public class AttackBuffEffect extends BuffEffect {
     public void applyEffect(Mob itemUser, Mob itemUsedUpon, ItemUsageResult result) {
         // add the buff to the itemUser, and report it
         itemUser.addBuff(this);
-        String desc = "{0} next " + damage.getType() + " is increased by {2}";
+        String desc = "{0} next ";
+        if ( numAttacks > 1 ) {
+            desc += numAttacks + " ";
+        }
+        desc += damage.getType() + " ";
+        if ( numAttacks > 1 ) {
+            desc += "attacks are ";
+        } else {
+            desc += "attack is ";
+        }
+        desc += "increased by {2}";
         result.add(ItemEffectResult.newBuffItemEffect(desc, amount, itemUser));
     }
 
@@ -35,6 +47,14 @@ public class AttackBuffEffect extends BuffEffect {
 
     public int getAmount() {
         return amount;
+    }
+
+    public void used() {
+        numAttacks--;
+    }
+
+    public boolean stillActive() {
+        return numAttacks != 0;
     }
 
 

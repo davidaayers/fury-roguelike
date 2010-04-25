@@ -19,7 +19,7 @@ public class ItemImplTest {
         Profession profession = null;
         Player player = new Player("foo", profession);
         Monster monster = new Monster("bar", "sprite-sheet", 0);
-        AttackBuffEffect effect = new AttackBuffEffect(Damage.MELEE_DAMAGE, 8);
+        AttackBuffEffect effect = new AttackBuffEffect(Damage.MELEE_DAMAGE, 8,1);
         ItemImpl item = new ItemImpl("foo", new ItemEffect[]{effect}, null);
         ItemUsageResult result = new ItemUsageResult(item, player);
         item.usedBy(player, result);
