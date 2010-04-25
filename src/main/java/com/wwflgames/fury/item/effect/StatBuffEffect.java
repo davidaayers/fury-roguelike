@@ -29,4 +29,11 @@ public class StatBuffEffect extends BuffEffect {
         String desc = "{0} " + stat.getDesc() + " is increased by " + amount;
         result.add(ItemEffectResult.newBuffItemEffect(desc, itemUser));
     }
+
+    public void removeEffect(Mob effectedMob) {
+        // reverse the buff
+        effectedMob.modifyBattleStatValue(stat,-amount);
+
+        //TODO: create some kind of message
+    }
 }

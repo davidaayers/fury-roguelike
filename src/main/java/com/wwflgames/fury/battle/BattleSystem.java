@@ -1,6 +1,7 @@
 package com.wwflgames.fury.battle;
 
 import com.wwflgames.fury.item.Item;
+import com.wwflgames.fury.item.effect.DebuffEffect;
 import com.wwflgames.fury.mob.Mob;
 import com.wwflgames.fury.monster.Monster;
 import com.wwflgames.fury.util.Log;
@@ -57,6 +58,8 @@ public class BattleSystem {
 
     private void doPlayerRoundAndCheckIfPlayerWon(Monster monster, BattleRound battleRound) {
         doNextItemInDeck(battle.getPlayer(), monster, battleRound);
+        maybeApplyDebuffs(battle.getPlayer(),battleRound);
+        maybeRemoveDebuffs(battle.getPlayer(),battleRound);
         removeDeadMonstersFromBattle();
 
         if (battle.allEnemiesDead()) {
@@ -67,6 +70,8 @@ public class BattleSystem {
     private void doEnemyRoundAndCheckIfPlayerLost(BattleRound battleRound) {
         for (Mob enemy : battle.getEnemies()) {
             doNextItemInDeck(enemy, battle.getPlayer(), battleRound);
+            maybeApplyDebuffs(enemy,battleRound);
+            maybeRemoveDebuffs(enemy,battleRound);
         }
 
         if (battle.getPlayer().isDead()) {
@@ -85,7 +90,6 @@ public class BattleSystem {
         battleRound.addItemUsedBy(attacker,item);
 
 
-
         ItemUsage itemUsage = new ItemUsage(item, attacker);
         // change order here -- do attacks first, then buffs. That way items that do both buffs and
         // attacks have the buffs apply to the next attack, rather than this attack
@@ -100,6 +104,24 @@ public class BattleSystem {
             battleRound.addBattleResult(attacker,itemResult);
         }
     }
+
+    private void maybeApplyDebuffs(Mob mob, BattleRound battleRound) {
+        for ( DebuffEffect debuff : mob.getDebuffs() ) {
+            if ( debuff.appliesEveryRound() ) {
+
+            }
+        }
+
+    }
+
+    private void maybeRemoveDebuffs(Mob mob, BattleRound battleRound) {
+        for ( DebuffEffect debuff : mob.getDebuffs() ) {
+            if ( !debuff.stillActive() ) {
+                debuff.woreOff(mob);
+            }
+        }
+    }
+
 
     private void removeDeadMonstersFromBattle() {
         List<Mob> enemiesToRemove = new ArrayList<Mob>();

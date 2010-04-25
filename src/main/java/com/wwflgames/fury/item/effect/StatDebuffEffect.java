@@ -11,7 +11,7 @@ public class StatDebuffEffect extends DebuffEffect {
     private int amount;
 
     public StatDebuffEffect(Stat stat, int amount,int uses) {
-        super(uses);
+        super(uses, false);
         this.stat = stat;
         this.amount = amount;
     }
@@ -29,11 +29,17 @@ public class StatDebuffEffect extends DebuffEffect {
         itemUser.modifyBattleStatValue(stat, amount);
         // add a message
         String desc = "{0} " + stat.getDesc() + " is decreased by " + Math.abs(amount);
-        result.add(ItemEffectResult.newBuffItemEffect(desc, itemUser));
+        result.add(ItemEffectResult.newBuffItemEffect(desc, itemUsedUpon));
+
+        // add the debuff to itemUsedUpon
+        itemUsedUpon.addDebuff(this);
     }
 
     @Override
-    public void woreOff(Mob usedUpon) {
+    public ItemEffectResult woreOff(Mob usedUpon) {
+        usedUpon.removeDebuff(this);
+        return ItemEffectResult.newDebuffItemEffect(this.item.name() + " " + stat.getDesc() + " debuff wore off",
+                usedUpon);
 
     }
 }
