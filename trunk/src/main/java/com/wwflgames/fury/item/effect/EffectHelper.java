@@ -26,9 +26,12 @@ public class EffectHelper {
 
             }
         }
-        // now, remove the buffs from the mob, because we're about to use them
+        // now, remove the buffs from the mob if they aren't active anymore after being used
         for (AttackBuffEffect buff : applicableBuffs) {
-            mob.removeBuff(buff);
+            buff.used();
+            if ( !buff.stillActive() ) {
+                mob.removeBuff(buff);
+            }
         }
         return applicableBuffs;
     }

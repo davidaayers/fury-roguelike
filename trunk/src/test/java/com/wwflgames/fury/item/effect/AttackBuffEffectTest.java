@@ -19,7 +19,7 @@ public class AttackBuffEffectTest {
         Player player = new Player("foo", profession);
         Monster monster = new Monster("bar", "sprite-sheet", 0);
 
-        AttackBuffEffect effect = new AttackBuffEffect(Damage.MELEE_DAMAGE, 8);
+        AttackBuffEffect effect = new AttackBuffEffect(Damage.MELEE_DAMAGE, 8,1);
         Item item = null;
         ItemUsageResult result = new ItemUsageResult(item, player);
         effect.applyEffect(player, monster, result);

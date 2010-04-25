@@ -37,13 +37,13 @@
     </item>
     <item name="Furious Roar">
         <usedByEffects>
-            <attack-buff type="Melee" value="4"/>
+            <attack-buff type="Melee" value="4" num-attacks="1"/>
         </usedByEffects>
         <usedAgainstEffects/>
     </item>
     <item name="Crushing Blow">
         <usedByEffects>
-            <attack-buff type="Melee" value="4"/>
+            <attack-buff type="Melee" value="4" num-attacks="1"/>
         </usedByEffects>
         <usedAgainstEffects>
             <damage type="Crush" value="5"/>
@@ -52,7 +52,7 @@
     <item name="Killing Rage">
         <usedByEffects>
             <stat-buff stat="strength" value="10"/>
-            <attack-buff type="Melee" value="5"/>
+            <attack-buff type="Melee" value="5" num-attacks="2"/>
         </usedByEffects>
         <usedAgainstEffects/>
     </item>
@@ -64,7 +64,7 @@
     </item>
     <item name="Concentration">
         <usedByEffects>
-            <attack-buff type="Magic" value="4"/>
+            <attack-buff type="Magic" value="4" num-attacks="3"/>
         </usedByEffects>
         <usedAgainstEffects/>
     </item>
