@@ -83,11 +83,13 @@ public class BattleSystem {
         Log.debug("Item chosen from deck is " + item.name());
 
         ItemUsageResult itemUsage = new ItemUsageResult(item, attacker);
-        item.usedBy(attacker, itemUsage).usedAgainst(attacker, defender, itemUsage);
+        // change order here -- do attacks first, then buffs. That way items that do both buffs and
+        // attacks have the buffs apply to the next attack, rather than this attack
+        item.usedAgainst(attacker, defender, itemUsage).usedBy(attacker, itemUsage);
         // if the item killed the defender, add a message about it
         if (defender.isDead()) {
             String deathBlow = defender.name() + " was killed by " + item.name();
-            itemUsage.addAtFront(new ItemEffectResult(deathBlow, defender, new DeathEffect()));
+            itemUsage.addAtFront(ItemEffectResult.newDeathItemEffect(deathBlow, defender));
         }
         result.addItemUsageResultFor(attacker, itemUsage);
     }
@@ -110,6 +112,7 @@ public class BattleSystem {
     private void playerWon() {
         battleOver = true;
         playerWon = true;
+        
         Log.debug("Player won :)");
     }
 

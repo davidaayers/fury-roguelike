@@ -3,7 +3,7 @@ package com.wwflgames.fury.item.effect;
 import com.wwflgames.fury.battle.ItemUsageResult;
 import com.wwflgames.fury.mob.Mob;
 
-public class DeathEffect implements ItemEffect {
+public class DeathEffect extends AbstractItemEffect {
     @Override
     public String getDesc() {
         return "Death";

@@ -25,6 +25,6 @@ public class StatBuffEffect extends BuffEffect {
         itemUser.modifyBattleStatValue(stat, amount);
         // add a message
         String desc = "{0} " + stat.getDesc() + " is increased by {2}";
-        result.add(new ItemEffectResult(desc, amount, itemUser, this));
+        result.add(ItemEffectResult.newBuffItemEffect(desc, amount, itemUser));
     }
 }

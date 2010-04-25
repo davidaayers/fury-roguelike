@@ -580,13 +580,14 @@ public class BattleGameState extends BasicGameState {
 
 
     private Color determineColor(ItemEffectResult effectResult) {
-        if (effectResult.getEffect() instanceof AbstractDamageEffect) {
+        ItemEffectResult.EffectType effectType = effectResult.getEffectType();
+        if (effectType == ItemEffectResult.EffectType.DAMAGE) {
             return Color.red;
         }
-        if (effectResult.getEffect() instanceof BuffEffect) {
+        if (effectType == ItemEffectResult.EffectType.BUFF) {
             return Color.green;
         }
-        if (effectResult.getEffect() instanceof DeathEffect) {
+        if (effectType == ItemEffectResult.EffectType.DEATH) {
             return Color.yellow;
         }
         return Color.white;

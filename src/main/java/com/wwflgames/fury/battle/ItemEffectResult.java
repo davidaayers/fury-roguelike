@@ -4,23 +4,44 @@ import com.wwflgames.fury.item.effect.ItemEffect;
 import com.wwflgames.fury.mob.Mob;
 
 public class ItemEffectResult {
+
+    public enum EffectType {
+        DAMAGE,
+        BUFF,
+        DEBUFF,
+        DEATH
+    }
+
     private String desc;
     private Integer delta;
     private Mob effectedMob;
-    private ItemEffect effect;
+    private EffectType effectType;
 
-    public ItemEffectResult(String desc, Mob effectedMob, ItemEffect effect) {
-        this.desc = desc;
-        this.effectedMob = effectedMob;
-        this.effect = effect;
-    }
-
-    public ItemEffectResult(String desc, Integer delta, Mob effectedMob, ItemEffect effect) {
+    public ItemEffectResult(String desc, Integer delta, Mob effectedMob, EffectType effectType) {
         this.desc = desc;
         this.delta = delta;
         this.effectedMob = effectedMob;
-        this.effect = effect;
+        this.effectType = effectType;
     }
+
+    // factory methods
+    public static ItemEffectResult newBuffItemEffect(String desc, Integer delta, Mob effectedMob) {
+        return new ItemEffectResult(desc,delta,effectedMob,EffectType.BUFF);
+    }
+
+    public static ItemEffectResult newDebuffItemEffect(String desc, Integer delta, Mob effectedMob) {
+        return new ItemEffectResult(desc,delta,effectedMob,EffectType.DEBUFF);
+    }
+
+
+    public static ItemEffectResult newDamageItemEffect(String desc, Integer delta, Mob effectedMob) {
+        return new ItemEffectResult(desc,delta,effectedMob,EffectType.DAMAGE);
+    }
+
+    public static ItemEffectResult newDeathItemEffect(String desc, Mob effectedMob) {
+        return new ItemEffectResult(desc,null,effectedMob,EffectType.DEATH);
+    }
+
 
     public String getDesc() {
         return desc;
@@ -34,8 +55,8 @@ public class ItemEffectResult {
         return effectedMob;
     }
 
-    public ItemEffect getEffect() {
-        return effect;
+    public EffectType getEffectType() {
+        return effectType;
     }
 
     @Override

@@ -233,13 +233,19 @@ public class DungeonGameState extends BasicGameState {
         } else if (newTile.getType() == TileType.STAIR && !newTile.getStairs().areLocked()) {
             changeLevel(newTile.getStairs());
         } else if (dungeonMap.inBounds(newX, newY) && dungeonMap.isWalkable(newX, newY)) {
-            playerController.movePlayerTo(newX, newY);
-            // now the monsters get a chance to move
-            monsterController.think();
+            handlePlayerMovement(newX, newY);
         } else {
             Log.debug("Hit a wall!");
         }
 
+    }
+
+    private void handlePlayerMovement(int newX, int newY) {
+        // move the player to the new position
+        playerController.movePlayerTo(newX, newY);
+
+        // now the monsters get a chance to move
+        monsterController.think();
     }
 
     private void changeLevel(Stairs stairs) throws SlickException {

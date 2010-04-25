@@ -2,6 +2,7 @@ package com.wwflgames.fury.item.effect;
 
 import com.wwflgames.fury.battle.ItemEffectResult;
 import com.wwflgames.fury.battle.ItemUsageResult;
+import com.wwflgames.fury.item.Item;
 import com.wwflgames.fury.item.effect.damage.Damage;
 import com.wwflgames.fury.mob.Mob;
 
@@ -25,7 +26,7 @@ public class AttackBuffEffect extends BuffEffect {
         // add the buff to the itemUser, and report it
         itemUser.addBuff(this);
         String desc = "{0} next " + damage.getType() + " is increased by {2}";
-        result.add(new ItemEffectResult(desc, amount, itemUser, this));
+        result.add(ItemEffectResult.newBuffItemEffect(desc, amount, itemUser));
     }
 
     public Damage getDamage() {
@@ -35,4 +36,6 @@ public class AttackBuffEffect extends BuffEffect {
     public int getAmount() {
         return amount;
     }
+
+
 }

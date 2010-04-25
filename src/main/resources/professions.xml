@@ -10,6 +10,8 @@
             <item name="Mace of Crushing"/>
             <item name="Shield of Protection"/>
             <item name="Furious Roar"/>
+            <item name="Crushing Blow"/>
+            <item name="Killing Rage"/>
         </deck>
     </player-class>
     <player-class name="Wizard" sprite-sheet="wizard_male.png">

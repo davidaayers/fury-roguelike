@@ -43,7 +43,6 @@ public class PlayerController {
         westEdgeX = playerX - 9;
         southEdgeY = playerY + 6;
         northEdgeY = playerY - 7;
-        printStuff();
     }
 
     public int getOffsetX() {
@@ -123,7 +122,6 @@ public class PlayerController {
             }
         }
 
-        printStuff();
         updateCurrentFeatureSeen();
     }
 
@@ -187,15 +185,4 @@ public class PlayerController {
         player.getCurrentMapTile().setHasPlayerSeen(true);
 
     }
-
-    private void printStuff() {
-        Log.debug("offsetX=" + offsetX);
-        Log.debug("offsetY=" + offsetY);
-        Log.debug("westEdgeX=" + westEdgeX);
-        Log.debug("eastEdgeX=" + eastEdgeX);
-        Log.debug("northEdgeY=" + northEdgeY);
-        Log.debug("southEdgeY=" + southEdgeY);
-    }
-
-
 }
