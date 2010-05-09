@@ -133,7 +133,7 @@ public class ManageDeckGameState extends BasicGameState {
     private void createAllItemList() {
         createItemContainerList(appState.getPlayer().getAllItems(), allPlayerItems);
 
-        // now, remove from the list any items that are in the current deck
+        // now, remove from the list any items that are in the current itemDeck
         for (ItemContainer itemContainer : currentDeckItems) {
             ItemContainer c = findContainerForItem(itemContainer.getItem(), allPlayerItems);
             if (c != null) {
@@ -174,7 +174,7 @@ public class ManageDeckGameState extends BasicGameState {
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        // render left side, which contains all items in the current deck
+        // render left side, which contains all items in the current itemDeck
         drawItems(container, g, currentDeckItems, 35, 200);
 
         drawItems(container, g, allPlayerItems, 480, 200);

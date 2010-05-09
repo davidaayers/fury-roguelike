@@ -1,5 +1,6 @@
 package com.wwflgames.fury.monster;
 
+import com.wwflgames.fury.card.Card;
 import com.wwflgames.fury.item.ItemDeck;
 import com.wwflgames.fury.mob.Mob;
 import com.wwflgames.fury.monster.ai.AI;
@@ -23,7 +24,7 @@ public class Monster extends Mob {
 
     public Monster(Monster other, int monsterValue) {
         this(other.name(), other.getSpriteSheet(), monsterValue);
-        setDeck(new ItemDeck(other.getDeck()));
+        setItemDeck(new ItemDeck(other.getItemDeck()));
         this.stats.putAll(other.stats);
     }
 
@@ -64,6 +65,12 @@ public class Monster extends Mob {
         if ( ai != null ) {
             ai.think();
         }
+    }
+
+    public Card chooseCardToPlay() {
+        // just choose the first card in the hand for now.
+        //TODO: add some AI stuff here that determines what card to play
+        return hand.getHand().get(0);
     }
 
     // called when this monster is killed.

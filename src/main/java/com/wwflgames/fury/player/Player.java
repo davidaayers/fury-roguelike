@@ -37,7 +37,7 @@ public class Player extends Mob {
     }
 
     public void setDefaultDeck(int deckNo) {
-        setDeck(deckMap.get(deckNo));
+        setItemDeck(deckMap.get(deckNo));
     }
 
     public void addItem(Item item) {

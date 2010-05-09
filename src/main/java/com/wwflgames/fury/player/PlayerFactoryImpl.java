@@ -20,7 +20,7 @@ public class PlayerFactoryImpl implements PlayerFactory {
         player.installDeck(1, deck);
         player.setDefaultDeck(1);
         profession.installStarterStatsOnPlayer(player);
-        // also add all of the items in the starter deck to the list
+        // also add all of the items in the starter itemDeck to the list
         // of items available to the player
         for (Item item : deck.getDeck()) {
             player.addItem(item);

@@ -37,7 +37,7 @@ public class ItemDeck {
 
     public Item nextItem() {
         if (idx == deck.size()) {
-            Log.debug("Reshuffling deck");
+            Log.debug("Reshuffling itemDeck");
             shuffle();
         }
         Item item = deck.get(idx);
@@ -52,7 +52,7 @@ public class ItemDeck {
     @Override
     public String toString() {
         return "ItemDeck{" +
-                "deck=" + deck +
+                "itemDeck=" + deck +
                 ", idx=" + idx +
                 '}';
     }

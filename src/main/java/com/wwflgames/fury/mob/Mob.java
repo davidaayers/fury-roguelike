@@ -1,5 +1,8 @@
 package com.wwflgames.fury.mob;
 
+import com.wwflgames.fury.card.Deck;
+import com.wwflgames.fury.card.Hand;
+import com.wwflgames.fury.card.statuseffect.StatusEffect;
 import com.wwflgames.fury.item.ItemDeck;
 import com.wwflgames.fury.item.effect.BuffEffect;
 import com.wwflgames.fury.item.effect.DebuffEffect;
@@ -14,9 +17,13 @@ public class Mob implements StatHolder {
 
     protected Map<Stat, Integer> stats = new HashMap<Stat, Integer>();
     protected Map<Stat, Integer> battleStats;
-    protected ItemDeck deck;
+    protected ItemDeck itemDeck;
+    protected Deck deck;
+    protected Hand hand;
     private List<BuffEffect> buffs = new ArrayList<BuffEffect>();
     private List<DebuffEffect> debuffs = new ArrayList<DebuffEffect>();
+    private List<OldStatusEffect> statusEffects = new ArrayList<OldStatusEffect>();
+    private List<StatusEffect> newStatusEffects = new ArrayList<StatusEffect>();
     private String name;
     private Tile currentMapTile;
     private Integer mapX;
@@ -81,12 +88,30 @@ public class Mob implements StatHolder {
         }
     }
 
-    public ItemDeck getDeck() {
+
+    public Deck getDeck() {
         return deck;
     }
 
-    public void setDeck(ItemDeck deck) {
+    public void installDeck(Deck deck) {
         this.deck = deck;
+        // when a new deck is set, shuffle it, and create a hand
+        deck.shuffle();
+        hand = new Hand(deck);
+        hand.drawToMax();
+    }
+
+    public Hand getHand() {
+        return hand;
+    }
+
+
+    public ItemDeck getItemDeck() {
+        return itemDeck;
+    }
+
+    public void setItemDeck(ItemDeck deck) {
+        this.itemDeck = deck;
     }
 
     public boolean isDead() {
@@ -159,6 +184,31 @@ public class Mob implements StatHolder {
     public List<DebuffEffect> getDebuffs() {
         return debuffs;
     }
+
+    public void addStatusEffect(OldStatusEffect statusEffect) {
+        statusEffects.add(statusEffect);
+    }
+
+    public void removeStatusEffect(OldStatusEffect statusEffect) {
+        statusEffects.remove(statusEffect);
+    }
+
+    public List<OldStatusEffect> getStatusEffects() {
+        return statusEffects;
+    }
+
+    public void addStatusEffect(StatusEffect statusEffect) {
+        newStatusEffects.add(statusEffect);
+    }
+
+    public void removeStatusEffect(StatusEffect statusEffect) {
+        newStatusEffects.remove(statusEffect);
+    }
+
+    public List<StatusEffect> getNewStatusEffects() {
+        return newStatusEffects;
+    }
+
 
     @Override
     public String toString() {
