@@ -1,5 +1,6 @@
 package com.wwflgames.fury.battle;
 
+import com.wwflgames.fury.card.Card;
 import com.wwflgames.fury.item.Item;
 import com.wwflgames.fury.mob.Mob;
 
@@ -12,6 +13,7 @@ public class BattleRound {
     
     private int round;
     private Map<Mob, Item> itemUsedByMap = new HashMap<Mob,Item>();
+    private Map<Mob, Card> cardsPlayedByMap = new HashMap<Mob,Card>();
     private Map<Mob, List<BattleResult>> battleResultsByMob = new HashMap<Mob,List<BattleResult>>();
 
     public BattleRound(int round) {
@@ -28,6 +30,14 @@ public class BattleRound {
 
     public Item getItemUsedBy(Mob mob) {
         return itemUsedByMap.get(mob);
+    }
+
+    public void addCardPlayedBy(Mob mob, Card card) {
+        cardsPlayedByMap.put(mob,card);
+    }
+
+    public Card getCardPlayedBy(Mob mob) {
+        return cardsPlayedByMap.get(mob);
     }
 
     public void addBattleResult(Mob mob, BattleResult result) {

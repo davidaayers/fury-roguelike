@@ -27,7 +27,7 @@ public class BattleSystem {
         // battle stats. Also, shuffle all of their decks.
         for (Mob mob : battle.getAllBattleParticipants()) {
             mob.prepareForBattle();
-            mob.getDeck().shuffle();
+            mob.getItemDeck().shuffle();
         }
     }
 
@@ -80,11 +80,11 @@ public class BattleSystem {
     }
 
     private void doNextItemInDeck(Mob attacker, Mob defender, BattleRound battleRound) {
-        Log.debug("Next item in deck, attacker = " + attacker.name() + ", defender = " + defender.name());
-        // grab the next item from the attackers deck
-        Item item = attacker.getDeck().nextItem();
+        Log.debug("Next item in itemDeck, attacker = " + attacker.name() + ", defender = " + defender.name());
+        // grab the next item from the attackers itemDeck
+        Item item = attacker.getItemDeck().nextItem();
 
-        Log.debug("Item chosen from deck is " + item.name());
+        Log.debug("Item chosen from itemDeck is " + item.name());
 
         // set the item used on the round for this mob
         battleRound.addItemUsedBy(attacker,item);

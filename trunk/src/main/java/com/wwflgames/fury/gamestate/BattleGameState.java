@@ -393,7 +393,7 @@ public class BattleGameState extends BasicGameState {
         for (int cnt = 0; cnt < itemsToCreate; cnt++) {
             Item item = itemFactory.randomItem(itemValue);
             itemsWon.add(item);
-            //appState.getPlayer().getDeck().addItem(item);
+            //appState.getPlayer().getItemDeck().addItem(item);
             appState.getPlayer().addItem(item);
         }
 

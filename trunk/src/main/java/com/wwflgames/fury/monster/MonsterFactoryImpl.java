@@ -42,7 +42,7 @@ public class MonsterFactoryImpl implements MonsterFactory, SpriteSheetProvider {
             int low = childNode.getIntAttribute("points-low");
             int high = childNode.getIntAttribute("points-high");
             MonsterTemplate monster = new MonsterTemplate(name, spriteSheet, low, high);
-            // create the monster's deck
+            // create the monster's itemDeck
             addNameModifiers(childNode, monster);
             createDecks(childNode, monster);
             addStats(childNode, monster);
@@ -53,7 +53,7 @@ public class MonsterFactoryImpl implements MonsterFactory, SpriteSheetProvider {
     }
 
     private void createDecks(XMLElement childNode, MonsterTemplate monster) {
-        XMLElementList list = childNode.getChildrenByName("deck");
+        XMLElementList list = childNode.getChildrenByName("itemDeck");
         for (int idx = 0; idx < list.size(); idx++) {
             XMLElement xDeck = list.get(idx);
             String deckPoints = xDeck.getAttribute("points");

@@ -11,13 +11,13 @@ import org.newdawn.slick.util.xml.XMLElementList;
 public class XmlHelper {
 
     // given this snippet of XML:
-    //    <deck>
+    //    <itemDeck>
     //        <item name="Mace of Crushing"/>
-    //    </deck>
-    // creates a deck for it, using the provided factory. Used by the
+    //    </itemDeck>
+    // creates a itemDeck for it, using the provided factory. Used by the
     // Monster factory and the Profession factory
     public static ItemDeck createDeck(XMLElement childNode, ItemFactory itemFactory) {
-        XMLElementList list = childNode.getChildrenByName("deck");
+        XMLElementList list = childNode.getChildrenByName("itemDeck");
         if (list.size() == 0) {
             return null;
         }
@@ -32,7 +32,7 @@ public class XmlHelper {
             XMLElement item = items.get(idx);
             deck.addItem(itemFactory.getItemByName(item.getAttribute("name")));
         }
-        Log.debug("deck is " + deck);
+        Log.debug("itemDeck is " + deck);
 
         return deck;
     }

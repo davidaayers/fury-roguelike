@@ -98,13 +98,13 @@ public class MonsterTemplate {
         Monster m = new Monster(chooseName(level), spriteSheet, level.getLevel());
         installStats(m);
 
-        // create the deck for this monster.
-        // we start with the default deck
+        // create the itemDeck for this monster.
+        // we start with the default itemDeck
         ItemDeck monsterDeck = new ItemDeck();
         ItemDeck itemDeck = decks.get("default");
         monsterDeck.addAllItems(itemDeck.getDeck());
 
-        // see if there are level specific cards to be added to the deck
+        // see if there are level specific cards to be added to the itemDeck
         ItemDeck levelDeck = decks.get(Integer.toString(level.getLevel()));
         if (levelDeck != null) {
             monsterDeck.addAllItems(levelDeck.getDeck());
@@ -120,7 +120,7 @@ public class MonsterTemplate {
         }
 
 
-        m.setDeck(monsterDeck);
+        m.setItemDeck(monsterDeck);
         return m;
     }
 
