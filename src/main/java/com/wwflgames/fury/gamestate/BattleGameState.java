@@ -54,7 +54,7 @@ public class BattleGameState extends BasicGameState {
     private AppState appState;
     private SpriteSheetFactory spriteSheetFactory;
     private Battle battle;
-    private NewBattleSystem battleSystem;
+    private BattleSystem battleSystem;
     private EntityManager entityManager;
     private int attackX;
     private int attackY;
@@ -168,7 +168,7 @@ public class BattleGameState extends BasicGameState {
         //TODO: the "true" here is player initiative, it should be set somehow. For now,
         //we'll just always give the player initiative.
         battle = new Battle(player, monsters, true);
-        battleSystem = new NewBattleSystem(battle);
+        battleSystem = new BattleSystem(battle);
         battleSystem.startBattle();
 
         currentState = State.PLAYER_CHOOSE_MONSTER;
