@@ -130,7 +130,9 @@ public class NewBattleSystem {
     private void doEnemyRoundAndCheckIfPlayerLost(BattleRound battleRound) {
         for (Mob enemy : battle.getEnemies()) {
             Monster monster = (Monster)enemy;
+            // play the card
             Card enemyCard = monster.chooseCardToPlay();
+            battleRound.addCardPlayedBy(enemy,enemyCard);
             enemyCard.usedBy(enemy,battleRound);
             if ( enemyCard.isTargetable() ) {
                 enemyCard.usedAgainst(enemy,battle.getPlayer(),battleRound);
