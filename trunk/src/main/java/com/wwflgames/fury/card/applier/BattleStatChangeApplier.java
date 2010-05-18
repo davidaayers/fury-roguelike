@@ -17,4 +17,9 @@ public class BattleStatChangeApplier implements Applier {
     public void applyTo(Card card, Mob usedBy, Mob usedAgainst, BattleRound battleRound) {
 
     }
+
+    @Override
+    public String description() {
+        return null;
+    }
 }

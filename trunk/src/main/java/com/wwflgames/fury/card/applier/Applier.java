@@ -6,4 +6,5 @@ import com.wwflgames.fury.mob.Mob;
 
 public interface Applier {
     void applyTo(Card card, Mob usedBy, Mob usedAgainst, BattleRound battleRound);
+    String description();
 }

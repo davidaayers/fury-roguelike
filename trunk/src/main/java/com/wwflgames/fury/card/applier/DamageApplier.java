@@ -98,6 +98,11 @@ public class DamageApplier implements Applier {
 
     }
 
+    @Override
+    public String description() {
+        return "FOO";
+    }
+
     protected float multiplierFor(Mob itemUser, Stat stat) {
         int statValue = itemUser.getBattleStatValue(stat);
         return ((float) statValue / 100f);

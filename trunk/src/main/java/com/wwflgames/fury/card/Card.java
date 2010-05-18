@@ -44,5 +44,15 @@ public class Card {
         return numTargets != 0;
     }
 
+    public Applier[] getUsedByAppliers() {
+        return usedByAppliers;
+    }
 
+    public Applier[] getUsedAgainstAppliers() {
+        return usedAgainstAppliers;
+    }
+
+    public int getNumTargets() {
+        return numTargets;
+    }
 }

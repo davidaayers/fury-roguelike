@@ -31,6 +31,10 @@ public class Hand {
         maxHandSize = max;
     }
 
+    public int getMaxHandSize() {
+        return maxHandSize;
+    }
+
     public void playCard(Card card) {
         hand.remove(card);
     }

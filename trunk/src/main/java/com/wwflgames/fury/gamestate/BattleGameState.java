@@ -2,6 +2,8 @@ package com.wwflgames.fury.gamestate;
 
 import com.wwflgames.fury.Fury;
 import com.wwflgames.fury.battle.*;
+import com.wwflgames.fury.card.Card;
+import com.wwflgames.fury.card.Hand;
 import com.wwflgames.fury.entity.*;
 import com.wwflgames.fury.main.AppState;
 import com.wwflgames.fury.map.Direction;
@@ -32,6 +34,7 @@ import static com.wwflgames.fury.Fury.*;
 
 public class BattleGameState extends BasicGameState {
     enum State {
+        PLAYER_CHOOSE_CARD,
         PLAYER_CHOOSE_MONSTER,
         MONSTER_CHOSEN,
         ANIMATION_PLAY,
@@ -61,10 +64,10 @@ public class BattleGameState extends BasicGameState {
     private State currentState;
     private ReplayState replayState;
     private BattleRound lastBattleRound;
-    private StateBag stateBag;
     private List<ItemLogMessage> playerEffects;
     private List<ItemLogMessage> monsterEffects;
     private List<Entity> cardsInPlay;
+    private List<Entity> playerHandEntities = new ArrayList<Entity>();
     private java.util.Map<Mob, Entity> mobEntities;
     private Entity playerEntity;
     private List<Mob> monstersToShowCardsFor = new ArrayList<Mob>();
@@ -107,9 +110,6 @@ public class BattleGameState extends BasicGameState {
     // called when this state is entered. Here's where we'll setup our battle 
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
         Log.debug("BattleGameState-> entered.");
-
-        // create a new state bag
-        stateBag = new StateBag();
 
         // damage stacks
         playerEffects = new ArrayList<ItemLogMessage>();
@@ -164,6 +164,9 @@ public class BattleGameState extends BasicGameState {
         entityManager.addEntity(playerEntity);
 
 
+        refreshPlayerHandEntities();
+
+
         // Set up the battle
         //TODO: the "true" here is player initiative, it should be set somehow. For now,
         //we'll just always give the player initiative.
@@ -171,11 +174,36 @@ public class BattleGameState extends BasicGameState {
         battleSystem = new BattleSystem(battle);
         battleSystem.startBattle();
 
-        currentState = State.PLAYER_CHOOSE_MONSTER;
+        currentState = State.PLAYER_CHOOSE_CARD;
 
         enterCalled = true;
 
         Log.debug("BattleGameState-> complete.");
+    }
+
+    private void refreshPlayerHandEntities() {
+        // first, remove any entities that may already be on the manager
+        for (Entity entity : playerHandEntities ) {
+            entityManager.removeEntity(entity);
+        }
+
+        playerHandEntities.clear();
+
+        Hand hand = appState.getPlayer().getHand();
+        int widthPerCard = 135;
+
+        int drawX = 400 - (widthPerCard*hand.getMaxHandSize()/2);
+        int drawY = 450;
+        for (Card card : hand.getHand() ) {
+            CardRenderer renderer = new CardRenderer(card, font);
+            ClickableEntity cardEntity = new ClickableEntity("cardEntity" + card.getName(),renderer);
+            cardEntity.setPosition(new Vector2f(drawX, drawY));
+            cardEntity.addComponent(renderer);
+            entityManager.addEntity(cardEntity);
+            playerHandEntities.add(cardEntity);
+            drawX += widthPerCard;
+        }
+
     }
 
     @Override
@@ -228,6 +256,12 @@ public class BattleGameState extends BasicGameState {
         g.setColor(Color.white);
         TextUtil.centerText(container, g, "Battle Screen", 0);
 
+        if (currentState == State.PLAYER_CHOOSE_CARD) {
+            g.setColor(Color.green);
+            String text = "Battle Round " + battleSystem.getRound() + ", choose card to play";
+            TextUtil.centerText(container, g, text, 416);
+        }
+        
         if (currentState == State.PLAYER_CHOOSE_MONSTER) {
             g.setColor(Color.green);
             String text = "Battle Round " + battleSystem.getRound() + ", choose Monster to attack";
@@ -562,7 +596,6 @@ public class BattleGameState extends BasicGameState {
     }
 
     private void changeReplayState(ReplayState newState) {
-        stateBag.clearAll();
         replayState = newState;
     }
 
@@ -612,7 +645,15 @@ public class BattleGameState extends BasicGameState {
     }
 
     @Override
+    public void mouseMoved(int oldx, int oldy, int newx, int newy) {
+        entityManager.mouseMoved(oldx,oldy,newx,newy);
+    }
+
+    @Override
     public void mouseClicked(int button, int x, int y, int clickCount) {
+
+        // see if any entities are clickable
+        entityManager.mouseClicked(button,x,y,clickCount);
 
         if (currentState == State.SHOW_ITEMS_WON) {
             transitionToNextScreen();
