@@ -1,5 +1,6 @@
 package com.wwflgames.fury;
 
+import com.wwflgames.fury.card.CardFactory;
 import com.wwflgames.fury.entity.SpriteSheetFactory;
 import com.wwflgames.fury.entity.SpriteSheetProvider;
 import com.wwflgames.fury.gamestate.*;
@@ -61,6 +62,7 @@ public class Fury extends StateBasedGame {
     private MonsterFactoryImpl monsterFactory;
     private AppStateImpl appState;
     private ItemFactoryImpl itemFactory;
+    private CardFactory cardFactory;
 
     public Fury() {
         super("Fury");
@@ -86,8 +88,9 @@ public class Fury extends StateBasedGame {
 
     private void createDependencies() throws SlickException {
         itemFactory = new ItemFactoryImpl();
+        cardFactory = new CardFactory();
         professionFactory = new ProfessionFactoryImpl(itemFactory);
-        playerFactory = new PlayerFactoryImpl(professionFactory);
+        playerFactory = new PlayerFactoryImpl(professionFactory,cardFactory);
         monsterFactory = new MonsterFactoryImpl(itemFactory);
         Set<SpriteSheetProvider> providers = new HashSet<SpriteSheetProvider>();
         providers.add(monsterFactory);

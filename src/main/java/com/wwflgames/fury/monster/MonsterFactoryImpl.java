@@ -53,7 +53,7 @@ public class MonsterFactoryImpl implements MonsterFactory, SpriteSheetProvider {
     }
 
     private void createDecks(XMLElement childNode, MonsterTemplate monster) {
-        XMLElementList list = childNode.getChildrenByName("itemDeck");
+        XMLElementList list = childNode.getChildrenByName("deck");
         for (int idx = 0; idx < list.size(); idx++) {
             XMLElement xDeck = list.get(idx);
             String deckPoints = xDeck.getAttribute("points");
