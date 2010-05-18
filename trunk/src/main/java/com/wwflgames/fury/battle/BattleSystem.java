@@ -9,14 +9,14 @@ import com.wwflgames.fury.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewBattleSystem {
+public class BattleSystem {
 
     private Battle battle;
     private int round;
     private boolean battleOver;
     private boolean playerWon;
 
-    public NewBattleSystem(Battle battle) {
+    public BattleSystem(Battle battle) {
         this.battle = battle;
     }
 
