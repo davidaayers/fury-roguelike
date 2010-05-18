@@ -85,6 +85,15 @@ public class CardRenderer extends Renderer implements EntityMouseHandler {
 
     @Override
     public boolean mouseClicked(int button, int x, int y, int clickCount) {
+
+        float ownerX = owner.getPosition().getX();
+        float ownerY = owner.getPosition().getY();
+        if ( x >= ownerX && x <= ownerX + 32*4 &&
+                y >= ownerX && y <= ownerY + 32*4 ) {
+            System.out.println("CARD" + card.getName() + " clicked");
+        }
+
+
         return false;
     }
 }
