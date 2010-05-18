@@ -1,6 +1,5 @@
 package com.wwflgames.fury.monster;
 
-import com.wwflgames.fury.item.ItemDeck;
 import com.wwflgames.fury.mob.Stat;
 import com.wwflgames.fury.util.Shuffler;
 
@@ -15,10 +14,8 @@ public class MonsterTemplate {
     private Integer pointsLow;
     private Integer pointsHigh;
     protected Map<Stat, StatRange> stats = new HashMap<Stat, StatRange>();
-    protected ItemDeck deck;
     protected Map<MonsterLevel, List<String>> preModifiers = new HashMap<MonsterLevel, List<String>>();
     protected Map<MonsterLevel, List<String>> postModifiers = new HashMap<MonsterLevel, List<String>>();
-    protected Map<String, ItemDeck> decks = new HashMap<String, ItemDeck>();
 
     public MonsterTemplate(String baseName, String spriteSheet, Integer pointsLow, Integer pointsHigh) {
         this.baseName = baseName;
@@ -82,13 +79,6 @@ public class MonsterTemplate {
         }
     }
 
-    public void setDeck(ItemDeck deck) {
-        this.deck = deck;
-    }
-
-    public void addDeck(String level, ItemDeck deck) {
-        decks.put(level, deck);
-    }
 
     public boolean matchesPoints(int points) {
         return points >= pointsLow && points <= pointsHigh;
@@ -98,29 +88,6 @@ public class MonsterTemplate {
         Monster m = new Monster(chooseName(level), spriteSheet, level.getLevel());
         installStats(m);
 
-        // create the itemDeck for this monster.
-        // we start with the default itemDeck
-        ItemDeck monsterDeck = new ItemDeck();
-        ItemDeck itemDeck = decks.get("default");
-        monsterDeck.addAllItems(itemDeck.getDeck());
-
-        // see if there are level specific cards to be added to the itemDeck
-        ItemDeck levelDeck = decks.get(Integer.toString(level.getLevel()));
-        if (levelDeck != null) {
-            monsterDeck.addAllItems(levelDeck.getDeck());
-        }
-
-        // finally, see if this is a boss, and add the boss items
-        if (level.isBoss()) {
-            ItemDeck bossDeck = decks.get("boss");
-            if (bossDeck != null) {
-                monsterDeck.addAllItems(bossDeck.getDeck());
-            }
-            m.setBoss(true);
-        }
-
-
-        m.setItemDeck(monsterDeck);
         return m;
     }
 

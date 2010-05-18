@@ -4,7 +4,6 @@ import com.wwflgames.fury.card.CardFactory;
 import com.wwflgames.fury.entity.SpriteSheetFactory;
 import com.wwflgames.fury.entity.SpriteSheetProvider;
 import com.wwflgames.fury.gamestate.*;
-import com.wwflgames.fury.item.ItemFactoryImpl;
 import com.wwflgames.fury.main.AppStateImpl;
 import com.wwflgames.fury.monster.MonsterFactoryImpl;
 import com.wwflgames.fury.player.PlayerFactoryImpl;
@@ -61,7 +60,6 @@ public class Fury extends StateBasedGame {
     private SpriteSheetFactory spriteSheetFactory;
     private MonsterFactoryImpl monsterFactory;
     private AppStateImpl appState;
-    private ItemFactoryImpl itemFactory;
     private CardFactory cardFactory;
 
     public Fury() {
@@ -87,11 +85,10 @@ public class Fury extends StateBasedGame {
     }
 
     private void createDependencies() throws SlickException {
-        itemFactory = new ItemFactoryImpl();
         cardFactory = new CardFactory();
-        professionFactory = new ProfessionFactoryImpl(itemFactory);
+        professionFactory = new ProfessionFactoryImpl();
         playerFactory = new PlayerFactoryImpl(professionFactory,cardFactory);
-        monsterFactory = new MonsterFactoryImpl(itemFactory);
+        monsterFactory = new MonsterFactoryImpl();
         Set<SpriteSheetProvider> providers = new HashSet<SpriteSheetProvider>();
         providers.add(monsterFactory);
         providers.add(professionFactory);
@@ -110,11 +107,11 @@ public class Fury extends StateBasedGame {
     }
 
     private BattleGameState createBattleGameState() {
-        return new BattleGameState(appState,spriteSheetFactory,itemFactory);
+        return new BattleGameState(appState,spriteSheetFactory);
     }
 
     private ManageDeckGameState createManageDeckGameState() {
-        return new ManageDeckGameState(appState);
+        return new ManageDeckGameState();
     }
 
     private GameWonGameState createGameWonState() {

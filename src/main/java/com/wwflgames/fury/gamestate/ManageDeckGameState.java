@@ -4,8 +4,6 @@ import com.wwflgames.fury.Fury;
 import com.wwflgames.fury.entity.Entity;
 import com.wwflgames.fury.entity.EntityManager;
 import com.wwflgames.fury.entity.ItemRenderer;
-import com.wwflgames.fury.item.Item;
-import com.wwflgames.fury.item.ItemDeck;
 import com.wwflgames.fury.main.AppState;
 import org.newdawn.slick.*;
 import org.newdawn.slick.font.effects.ColorEffect;
@@ -20,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ManageDeckGameState extends BasicGameState {
-
+    /*
     private AppState appState;
     private GameContainer container;
     private StateBasedGame game;
@@ -272,6 +270,27 @@ public class ManageDeckGameState extends BasicGameState {
             qty++;
         }
 
+
+    }
+    */
+
+    @Override
+    public int getID() {
+        return 0;
+    }
+
+    @Override
+    public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
+
+    }
+
+    @Override
+    public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
+
+    }
+
+    @Override
+    public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
 
     }
 }

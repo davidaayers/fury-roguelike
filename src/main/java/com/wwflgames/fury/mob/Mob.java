@@ -3,9 +3,6 @@ package com.wwflgames.fury.mob;
 import com.wwflgames.fury.card.Deck;
 import com.wwflgames.fury.card.Hand;
 import com.wwflgames.fury.card.statuseffect.StatusEffect;
-import com.wwflgames.fury.item.ItemDeck;
-import com.wwflgames.fury.item.effect.BuffEffect;
-import com.wwflgames.fury.item.effect.DebuffEffect;
 import com.wwflgames.fury.map.Tile;
 
 import java.util.ArrayList;
@@ -17,13 +14,9 @@ public class Mob implements StatHolder {
 
     protected Map<Stat, Integer> stats = new HashMap<Stat, Integer>();
     protected Map<Stat, Integer> battleStats;
-    protected ItemDeck itemDeck;
     protected Deck deck;
     protected Hand hand;
-    private List<BuffEffect> buffs = new ArrayList<BuffEffect>();
-    private List<DebuffEffect> debuffs = new ArrayList<DebuffEffect>();
-    private List<OldStatusEffect> statusEffects = new ArrayList<OldStatusEffect>();
-    private List<StatusEffect> newStatusEffects = new ArrayList<StatusEffect>();
+    private List<StatusEffect> statusEffects = new ArrayList<StatusEffect>();
     private String name;
     private Tile currentMapTile;
     private Integer mapX;
@@ -78,9 +71,6 @@ public class Mob implements StatHolder {
         // clear out anything that's already in battle stats
         battleStats.clear();
 
-        // clear out any buffs that may be left over
-        buffs.clear();
-
         // copy all of the mobs stats into battle stats. Any temporary buffs that
         // change stats will apply to these, rather than the original stats.
         for (Stat stat : stats.keySet()) {
@@ -105,14 +95,6 @@ public class Mob implements StatHolder {
         return hand;
     }
 
-
-    public ItemDeck getItemDeck() {
-        return itemDeck;
-    }
-
-    public void setItemDeck(ItemDeck deck) {
-        this.itemDeck = deck;
-    }
 
     public boolean isDead() {
         return getStatValue(Stat.HEALTH) <= 0;
@@ -161,52 +143,16 @@ public class Mob implements StatHolder {
         this.mapY = mapY;
     }
 
-    public void addBuff(BuffEffect buff) {
-        buffs.add(buff);
-    }
-
-    public void removeBuff(BuffEffect buff) {
-        buffs.remove(buff);
-    }
-
-    public List<BuffEffect> getBuffs() {
-        return buffs;
-    }
-
-    public void addDebuff(DebuffEffect debuff) {
-        debuffs.add(debuff);
-    }
-
-    public void removeDebuff(DebuffEffect debuff) {
-        debuffs.remove(debuff);
-    }
-
-    public List<DebuffEffect> getDebuffs() {
-        return debuffs;
-    }
-
-    public void addStatusEffect(OldStatusEffect statusEffect) {
+    public void addStatusEffect(StatusEffect statusEffect) {
         statusEffects.add(statusEffect);
     }
 
-    public void removeStatusEffect(OldStatusEffect statusEffect) {
+    public void removeStatusEffect(StatusEffect statusEffect) {
         statusEffects.remove(statusEffect);
     }
 
-    public List<OldStatusEffect> getStatusEffects() {
+    public List<StatusEffect> getStatusEffects() {
         return statusEffects;
-    }
-
-    public void addStatusEffect(StatusEffect statusEffect) {
-        newStatusEffects.add(statusEffect);
-    }
-
-    public void removeStatusEffect(StatusEffect statusEffect) {
-        newStatusEffects.remove(statusEffect);
-    }
-
-    public List<StatusEffect> getNewStatusEffects() {
-        return newStatusEffects;
     }
 
 
