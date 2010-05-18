@@ -6,13 +6,6 @@
             <dexterity value="0"/>
             <magic value="0"/>
         </stats>
-        <deck>
-            <item name="Mace of Crushing"/>
-            <item name="Shield of Protection"/>
-            <item name="Furious Roar"/>
-            <item name="Crushing Blow"/>
-            <item name="Weakening Strike"/>
-        </deck>
     </player-class>
     <player-class name="Wizard" sprite-sheet="wizard_male.png">
         <stats>
@@ -21,10 +14,6 @@
             <dexterity value="0"/>
             <magic value="20"/>
         </stats>
-        <deck>
-            <item name="Magic Missile"/>
-            <item name="Concentration"/>
-        </deck>
     </player-class>
     <player-class name="Thief" sprite-sheet="rogue_male.png">
         <stats>
@@ -33,8 +22,5 @@
             <dexterity value="15"/>
             <magic value="0"/>
         </stats>
-        <deck>
-            <item name="Mace of Crushing"/>
-        </deck>
     </player-class>
 </player-classes>

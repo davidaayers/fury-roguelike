@@ -103,7 +103,7 @@ public class NewBattleSystem {
 
     private void processStatusEffects(BattleRound battleRound) {
         for ( Mob mob : battle.getAllBattleParticipants() ) {
-            List<StatusEffect> statusEffects = mob.getNewStatusEffects();
+            List<StatusEffect> statusEffects = mob.getStatusEffects();
             List<StatusEffect> statusEffectsToRemove = new ArrayList<StatusEffect>();
             for ( StatusEffect statusEffect : statusEffects ) {
                 statusEffect.roundOccurred(mob,battleRound);

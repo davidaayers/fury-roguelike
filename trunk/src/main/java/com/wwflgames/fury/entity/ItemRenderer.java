@@ -1,8 +1,5 @@
 package com.wwflgames.fury.entity;
 
-import com.wwflgames.fury.item.Item;
-import com.wwflgames.fury.item.ItemImpl;
-import com.wwflgames.fury.item.effect.ItemEffect;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.UnicodeFont;
@@ -10,18 +7,16 @@ import org.newdawn.slick.geom.Vector2f;
 
 public class ItemRenderer extends CardRenderer {
 
-    private Item item;
     private UnicodeFont font;
 
-    public ItemRenderer(Item item, UnicodeFont font) {
-        super(item.name());
-        this.item = item;
+    public ItemRenderer(UnicodeFont font) {
+        super("FOO");
         this.font = font;
     }
 
     @Override
     protected void maybeRenderItemText(Graphics g) {
-
+        /*
         // draw item name;
         int y = 4;
         drawString(item.name(), y, Color.white);
@@ -41,6 +36,7 @@ public class ItemRenderer extends CardRenderer {
                 drawString(effect.getDesc(), y, Color.green);
             }
         }
+        */
     }
 
     private void drawString(String text, int y, Color fontColor) {

@@ -1,7 +1,5 @@
 package com.wwflgames.fury.util;
 
-import com.wwflgames.fury.item.ItemDeck;
-import com.wwflgames.fury.item.ItemFactory;
 import com.wwflgames.fury.mob.Stat;
 import com.wwflgames.fury.mob.StatHolder;
 import org.newdawn.slick.util.xml.SlickXMLException;
@@ -16,6 +14,7 @@ public class XmlHelper {
     //    </itemDeck>
     // creates a itemDeck for it, using the provided factory. Used by the
     // Monster factory and the Profession factory
+/*
     public static ItemDeck createDeck(XMLElement childNode, ItemFactory itemFactory) {
         XMLElementList list = childNode.getChildrenByName("itemDeck");
         if (list.size() == 0) {
@@ -36,6 +35,7 @@ public class XmlHelper {
 
         return deck;
     }
+    */
 
     public static void addStats(XMLElement childNode, StatHolder statHolder) throws SlickXMLException {
         XMLElementList list = childNode.getChildrenByName("stats");

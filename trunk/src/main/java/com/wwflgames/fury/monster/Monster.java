@@ -1,7 +1,6 @@
 package com.wwflgames.fury.monster;
 
 import com.wwflgames.fury.card.Card;
-import com.wwflgames.fury.item.ItemDeck;
 import com.wwflgames.fury.mob.Mob;
 import com.wwflgames.fury.monster.ai.AI;
 
@@ -24,7 +23,6 @@ public class Monster extends Mob {
 
     public Monster(Monster other, int monsterValue) {
         this(other.name(), other.getSpriteSheet(), monsterValue);
-        setItemDeck(new ItemDeck(other.getItemDeck()));
         this.stats.putAll(other.stats);
     }
 
