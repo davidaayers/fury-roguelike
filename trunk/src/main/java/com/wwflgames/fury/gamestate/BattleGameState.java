@@ -655,6 +655,11 @@ public class BattleGameState extends BasicGameState {
         // see if any entities are clickable
         entityManager.mouseClicked(button,x,y,clickCount);
 
+        if ( currentState == State.PLAYER_CHOOSE_CARD ) {
+            // dont do anything else
+            return;
+        }
+
         if (currentState == State.SHOW_ITEMS_WON) {
             transitionToNextScreen();
         }
