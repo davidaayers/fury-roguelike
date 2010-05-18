@@ -1,14 +1,21 @@
 package com.wwflgames.fury.entity;
 
+import com.wwflgames.fury.card.Card;
+import com.wwflgames.fury.card.applier.Applier;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.geom.Vector2f;
 
-public class CardRenderer extends Renderer {
+public class CardRenderer extends Renderer implements EntityMouseHandler {
     private Color cardBgColor;
+    private Card card;
+    private UnicodeFont font;
 
-    public CardRenderer(String id) {
-        this(id, Color.gray);
+    public CardRenderer(Card card, UnicodeFont font) {
+        this(card.getName(), Color.gray);
+        this.card = card;
+        this.font = font;
     }
 
     public CardRenderer(String id, Color cardBgColor) {
@@ -36,10 +43,48 @@ public class CardRenderer extends Renderer {
     }
 
     protected void maybeRenderItemText(Graphics g) {
+
+        // draw card name;
+        int y = 4;
+        drawString(card.getName(), y, Color.white);
+
+        // draw effects against
+        if ( card.getUsedAgainstAppliers() != null ) {
+            for ( Applier applier : card.getUsedAgainstAppliers() ) {
+                y += 14;
+                drawString(applier.description(), y, Color.red);
+            }
+
+        }
+
+        if ( card.getUsedByAppliers() != null ) {
+            for ( Applier applier : card.getUsedAgainstAppliers() ) {
+                y += 14;
+                drawString(applier.description(), y, Color.green);
+            }
+        }
+    }
+
+    private void drawString(String text, int y, Color fontColor) {
+        Vector2f pos = owner.getPosition();
+        int width = 32 * 4;
+        int strWidth = font.getWidth(text);
+        font.drawString(pos.x + (width / 2) - (strWidth / 2), pos.y + y, text, fontColor);
+
     }
 
     @Override
     public void update(int delta) {
 
+    }
+
+    @Override
+    public void mouseMoved(int oldx, int oldy, int newx, int newy) {
+
+    }
+
+    @Override
+    public boolean mouseClicked(int button, int x, int y, int clickCount) {
+        return false;
     }
 }

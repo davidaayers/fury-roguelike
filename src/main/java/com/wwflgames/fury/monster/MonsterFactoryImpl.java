@@ -1,5 +1,8 @@
 package com.wwflgames.fury.monster;
 
+import com.wwflgames.fury.card.Card;
+import com.wwflgames.fury.card.CardFactory;
+import com.wwflgames.fury.card.Deck;
 import com.wwflgames.fury.entity.SpriteSheetProvider;
 import com.wwflgames.fury.mob.Stat;
 import com.wwflgames.fury.util.Log;
@@ -18,8 +21,10 @@ public class MonsterFactoryImpl implements MonsterFactory, SpriteSheetProvider {
 
     protected List<MonsterTemplate> allMonsters = new ArrayList<MonsterTemplate>();
     private List<String> allSpriteSheetNames = new ArrayList<String>();
+    private CardFactory cardFactory;
 
-    public MonsterFactoryImpl() throws SlickException {
+    public MonsterFactoryImpl(CardFactory cardFactory) throws SlickException {
+        this.cardFactory = cardFactory;
         parseXml();
     }
 
@@ -126,7 +131,23 @@ public class MonsterFactoryImpl implements MonsterFactory, SpriteSheetProvider {
 
         Shuffler.shuffle(matchingMonsters);
         MonsterTemplate template = matchingMonsters.get(0);
-        return template.createForLevel(level);
+        //TEMP TEMP TEMP TEMP
+        //TODO: create xml thingy for cards
+
+        // create a some cards and add them to a deck
+        Card c1 = cardFactory.getCardByName("Mace of hurting");
+        Card c2 = cardFactory.getCardByName("Sword of stabbing");
+        Card c3 = cardFactory.getCardByName("Wand of zapping");
+
+        Deck d = new Deck();
+        d.addCard(c1);
+        d.addCard(c2);
+        d.addCard(c3);
+
+        Monster monster = template.createForLevel(level);
+        monster.installDeck(d);
+
+        return monster;
     }
 
 }

@@ -95,6 +95,26 @@ public class EntityManager {
         }
     }
 
+    public void mouseMoved(int oldx, int oldy, int newx, int newy) {
+        for ( Entity entity : entities) {
+            if ( entity instanceof ClickableEntity ) {
+                ClickableEntity clickable = (ClickableEntity)entity;
+                clickable.getMouseHandler().mouseMoved(oldx,oldy,newx,newy);
+            }
+        }
+    }
+
+    public void mouseClicked(int button, int x, int y, int clickCount) {
+        for ( Entity entity : entities) {
+            if ( entity instanceof ClickableEntity ) {
+                ClickableEntity clickable = (ClickableEntity)entity;
+                if ( clickable.getMouseHandler().mouseClicked(button,x,y,clickCount) ) {
+                    break;
+                }
+            }
+        }
+    }
+
     private Comparator<Entity> newComparator() {
         return new Comparator<Entity>() {
             @Override

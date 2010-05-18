@@ -35,4 +35,9 @@ public class StatusEffectApplier implements Applier {
         applyEffectTo.addStatusEffect(statusEffect);
         statusEffect.effectApplied(applyEffectTo,battleRound);
     }
+
+    @Override
+    public String description() {
+        return "BAR";
+    }
 }

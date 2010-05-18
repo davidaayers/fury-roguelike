@@ -88,7 +88,7 @@ public class Fury extends StateBasedGame {
         cardFactory = new CardFactory();
         professionFactory = new ProfessionFactoryImpl();
         playerFactory = new PlayerFactoryImpl(professionFactory,cardFactory);
-        monsterFactory = new MonsterFactoryImpl();
+        monsterFactory = new MonsterFactoryImpl(cardFactory);
         Set<SpriteSheetProvider> providers = new HashSet<SpriteSheetProvider>();
         providers.add(monsterFactory);
         providers.add(professionFactory);
