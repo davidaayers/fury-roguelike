@@ -119,12 +119,7 @@ public class BattleSystem {
     }
 
     private void doPlayerRoundAndCheckIfPlayerWon(Card card, Monster monster, BattleRound battleRound) {
-        // play the card
-        battleRound.addCardPlayedBy(battle.getPlayer(),card);
-        card.usedBy(battle.getPlayer(),battleRound);
-        if ( monster != null ) {
-            card.usedAgainst(battle.getPlayer(),monster,battleRound);
-        }
+        playCard(card,battle.getPlayer(),monster,battleRound);
     }
 
     private void doEnemyRoundAndCheckIfPlayerLost(BattleRound battleRound) {
@@ -132,13 +127,21 @@ public class BattleSystem {
             Monster monster = (Monster)enemy;
             // play the card
             Card enemyCard = monster.chooseCardToPlay();
-            battleRound.addCardPlayedBy(enemy,enemyCard);
-            enemyCard.usedBy(enemy,battleRound);
-            if ( enemyCard.isTargetable() ) {
-                enemyCard.usedAgainst(enemy,battle.getPlayer(),battleRound);
-            }
+            playCard(enemyCard,monster,battle.getPlayer(),battleRound);
         }
     }
+
+    public void playCard(Card card, Mob usedBy, Mob usedAgainst, BattleRound battleRound ) {
+        card.usedBy(usedBy,battleRound);
+        if ( usedAgainst != null ) {
+            card.usedAgainst(usedBy,usedAgainst,battleRound);
+        }
+        battleRound.addCardPlayedBy(usedBy,card);
+        usedBy.getHand().playCard(card);
+        // draw more cards
+        usedBy.getHand().drawToMax();
+    }
+
 
     private void removeDeadMonstersFromBattle() {
         List<Mob> enemiesToRemove = new ArrayList<Mob>();
