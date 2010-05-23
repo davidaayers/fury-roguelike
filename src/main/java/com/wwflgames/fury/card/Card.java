@@ -27,6 +27,9 @@ public class Card {
     }
 
     public Card usedBy(Mob mob, BattleRound battleRound) {
+        if ( usedByAppliers == null ) {
+            return this;
+        }
         for ( Applier applier:usedByAppliers ) {
             applier.applyTo(this,mob,null,battleRound);
         }
@@ -34,6 +37,9 @@ public class Card {
     }
 
     public Card usedAgainst(Mob usedBy, Mob usedAgainst, BattleRound battleRound) {
+        if ( usedAgainstAppliers == null ) {
+            return this;
+        }
         for ( Applier applier:usedAgainstAppliers ) {
             applier.applyTo(this,usedBy,usedAgainst,battleRound);
         }

@@ -104,15 +104,16 @@ public class EntityManager {
         }
     }
 
-    public void mouseClicked(int button, int x, int y, int clickCount) {
+    public boolean mouseClicked(int button, int x, int y, int clickCount) {
         for ( Entity entity : entities) {
             if ( entity instanceof ClickableEntity ) {
                 ClickableEntity clickable = (ClickableEntity)entity;
                 if ( clickable.getMouseHandler().mouseClicked(button,x,y,clickCount) ) {
-                    break;
+                    return true;
                 }
             }
         }
+        return false;
     }
 
     private Comparator<Entity> newComparator() {

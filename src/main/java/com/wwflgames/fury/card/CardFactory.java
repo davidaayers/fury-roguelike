@@ -6,7 +6,7 @@ import com.wwflgames.fury.card.applier.DamageType;
 
 public class CardFactory {
     public Card getCardByName(String name) {
-        return newDamageCard(name,DamageType.CRUSH,10);
+        return newDamageCard(name,DamageType.CRUSH,1);
     }
 
     private Card newDamageCard(String name, DamageType damageType, int damageAmt) {

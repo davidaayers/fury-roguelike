@@ -5,6 +5,7 @@ public enum ResultType {
     DAMAGE,
     BUFF,
     DEBUFF,
-    DEATH;
+    DEATH,
+    PLAYED;
 
 }

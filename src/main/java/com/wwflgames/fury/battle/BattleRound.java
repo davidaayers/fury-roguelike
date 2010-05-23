@@ -18,16 +18,9 @@ public class BattleRound {
         this.round = round;
     }
 
-    public int getRound() {
-        return round;
-    }
-
     public void addCardPlayedBy(Mob mob, Card card) {
+        addBattleResult(mob,CardResult.newCardPlayedResult("{1} used " + card.getName(),mob));
         cardsPlayedByMap.put(mob,card);
-    }
-
-    public Card getCardPlayedBy(Mob mob) {
-        return cardsPlayedByMap.get(mob);
     }
 
     public void addBattleResult(Mob mob, BattleResult result) {

@@ -33,22 +33,13 @@ import java.util.List;
 import static com.wwflgames.fury.Fury.*;
 
 public class BattleGameState extends BasicGameState {
+
     enum State {
         PLAYER_CHOOSE_CARD,
         PLAYER_CHOOSE_MONSTER,
         MONSTER_CHOSEN,
-        ANIMATION_PLAY,
-        ANIMATION_DONE,
         BATTLE_OVER,
         SHOW_ITEMS_WON
-    }
-
-    enum ReplayState {
-        CREATE_PLAYER_CARD,
-        SHOW_PLAYER_DAMAGE,
-        CREATE_MONSTER_CARD,
-        SHOW_MONSTER_DAMAGE,
-        WAIT
     }
 
     private GameContainer container;
@@ -62,7 +53,6 @@ public class BattleGameState extends BasicGameState {
     private int attackX;
     private int attackY;
     private State currentState;
-    private ReplayState replayState;
     private BattleRound lastBattleRound;
     private List<ItemLogMessage> playerEffects;
     private List<ItemLogMessage> monsterEffects;
@@ -70,13 +60,10 @@ public class BattleGameState extends BasicGameState {
     private List<Entity> playerHandEntities = new ArrayList<Entity>();
     private java.util.Map<Mob, Entity> mobEntities;
     private Entity playerEntity;
-    private List<Mob> monstersToShowCardsFor = new ArrayList<Mob>();
-    private Mob currentMonster;
-    private int monsterCardOffset;
     private boolean enterCalled = false;
     private Image victoryImage;
     private int expEarned;
-
+    private Card selectedCard;
 
     public BattleGameState(AppState appState, SpriteSheetFactory spriteSheetFactory) {
         this.appState = appState;
@@ -104,7 +91,6 @@ public class BattleGameState extends BasicGameState {
         entityManager = new EntityManager(container, game);
 
         victoryImage = new Image("victory.png");
-
     }
 
     // called when this state is entered. Here's where we'll setup our battle 
@@ -177,13 +163,11 @@ public class BattleGameState extends BasicGameState {
         currentState = State.PLAYER_CHOOSE_CARD;
 
         enterCalled = true;
-
-        Log.debug("BattleGameState-> complete.");
     }
 
     private void refreshPlayerHandEntities() {
         // first, remove any entities that may already be on the manager
-        for (Entity entity : playerHandEntities ) {
+        for (Entity entity : playerHandEntities) {
             entityManager.removeEntity(entity);
         }
 
@@ -192,11 +176,16 @@ public class BattleGameState extends BasicGameState {
         Hand hand = appState.getPlayer().getHand();
         int widthPerCard = 135;
 
-        int drawX = 400 - (widthPerCard*hand.getMaxHandSize()/2);
+        int drawX = 400 - (widthPerCard * hand.getMaxHandSize() / 2);
         int drawY = 450;
-        for (Card card : hand.getHand() ) {
-            CardRenderer renderer = new CardRenderer(card, font);
-            ClickableEntity cardEntity = new ClickableEntity("cardEntity" + card.getName(),renderer);
+        for (Card card : hand.getHand()) {
+            CardRenderer renderer = new CardRenderer(card, font, new ClickNotifier<Card>() {
+                @Override
+                public void clickHappened(Card data) {
+                    cardSelected(data);
+                }
+            });
+            ClickableEntity cardEntity = new ClickableEntity("cardEntity" + card.getName(), renderer);
             cardEntity.setPosition(new Vector2f(drawX, drawY));
             cardEntity.addComponent(renderer);
             entityManager.addEntity(cardEntity);
@@ -204,6 +193,21 @@ public class BattleGameState extends BasicGameState {
             drawX += widthPerCard;
         }
 
+    }
+
+    private void cardSelected(Card data) {
+        // should only be called if the player is selecting a card
+        selectedCard = data;
+
+        // remove the player's hand from the entity manager so more clicks
+        // can't happen
+        for (Entity entity : playerHandEntities) {
+            entityManager.removeEntity(entity);
+        }
+
+        playerHandEntities.clear();
+
+        currentState = State.PLAYER_CHOOSE_MONSTER;
     }
 
     @Override
@@ -261,7 +265,7 @@ public class BattleGameState extends BasicGameState {
             String text = "Battle Round " + battleSystem.getRound() + ", choose card to play";
             TextUtil.centerText(container, g, text, 416);
         }
-        
+
         if (currentState == State.PLAYER_CHOOSE_MONSTER) {
             g.setColor(Color.green);
             String text = "Battle Round " + battleSystem.getRound() + ", choose Monster to attack";
@@ -280,23 +284,11 @@ public class BattleGameState extends BasicGameState {
         int x = midPoint - ((TILE_WIDTH * 3) / 2);
         int y = 32;
 
-        String player = appState.getPlayer().name();
-        int width = font.getWidth(player);
-        font.drawString(x / 2 - width / 2, y, player, Color.white);
-
         // render the player's stuff
         drawBattleText(5, playerEffects);
 
         // render the monster's stuff
         drawBattleText((x + TILE_WIDTH * 3) + 5, monsterEffects);
-
-        if (currentMonster != null) {
-            String monster = currentMonster.name();
-            width = font.getWidth(monster);
-            int mw = Fury.GAME_WIDTH - (x + TILE_WIDTH * 3);
-            int mx = (x + TILE_WIDTH * 3) + mw / 2 - width / 2;
-            font.drawString(mx, y, monster, Color.white);
-        }
 
         entityManager.render(g);
 
@@ -315,8 +307,8 @@ public class BattleGameState extends BasicGameState {
         if (effects.isEmpty()) {
             return;
         }
-        int effectY = Fury.TILE_HEIGHT + Fury.TILE_HEIGHT * 4 + 42;
-        int max = effects.size() > 25 ? 25 : effects.size();
+        int effectY = 32;
+        int max = effects.size() > 27 ? 27 : effects.size();
         for (int idx = 0; idx < max; idx++) {
             ItemLogMessage effectStr = effects.get(idx);
             font.drawString(effectX, effectY, effectStr.getString(), effectStr.getColor());
@@ -355,17 +347,39 @@ public class BattleGameState extends BasicGameState {
         entityManager.update(delta);
 
         switch (currentState) {
+
             case MONSTER_CHOSEN:
-                handleMonsterChosen();
-                monstersToShowCardsFor.clear();
-                monstersToShowCardsFor.addAll(battle.getEnemies());
-                entityManager.printDebug();
-                break;
-            case ANIMATION_PLAY:
-                handleAnimation(delta);
-                break;
-            case ANIMATION_DONE:
-                Log.debug("ANIMATION_DONE");
+                Log.debug("MONSTER_CHOSEN");
+
+                Player player = appState.getPlayer();
+                DungeonMap dungeonMap = appState.getMap();
+                int monsterX = player.getMapX() + attackX;
+                int monsterY = player.getMapY() + attackY;
+                Monster monster1 = null;
+                if (dungeonMap.inBounds(monsterX, monsterY)) {
+                    monster1 = (Monster) dungeonMap.getTileAt(monsterX, monsterY).getMob();
+                }
+                if (monster1 != null) {
+                    lastBattleRound = battleSystem.performBattleRound(selectedCard, monster1);
+                    // clear out all of the cards in play
+                    clearCardsInPlay();
+                    greyOutItemMessages();
+                } 
+
+                Log.debug("SHOW_PLAYER_DAMAGE");
+                // add the player's effects to the damage stack
+                List<BattleResult> battleResults = lastBattleRound.getResultsFor(appState.getPlayer());
+                for (BattleResult battleResult : battleResults) {
+                    addDescToEffects(playerEffects, battleResult);
+                }
+
+                Log.debug("SHOW_MONSTER_DAMAGE");
+                for (Mob enemy : battle.getEnemies()) {
+                    List<BattleResult> monsterResults = lastBattleRound.getResultsFor(enemy);
+                    for (BattleResult battleResult : monsterResults) {
+                        addDescToEffects(monsterEffects, battleResult);
+                    }
+                }
 
                 List<Mob> deadMobs = new ArrayList<Mob>();
                 // remove any monsters that were killed during combat
@@ -374,6 +388,8 @@ public class BattleGameState extends BasicGameState {
                         deadMobs.add(monster);
                     }
                 }
+
+                Log.debug("dead mobs is " + deadMobs);
 
                 for (Mob monster : deadMobs) {
                     Entity mobEntity = mobEntities.remove(monster);
@@ -389,11 +405,9 @@ public class BattleGameState extends BasicGameState {
                     break;
                 }
 
-                // reset monster card offset
-                monsterCardOffset = 0;
+                refreshPlayerHandEntities();
+                currentState = State.PLAYER_CHOOSE_CARD;
 
-
-                currentState = State.PLAYER_CHOOSE_MONSTER;
                 break;
 
             case BATTLE_OVER:
@@ -427,31 +441,6 @@ public class BattleGameState extends BasicGameState {
     }
 
 
-    private void handleMonsterChosen() {
-        Log.debug("MONSTER_CHOSEN");
-
-        Player player = appState.getPlayer();
-        DungeonMap dungeonMap = appState.getMap();
-        int monsterX = player.getMapX() + attackX;
-        int monsterY = player.getMapY() + attackY;
-        Monster monster = null;
-        if (dungeonMap.inBounds(monsterX, monsterY)) {
-            monster = (Monster) dungeonMap.getTileAt(monsterX, monsterY).getMob();
-        }
-        if (monster != null) {
-            //TODO: NOT RIGHT, NEEDS A CARD INSTEAD OF NULL
-            lastBattleRound = battleSystem.performBattleRound(null, monster);
-            replayState = ReplayState.CREATE_PLAYER_CARD;
-            // clear out all of the cards in play
-            clearCardsInPlay();
-            greyOutItemMessages();
-            currentState = State.ANIMATION_PLAY;
-        } else {
-            Log.debug("Monster was null or dungeonMap was out of bounds, resetting state");
-            currentState = State.PLAYER_CHOOSE_MONSTER;
-        }
-    }
-
     private void greyOutItemMessages() {
         for (ItemLogMessage str : playerEffects) {
             str.setColor(Color.darkGray);
@@ -470,94 +459,6 @@ public class BattleGameState extends BasicGameState {
 
         cardsInPlay.clear();
     }
-
-    private void handleAnimation(int delta) {
-        Player player = appState.getPlayer();
-
-        switch (replayState) {
-
-            case CREATE_PLAYER_CARD:
-                Log.debug("CREATE_PLAYER_CARD");
-                final Entity playerCard = new Entity("playerCard");
-                ActionFinishedNotifier notifier = new ActionFinishedNotifier() {
-                    @Override
-                    public void actionComplete() {
-                        playerCard.removeComponentById("moveTo");
-                        changeReplayState(ReplayState.SHOW_PLAYER_DAMAGE);
-                    }
-                };
-                //createCard(playerCard, playerEntity, lastBattleRound.getItemUsedBy(player), 42, 64, notifier);
-                entityManager.addEntity(playerCard);
-                cardsInPlay.add(playerCard);
-                changeReplayState(ReplayState.WAIT);
-                break;
-
-            case SHOW_PLAYER_DAMAGE:
-                Log.debug("SHOW_PLAYER_DAMAGE");
-                // add the player's effects to the damage stack
-                //ItemUsage result = lastBattleRound.getItemUsageResultFor(appState.getPlayer());
-                List<BattleResult> battleResults = lastBattleRound.getResultsFor(player);
-                for (BattleResult battleResult : battleResults) {
-                    addDescToEffects(playerEffects, battleResult);
-                }
-//                addStringToEffects(0, playerEffects,
-//                        createItemUsedString(player,lastBattleRound.getItemUsedBy(player)), Color.white);
-
-                changeReplayState(ReplayState.CREATE_MONSTER_CARD);
-                break;
-
-            case CREATE_MONSTER_CARD:
-                Log.debug("SHOW_MONSTER_CARD");
-
-                if (monstersToShowCardsFor.isEmpty()) {
-                    // done showing cards
-                    currentState = State.ANIMATION_DONE;
-                    break;
-                }
-
-                // grab the next monster to show
-                currentMonster = monstersToShowCardsFor.remove(0);
-                Log.debug("Just removed " + currentMonster + " ther are " + monstersToShowCardsFor.size() + " left");
-                Entity monsterEntity = mobEntities.get(currentMonster);
-                final Entity monsterCard = new Entity("playerCard");
-                ActionFinishedNotifier monsterNotifier = new ActionFinishedNotifier() {
-                    @Override
-                    public void actionComplete() {
-                        monsterCard.removeComponentById("moveTo");
-                        changeReplayState(ReplayState.SHOW_MONSTER_DAMAGE);
-                    }
-                };
-//                createCard(monsterCard, monsterEntity,
-//                        lastBattleRound.getItemUsedBy(currentMonster), 600 + monsterCardOffset, 64, monsterNotifier);
-                entityManager.addEntity(monsterCard);
-                cardsInPlay.add(monsterCard);
-                changeReplayState(ReplayState.WAIT);
-                monsterCardOffset += 10;
-                break;
-
-            case SHOW_MONSTER_DAMAGE:
-                Log.debug("SHOW_MONSTER_DAMAGE");
-
-                List<BattleResult> monsterResults = lastBattleRound.getResultsFor(currentMonster);
-                for (BattleResult battleResult : monsterResults) {
-                    addDescToEffects(monsterEffects, battleResult);
-                }
-//                addStringToEffects(0, monsterEffects,
-//                        createItemUsedString(currentMonster,lastBattleRound.getItemUsedBy(currentMonster)), Color.white);
-
-                changeReplayState(ReplayState.CREATE_MONSTER_CARD);
-                break;
-
-            case WAIT:
-                // do nothing
-                break;
-        }
-    }
-
-//    private String createItemUsedString(Mob mob, Item item) {
-//        return mob.name() + " uses " + item.name();
-//    }
-
 
     private String createDescString(BattleResult effectResult) {
         String s0 = effectResult.getEffectedMob().possessiveName();
@@ -595,21 +496,6 @@ public class BattleGameState extends BasicGameState {
         return Color.white;
     }
 
-    private void changeReplayState(ReplayState newState) {
-        replayState = newState;
-    }
-
-//    private Entity createCard(Entity cardEntity, Entity mobEntity, Item item, float x, float y, ActionFinishedNotifier notifier) {
-//        ItemRenderer card = new ItemRenderer(item, font);
-//
-//        MoveToAction action = new MoveToAction("moveTo", x, y, .5f, notifier);
-//        Vector2f mobPos = mobEntity.getPosition();
-//        cardEntity.addComponent(card)
-//                .addComponent(action)
-//                .setPosition(new Vector2f(mobPos.x, mobPos.y));
-//        return cardEntity;
-//    }
-
     @Override
     public void keyPressed(int key, char c) {
 
@@ -646,16 +532,19 @@ public class BattleGameState extends BasicGameState {
 
     @Override
     public void mouseMoved(int oldx, int oldy, int newx, int newy) {
-        entityManager.mouseMoved(oldx,oldy,newx,newy);
+        entityManager.mouseMoved(oldx, oldy, newx, newy);
     }
 
     @Override
     public void mouseClicked(int button, int x, int y, int clickCount) {
 
         // see if any entities are clickable
-        entityManager.mouseClicked(button,x,y,clickCount);
+        boolean handled = entityManager.mouseClicked(button, x, y, clickCount);
+        if (handled) {
+            return;
+        }
 
-        if ( currentState == State.PLAYER_CHOOSE_CARD ) {
+        if (currentState == State.PLAYER_CHOOSE_CARD) {
             // dont do anything else
             return;
         }
