@@ -42,7 +42,6 @@ public class BattleGameState extends BasicGameState {
         SHOW_ITEMS_WON
     }
 
-    private GameContainer container;
     private StateBasedGame game;
     private UnicodeFont font;
     private AppState appState;
@@ -78,10 +77,7 @@ public class BattleGameState extends BasicGameState {
     @SuppressWarnings({"unchecked"})
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
-
-        this.container = container;
         this.game = game;
-
         Font jFont = new Font("Verdana", Font.PLAIN, 12);
         font = new UnicodeFont(jFont);
         font.getEffects().add(new ColorEffect(java.awt.Color.white));
@@ -268,7 +264,7 @@ public class BattleGameState extends BasicGameState {
 
         if (currentState == State.PLAYER_CHOOSE_MONSTER) {
             g.setColor(Color.green);
-            String text = "Battle Round " + battleSystem.getRound() + ", choose Monster to attack";
+            String text = "Using " + selectedCard.getName() + ", choose Monster to attack";
             TextUtil.centerText(container, g, text, 416);
         }
 
@@ -282,7 +278,6 @@ public class BattleGameState extends BasicGameState {
         int TILE_WIDTH = Fury.TILE_WIDTH * scale;
         int midPoint = Fury.GAME_WIDTH / 2;
         int x = midPoint - ((TILE_WIDTH * 3) / 2);
-        int y = 32;
 
         // render the player's stuff
         drawBattleText(5, playerEffects);
@@ -364,7 +359,7 @@ public class BattleGameState extends BasicGameState {
                     // clear out all of the cards in play
                     clearCardsInPlay();
                     greyOutItemMessages();
-                } 
+                }
 
                 Log.debug("SHOW_PLAYER_DAMAGE");
                 // add the player's effects to the damage stack
@@ -531,8 +526,8 @@ public class BattleGameState extends BasicGameState {
     }
 
     @Override
-    public void mouseMoved(int oldx, int oldy, int newx, int newy) {
-        entityManager.mouseMoved(oldx, oldy, newx, newy);
+    public void mouseMoved(int oldX, int oldY, int newX, int newY) {
+        entityManager.mouseMoved(oldX, oldY, newX, newY);
     }
 
     @Override
