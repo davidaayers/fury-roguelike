@@ -540,7 +540,7 @@ public class BattleGameState extends BasicGameState {
         }
 
         if (currentState == State.PLAYER_CHOOSE_CARD) {
-            // dont do anything else
+            // don't do anything else
             return;
         }
 
