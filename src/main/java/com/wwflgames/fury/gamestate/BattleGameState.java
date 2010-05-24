@@ -25,10 +25,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import java.awt.Font;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import static com.wwflgames.fury.Fury.*;
 
@@ -57,7 +54,7 @@ public class BattleGameState extends BasicGameState {
     private List<ItemLogMessage> monsterEffects;
     private List<Entity> cardsInPlay;
     private List<Entity> playerHandEntities = new ArrayList<Entity>();
-    private java.util.Map<Mob, Entity> mobEntities;
+    private Map<Mob, Entity> mobEntities;
     private Entity playerEntity;
     private boolean enterCalled = false;
     private Image victoryImage;
