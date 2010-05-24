@@ -3,6 +3,7 @@ package com.wwflgames.fury.player;
 import com.wwflgames.fury.card.Card;
 import com.wwflgames.fury.card.CardFactory;
 import com.wwflgames.fury.card.Deck;
+import com.wwflgames.fury.mob.Stat;
 import com.wwflgames.fury.util.Log;
 
 public class PlayerFactoryImpl implements PlayerFactory {
@@ -34,7 +35,9 @@ public class PlayerFactoryImpl implements PlayerFactory {
         d.addCard(c3);
 
         player.installDeck(d);
-        
+
+        player.setStatValue(Stat.ARMOR,10);
+
         return player;
     }
 
