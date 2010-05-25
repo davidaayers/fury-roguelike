@@ -28,11 +28,15 @@ public class PlayerFactoryImpl implements PlayerFactory {
         Card c1 = cardFactory.getCardByName("Mace of hurting");
         Card c2 = cardFactory.getCardByName("Sword of stabbing");
         Card c3 = cardFactory.getCardByName("Wand of zapping");
+        Card c4 = cardFactory.getBuffCardByName("Shield of shielding");
+        Card c5 = cardFactory.getBuffCardByName("Shield of warding");
 
         Deck d = new Deck();
         d.addCard(c1);
         d.addCard(c2);
         d.addCard(c3);
+        d.addCard(c4);
+        d.addCard(c5);
 
         player.installDeck(d);
 
