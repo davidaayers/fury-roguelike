@@ -189,6 +189,7 @@ public class BattleGameState extends BasicGameState {
     }
 
     private void cardSelected(Card data) {
+        
         // should only be called if the player is selecting a card
         selectedCard = data;
 
@@ -200,7 +201,13 @@ public class BattleGameState extends BasicGameState {
 
         playerHandEntities.clear();
 
-        currentState = State.PLAYER_CHOOSE_MONSTER;
+        // if the selected card is targetable, allow the player to choose, otherwise
+        // don't
+        if ( selectedCard.isTargetable() ) {
+            currentState = State.PLAYER_CHOOSE_MONSTER;
+        } else {
+            currentState = State.MONSTER_CHOSEN;
+        }
     }
 
     @Override
@@ -345,18 +352,22 @@ public class BattleGameState extends BasicGameState {
 
                 Player player = appState.getPlayer();
                 DungeonMap dungeonMap = appState.getMap();
-                int monsterX = player.getMapX() + attackX;
-                int monsterY = player.getMapY() + attackY;
-                Monster monster1 = null;
-                if (dungeonMap.inBounds(monsterX, monsterY)) {
-                    monster1 = (Monster) dungeonMap.getTileAt(monsterX, monsterY).getMob();
-                }
-                if (monster1 != null) {
+
+                if ( !selectedCard.isTargetable() ) {
+                    lastBattleRound = battleSystem.performBattleRound(selectedCard);
+                } else {
+                    int monsterX = player.getMapX() + attackX;
+                    int monsterY = player.getMapY() + attackY;
+                    Monster monster1 = null;
+                    if (dungeonMap.inBounds(monsterX, monsterY)) {
+                        monster1 = (Monster) dungeonMap.getTileAt(monsterX, monsterY).getMob();
+                    }
                     lastBattleRound = battleSystem.performBattleRound(selectedCard, monster1);
-                    // clear out all of the cards in play
-                    clearCardsInPlay();
-                    greyOutItemMessages();
                 }
+
+                // clear out all of the cards in play
+                clearCardsInPlay();
+                greyOutItemMessages();
 
                 Log.debug("SHOW_PLAYER_DAMAGE");
                 // add the player's effects to the damage stack

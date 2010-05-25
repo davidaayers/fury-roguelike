@@ -100,7 +100,7 @@ public class DamageApplier implements Applier {
 
     @Override
     public String description() {
-        return "FOO";
+        return damageAmount + " " + damageType.name() + " dmg";
     }
 
     protected float multiplierFor(Mob itemUser, Stat stat) {

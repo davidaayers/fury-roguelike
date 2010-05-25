@@ -62,7 +62,7 @@ public class CardRenderer extends Renderer implements EntityMouseHandler {
         }
 
         if ( card.getUsedByAppliers() != null ) {
-            for ( Applier applier : card.getUsedAgainstAppliers() ) {
+            for ( Applier applier : card.getUsedByAppliers() ) {
                 y += 14;
                 drawString(applier.description(), y, Color.green);
             }
