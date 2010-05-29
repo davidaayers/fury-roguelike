@@ -16,6 +16,10 @@ public class CardResult extends BattleResult {
         return new CardResult(ResultType.BUFF,effectedMob,desc);
     }
 
+    public static CardResult newDebuffResult(String desc, Mob effectedMob) {
+        return new CardResult(ResultType.DEBUFF,effectedMob,desc);
+    }
+
     public static CardResult newCardPlayedResult(String desc, Mob effectedMob) {
         return new CardResult(ResultType.PLAYED,effectedMob,desc);
     }

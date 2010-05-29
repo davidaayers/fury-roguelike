@@ -25,12 +25,12 @@ public class PlayerFactoryImpl implements PlayerFactory {
         //TEMP TEMP TEMP TEMP
         //TODO: create xml thingy for cards
         // create a some cards and add them to a deck
-        Card c1 = cardFactory.getCardByName("Mace of hurting");
-        Card c2 = cardFactory.getCardByName("Sword of stabbing");
-        Card c3 = cardFactory.getCardByName("Wand of zapping");
-        Card c4 = cardFactory.getBuffCardByName("Shield of shielding");
-        Card c5 = cardFactory.getBuffCardByName("Shield of warding");
-        Card c6 = cardFactory.newBattleStatDebuffCard("Acid Spray");
+        Card c1 = cardFactory.createMeleeWeaponCard(10);
+        Card c2 = cardFactory.createMeleeWeaponCard(10);
+        Card c3 = cardFactory.createMeleeWeaponCard(10);
+        Card c4 = cardFactory.createMeleeWeaponCard(10);
+        Card c5 = cardFactory.createMeleeWeaponCard(10);
+        Card c6 = cardFactory.createMeleeWeaponCard(10);
 
 
         Deck d = new Deck();

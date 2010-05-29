@@ -2,9 +2,7 @@ package com.wwflgames.fury.card.applier;
 
 import com.wwflgames.fury.mob.Stat;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public enum DamageType {
 
@@ -52,5 +50,15 @@ public enum DamageType {
 
     public DamageMitigator getDamageMitigator() {
         return damageMitigator;
+    }
+
+    public static List<DamageType> findAllChildrenOfType(DamageType type) {
+        List<DamageType> matchingTypes = new ArrayList<DamageType>();
+        for ( DamageType damageType : DamageType.values() ) {
+            if ( damageType.parentType == type ) {
+                matchingTypes.add(damageType);
+            }
+        }
+        return matchingTypes;
     }
 }
