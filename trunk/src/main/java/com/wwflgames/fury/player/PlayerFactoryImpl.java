@@ -30,6 +30,8 @@ public class PlayerFactoryImpl implements PlayerFactory {
         Card c3 = cardFactory.getCardByName("Wand of zapping");
         Card c4 = cardFactory.getBuffCardByName("Shield of shielding");
         Card c5 = cardFactory.getBuffCardByName("Shield of warding");
+        Card c6 = cardFactory.newBattleStatDebuffCard("Acid Spray");
+
 
         Deck d = new Deck();
         d.addCard(c1);
@@ -37,6 +39,7 @@ public class PlayerFactoryImpl implements PlayerFactory {
         d.addCard(c3);
         d.addCard(c4);
         d.addCard(c5);
+        d.addCard(c6);
 
         player.installDeck(d);
 
