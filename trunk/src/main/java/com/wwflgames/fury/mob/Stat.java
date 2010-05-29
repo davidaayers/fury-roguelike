@@ -1,5 +1,8 @@
 package com.wwflgames.fury.mob;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum Stat {
 
     STRENGTH("Strength", false),
@@ -10,18 +13,28 @@ public enum Stat {
     WILL("Will", true);
 
     private String desc;
-    private boolean isBattleState;
+    private boolean isBattleStat;
 
     Stat(String desc, boolean battleState) {
         this.desc = desc;
-        isBattleState = battleState;
+        isBattleStat = battleState;
     }
 
     public String getDesc() {
         return desc;
     }
 
-    public boolean isBattleState() {
-        return isBattleState;
+    public boolean isBattleStat() {
+        return isBattleStat;
+    }
+
+    public static List<Stat> battleStats() {
+        List<Stat> battleStatList = new ArrayList<Stat>();
+        for ( Stat stat : Stat.values() ) {
+            if ( stat.isBattleStat() ) {
+                battleStatList.add(stat);
+            }
+        }
+        return battleStatList;
     }
 }

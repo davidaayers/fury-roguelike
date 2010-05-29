@@ -3,7 +3,7 @@ package com.wwflgames.fury.util;
 import java.util.Collections;
 import java.util.List;
 
-public class Shuffler {
+public class Shuffler<T> {
 
     private static ShuffleProvider shuffleProvider = defaultShuffleProvider();
 

@@ -28,16 +28,13 @@ public class BattleStatChangeApplier implements Applier {
 
     @Override
     public void applyTo(Card card, Mob usedBy, Mob usedAgainst, BattleRound battleRound) {
-        String desc;
-        Mob mob;
         if ( applyToUsedBy ) {
-            desc = applyChange(card, usedBy, battleRound);
-            mob = usedBy;
+            battleRound.addBattleResult(usedBy, CardResult.newBuffResult(
+                    applyChange(card, usedBy, battleRound), usedBy));
         } else {
-            desc = applyChange(card, usedAgainst, battleRound);
-            mob = usedAgainst;
+            battleRound.addBattleResult(usedBy, CardResult.newDebuffResult(
+                    applyChange(card, usedAgainst, battleRound), usedAgainst));
         }
-        battleRound.addBattleResult(usedBy, CardResult.newBuffResult(desc,mob));
     }
 
     private String applyChange(Card card, Mob mob, BattleRound battleRound) {
@@ -50,6 +47,10 @@ public class BattleStatChangeApplier implements Applier {
         }
         desc += " by " + Math.abs(changeAmount);
         return desc;
+    }
+
+    public Stat getBattleStat() {
+        return battleStat;
     }
 
     @Override
