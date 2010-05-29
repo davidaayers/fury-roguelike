@@ -28,14 +28,19 @@ public class BattleStatChangeApplier implements Applier {
 
     @Override
     public void applyTo(Card card, Mob usedBy, Mob usedAgainst, BattleRound battleRound) {
+        String desc;
+        Mob mob;
         if ( applyToUsedBy ) {
-            applyChange(card,usedBy,battleRound);
+            desc = applyChange(card, usedBy, battleRound);
+            mob = usedBy;
         } else {
-            applyChange(card,usedAgainst,battleRound);
+            desc = applyChange(card, usedAgainst, battleRound);
+            mob = usedAgainst;
         }
+        battleRound.addBattleResult(usedBy, CardResult.newBuffResult(desc,mob));
     }
 
-    private void applyChange(Card card, Mob mob, BattleRound battleRound) {
+    private String applyChange(Card card, Mob mob, BattleRound battleRound) {
         mob.setBattleStatValue(battleStat,mob.getBattleStatValue(battleStat)+changeAmount);
         String desc = "{0} " + battleStat.getDesc().toLowerCase() + "";
         if ( changeAmount > 0 ) {
@@ -44,7 +49,7 @@ public class BattleStatChangeApplier implements Applier {
             desc += " decreased ";
         }
         desc += " by " + Math.abs(changeAmount);
-        battleRound.addBattleResult(mob, CardResult.newBuffResult(desc,mob));
+        return desc;
     }
 
     @Override

@@ -22,6 +22,7 @@
         </name-modifiers>
         <stats>
             <health low="10" high="20"/>
+            <armor low="10" high="20"/>
         </stats>
     </monster>
     <monster name="Crazy Elf" sprite-sheet="crazy_elf.png" points-low="2" points-high="5">
