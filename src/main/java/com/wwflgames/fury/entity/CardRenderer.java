@@ -3,10 +3,13 @@ package com.wwflgames.fury.entity;
 import com.wwflgames.fury.card.Card;
 import com.wwflgames.fury.card.applier.Applier;
 import com.wwflgames.fury.util.Log;
+import com.wwflgames.fury.util.TextUtils;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.geom.Vector2f;
+
+import java.util.List;
 
 public class CardRenderer extends Renderer implements EntityMouseHandler {
     private Color cardBgColor;
@@ -43,28 +46,36 @@ public class CardRenderer extends Renderer implements EntityMouseHandler {
         }
         g.drawRoundRect(pos.x, pos.y, width, height, 15);
 
-        maybeRenderItemText(g);
+        renderCardText();
     }
 
-    protected void maybeRenderItemText(Graphics g) {
+    protected void renderCardText() {
 
         // draw card name;
         int y = 4;
-        drawString(card.getName(), y, Color.white);
+        List<String> cardName = TextUtils.maybeSplitString(card.getName(),32*4,font);
+        for ( String str: cardName ) {
+            drawString(str, y, Color.white);
+            y+=14;
+        }
 
         // draw effects against
         if ( card.getUsedAgainstAppliers() != null ) {
             for ( Applier applier : card.getUsedAgainstAppliers() ) {
-                y += 14;
-                drawString(applier.description(), y, Color.red);
+                for ( String str : TextUtils.maybeSplitString(applier.description(),32*4,font)) {
+                    drawString(str, y, Color.red);
+                    y += 14;
+                }
             }
 
         }
 
         if ( card.getUsedByAppliers() != null ) {
             for ( Applier applier : card.getUsedByAppliers() ) {
-                y += 14;
-                drawString(applier.description(), y, Color.green);
+                for ( String str : TextUtils.maybeSplitString(applier.description(),32*4,font)) {
+                    drawString(str, y, Color.green);
+                    y += 14;
+                }
             }
         }
     }

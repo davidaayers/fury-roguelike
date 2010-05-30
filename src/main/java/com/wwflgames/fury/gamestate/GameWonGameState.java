@@ -1,7 +1,7 @@
 package com.wwflgames.fury.gamestate;
 
 import com.wwflgames.fury.Fury;
-import com.wwflgames.fury.util.TextUtil;
+import com.wwflgames.fury.util.TextUtils;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -21,7 +21,7 @@ public class GameWonGameState extends BasicGameState {
 
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
-        TextUtil.centerText(gameContainer,graphics,"You won!",25);    
+        TextUtils.centerText(gameContainer,graphics,"You won!",25);
     }
 
     @Override

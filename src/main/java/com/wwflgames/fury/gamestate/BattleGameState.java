@@ -12,7 +12,7 @@ import com.wwflgames.fury.mob.Mob;
 import com.wwflgames.fury.monster.Monster;
 import com.wwflgames.fury.player.Player;
 import com.wwflgames.fury.util.Log;
-import com.wwflgames.fury.util.TextUtil;
+import com.wwflgames.fury.util.TextUtils;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
@@ -258,18 +258,18 @@ public class BattleGameState extends BasicGameState {
         }
 
         g.setColor(Color.white);
-        TextUtil.centerText(container, g, "Battle Screen", 0);
+        TextUtils.centerText(container, g, "Battle Screen", 0);
 
         if (currentState == State.PLAYER_CHOOSE_CARD) {
             g.setColor(Color.green);
             String text = "Battle Round " + battleSystem.getRound() + ", choose card to play";
-            TextUtil.centerText(container, g, text, 416);
+            TextUtils.centerText(container, g, text, 416);
         }
 
         if (currentState == State.PLAYER_CHOOSE_MONSTER) {
             g.setColor(Color.green);
             String text = "Using " + selectedCard.getName() + ", choose Monster to attack";
-            TextUtil.centerText(container, g, text, 416);
+            TextUtils.centerText(container, g, text, 416);
         }
 
         g.setColor(Color.white);
@@ -294,11 +294,11 @@ public class BattleGameState extends BasicGameState {
         if (currentState == State.SHOW_ITEMS_WON) {
             g.drawImage(victoryImage, midPoint - victoryImage.getWidth() / 2, 60);
             int textY = victoryImage.getHeight() + 60 + 10;
-            TextUtil.centerText(container, g, "You find the following item(s):", textY);
+            TextUtils.centerText(container, g, "You find the following item(s):", textY);
             textY += 128 + 65;
-            TextUtil.centerText(container, g, "You earned " + expEarned + " experience!", textY);
+            TextUtils.centerText(container, g, "You earned " + expEarned + " experience!", textY);
             textY += 20;
-            TextUtil.centerText(container, g, "Press any key to continue", textY);
+            TextUtils.centerText(container, g, "Press any key to continue", textY);
         }
     }
 
@@ -313,27 +313,6 @@ public class BattleGameState extends BasicGameState {
             font.drawString(effectX, effectY, effectStr.getString(), effectStr.getColor());
             effectY += 14;
         }
-    }
-
-    private List<String> maybeSplitString(String effectStr, int maxWidth) {
-
-        String[] parts = effectStr.split(" ");
-        List<String> splitString = new ArrayList<String>();
-        int width = 0;
-        String current = "";
-        for (String part : parts) {
-            width += font.getWidth(part + " ");
-            if (width < maxWidth) {
-                current = current + part + " ";
-            } else {
-                splitString.add(current);
-                width = 0;
-                current = part + " ";
-            }
-        }
-        splitString.add(current);
-
-        return splitString;
     }
 
     @Override
@@ -477,7 +456,7 @@ public class BattleGameState extends BasicGameState {
     }
 
     private void addStringToEffects(int pos, List<ItemLogMessage> effects, String string, Color color) {
-        List<String> parts = maybeSplitString(string, 160);
+        List<String> parts = TextUtils.maybeSplitString(string, 160,font);
         Collections.reverse(parts);
         for (String part : parts) {
             effects.add(pos, new ItemLogMessage(part, color));
