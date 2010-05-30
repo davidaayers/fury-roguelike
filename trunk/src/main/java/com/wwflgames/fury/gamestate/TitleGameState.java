@@ -10,7 +10,7 @@ import com.wwflgames.fury.player.PlayerFactory;
 import com.wwflgames.fury.player.Profession;
 import com.wwflgames.fury.player.ProfessionFactory;
 import com.wwflgames.fury.util.Log;
-import com.wwflgames.fury.util.TextUtil;
+import com.wwflgames.fury.util.TextUtils;
 import org.newdawn.slick.*;
 import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.ComponentListener;
@@ -137,8 +137,8 @@ public class TitleGameState extends BasicGameState {
 
         graphics.drawImage(titleImage, 400 - titleImage.getWidth() / 2, 25);
         if (currentState == State.WAITING_FOR_PROFESSION_CHOICE) {
-            TextUtil.centerText(gameContainer, graphics, "Choose your profession:", 220);
-            TextUtil.centerText(gameContainer, graphics, "Press 'h' for help",520);
+            TextUtils.centerText(gameContainer, graphics, "Choose your profession:", 220);
+            TextUtils.centerText(gameContainer, graphics, "Press 'h' for help",520);
         }
 
         for (MouseOverArea moa : professionChoices) {
@@ -146,7 +146,7 @@ public class TitleGameState extends BasicGameState {
         }
 
         if (currentState == State.GENERATING_MAP || currentState == State.START_GENERATING_MAP) {
-            TextUtil.centerText(gameContainer, graphics, "Generating dungeon...", 520);
+            TextUtils.centerText(gameContainer, graphics, "Generating dungeon...", 520);
         }
 
 

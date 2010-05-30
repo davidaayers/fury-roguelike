@@ -125,7 +125,7 @@ public class CardFactory {
                 Shuffler.shuffle(pierceWeaponNames);
                 return pierceWeaponNames.get(0);
         }
-        throw new IllegalStateException("Shoudn't get here");
+        throw new IllegalStateException("Shouldn't get here");
     }
 
     private DamageType randomMeleeDamageType() {
