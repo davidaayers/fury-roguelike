@@ -3,9 +3,16 @@ package com.wwflgames.fury.card.statuseffect;
 import com.wwflgames.fury.battle.BattleRound;
 import com.wwflgames.fury.mob.Mob;
 
-public abstract class StatusEffect {
-    private String name;
-    private int numRoundsLeft;
+public abstract class StatusEffect implements Cloneable {
+    protected String name;
+    protected int numRoundsLeft;
+    private boolean isBuff;
+
+    protected StatusEffect(String name,int numRounds,boolean isBuff) {
+        this.name = name;
+        this.numRoundsLeft = numRounds;
+        this.isBuff = isBuff;
+    }
 
     public void roundOccurred(Mob mob, BattleRound battleRound) {
         numRoundsLeft--;
@@ -15,6 +22,16 @@ public abstract class StatusEffect {
     public boolean isActive() {
         return numRoundsLeft > 0;
     }
+
+    public String description() {
+        return name;
+    }
+
+    public boolean isBuff() {
+        return isBuff;
+    }
+
+    public abstract StatusEffect duplicate();
 
     protected abstract void doRoundOccurred(Mob mob, BattleRound battleRound);
 

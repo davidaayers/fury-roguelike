@@ -1,6 +1,7 @@
 package com.wwflgames.fury.card.applier;
 
 import com.wwflgames.fury.battle.BattleRound;
+import com.wwflgames.fury.battle.CardResult;
 import com.wwflgames.fury.card.Card;
 import com.wwflgames.fury.card.statuseffect.StatusEffect;
 import com.wwflgames.fury.mob.Mob;
@@ -31,13 +32,18 @@ public class StatusEffectApplier implements Applier {
             applyEffectTo = usedAgainst;
         }
 
-        // put a clone of it here? probably
-        applyEffectTo.addStatusEffect(statusEffect);
+        applyEffectTo.addStatusEffect(statusEffect.duplicate());
         statusEffect.effectApplied(applyEffectTo,battleRound);
+        String desc = statusEffect.description() + " is applied to {1}";
+        if ( statusEffect.isBuff() ) {
+            battleRound.addBattleResult(usedBy, CardResult.newBuffResult(desc,applyEffectTo));
+        } else {
+            battleRound.addBattleResult(usedBy, CardResult.newDebuffResult(desc,applyEffectTo));
+        }
     }
 
     @Override
     public String description() {
-        return "BAR";
+        return statusEffect.description();
     }
 }
