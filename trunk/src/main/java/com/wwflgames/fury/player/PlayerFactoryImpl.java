@@ -25,12 +25,12 @@ public class PlayerFactoryImpl implements PlayerFactory {
         //TEMP TEMP TEMP TEMP
         //TODO: create xml thingy for cards
         // create a some cards and add them to a deck
-        Card c1 = cardFactory.createMeleeWeaponCard(10);
-        Card c2 = cardFactory.createMeleeWeaponCard(10);
-        Card c3 = cardFactory.createMeleeWeaponCard(10);
-        Card c4 = cardFactory.createMeleeWeaponCard(10);
-        Card c5 = cardFactory.createMeleeWeaponCard(10);
-        Card c6 = cardFactory.createMeleeWeaponCard(10);
+        Card c1 = cardFactory.createRandomCard(10);
+        Card c2 = cardFactory.createRandomCard(10);
+        Card c3 = cardFactory.createRandomCard(10);
+        Card c4 = cardFactory.createRandomCard(10);
+        Card c5 = cardFactory.createRandomCard(10);
+        Card c6 = cardFactory.createRandomCard(10);
 
 
         Deck d = new Deck();

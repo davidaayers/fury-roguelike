@@ -1,9 +1,8 @@
 package com.wwflgames.fury.card;
 
-import com.wwflgames.fury.card.applier.Applier;
-import com.wwflgames.fury.card.applier.BattleStatChangeApplier;
-import com.wwflgames.fury.card.applier.DamageApplier;
-import com.wwflgames.fury.card.applier.DamageType;
+import com.wwflgames.fury.card.applier.*;
+import com.wwflgames.fury.card.statuseffect.DotStatusEffect;
+import com.wwflgames.fury.card.statuseffect.StatusEffect;
 import com.wwflgames.fury.mob.Stat;
 import com.wwflgames.fury.util.Rand;
 import com.wwflgames.fury.util.Shuffler;
@@ -54,6 +53,12 @@ public class CardFactory {
         return new Card(name,null, new Applier[] { bsc } , 1 );
     }
 
+    public Card newDotCard(String name) {
+        StatusEffect dot = new DotStatusEffect("Burn",3,5);
+        StatusEffectApplier app = new StatusEffectApplier(dot,false);
+        return new Card(name,null, new Applier[] { app } , 1 );
+    }
+
 
     private Card newDamageCard(String name, DamageType damageType, int damageAmt) {
         DamageApplier da = new DamageApplier(damageType,damageAmt);
@@ -99,6 +104,84 @@ public class CardFactory {
         }
         String name = startNamePart + ( endNamePart != null ? " of " + endNamePart : "");
         return new Card(name,usedByAppliers,usedAgainstAppliers,1);
+    }
+
+    public Card createRandomCard(int points) {
+        List<Applier> usedByAppliersList = new ArrayList<Applier>();
+        List<Applier> usedAgainstAppliersList = new ArrayList<Applier>();
+        while ( points > 0 ) {
+            int rand = Rand.between(0,4);
+            switch(rand) {
+                case 0:
+                    points -= addRandomBuff(usedByAppliersList,points);
+                    break;
+                case 1:
+                    points -= addRandomDebuff(usedAgainstAppliersList,points);
+                    break;
+                case 2:
+                    points -= addRandomMeleeAttack(usedAgainstAppliersList,points);
+                    break;
+                case 3:
+                    points -= addRandomDot(usedAgainstAppliersList,points);
+            }
+            
+        }
+        Applier[] usedByAppliers = null;
+        Applier[] usedAgainstAppliers = null;
+        if ( usedByAppliersList.size() > 0 ) {
+            usedByAppliers = usedByAppliersList.toArray(new Applier[usedByAppliersList.size()]);
+        }
+        if ( usedAgainstAppliersList.size() > 0 ) {
+            usedAgainstAppliers = usedAgainstAppliersList.toArray(new Applier[usedAgainstAppliersList.size()]);
+        }
+        String name = createName(usedByAppliers,usedAgainstAppliers);
+        return new Card(name,usedByAppliers,usedAgainstAppliers,usedAgainstAppliers==null?0:1);
+    }
+
+    private int addRandomDot(List<Applier> usedAgainstAppliersList,int points) {
+        int dotAmt = calcPoints(points,.5);
+        int numRounds = Rand.between(2,5);
+        int dmgPerRound = dotAmt/numRounds;
+        if ( dmgPerRound < 1 ) {
+            dmgPerRound = 1;
+        }
+        DotStatusEffect statusEffect = new DotStatusEffect("Burn", numRounds, dmgPerRound);
+        usedAgainstAppliersList.add(new StatusEffectApplier(statusEffect,false));
+        return dotAmt;
+    }
+
+    private int addRandomMeleeAttack(List<Applier> usedAgainstAppliersList, int points) {
+        DamageType type = randomMeleeDamageType();
+        int dmgAmt = calcPoints(points,.7);
+        usedAgainstAppliersList.add(new DamageApplier(type,dmgAmt));
+        return dmgAmt;
+    }
+
+    private int addRandomDebuff(List<Applier> usedAgainstAppliersList, int points) {
+        int debuffAmt = calcPoints(points,.7);
+        usedAgainstAppliersList.add(randomBattleStatDebuff(debuffAmt));
+        return debuffAmt;
+    }
+
+    private int addRandomBuff(List<Applier> usedByAppliersList, int points) {
+        int buffAmt = calcPoints(points,.6);
+        usedByAppliersList.add(randomBattleStatBuff(buffAmt));
+        return buffAmt;
+    }
+
+    private int calcPoints(int points,double multiplier) {
+        int debuffAmt;
+        if ( points < 5 ) {
+            debuffAmt = points;
+        } else {
+            int min = (int)((double)points* multiplier);
+            debuffAmt = Rand.between(min,points+1);
+        }
+        return debuffAmt;
+    }
+    
+    private String createName(Applier[] usedByAppliers, Applier[] usedAgainstAppliers) {
+        return "Foo";
     }
 
     private BattleStatChangeApplier randomBattleStatDebuff(int points) {
