@@ -131,18 +131,11 @@ public class MonsterFactoryImpl implements MonsterFactory, SpriteSheetProvider {
 
         Shuffler.shuffle(matchingMonsters);
         MonsterTemplate template = matchingMonsters.get(0);
-        //TEMP TEMP TEMP TEMP
-        //TODO: create xml thingy for cards
-
-        // create a some cards and add them to a deck
-        Card c1 = cardFactory.getCardByName("Mace of hurting");
-        Card c2 = cardFactory.getCardByName("Sword of stabbing");
-        Card c3 = cardFactory.getCardByName("Wand of zapping");
 
         Deck d = new Deck();
-        d.addCard(c1);
-        d.addCard(c2);
-        d.addCard(c3);
+        for ( int i = 0 ; i < 5 ; i ++ ) {
+            d.addCard(cardFactory.createRandomCard(10));
+        }
 
         Monster monster = template.createForLevel(level);
         monster.installDeck(d);

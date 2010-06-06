@@ -125,6 +125,7 @@ public class DungeonMapCreatorImpl implements DungeonMapCreator {
                 Log.debug("Adding monsters " + monster.name());
                 map.addMob(monster, randomTile.getX(), randomTile.getY());
 
+                //TODO: move this somewhere that makes sense, certainly not here
                 // create the ai for the monster
                 AI monsterAi = new RandomMonsterAI(monster,map);
                 monster.setAi(monsterAi);
