@@ -86,6 +86,7 @@ public class MonsterTemplate {
 
     public Monster createForLevel(MonsterLevel level) {
         Monster m = new Monster(chooseName(level), spriteSheet, level.getLevel());
+        m.setBoss(level.isBoss());
         installStats(m);
 
         return m;

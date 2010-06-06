@@ -3,7 +3,6 @@ package com.wwflgames.fury.gamestate;
 import com.wwflgames.fury.Fury;
 import com.wwflgames.fury.entity.Entity;
 import com.wwflgames.fury.entity.EntityManager;
-import com.wwflgames.fury.entity.ItemRenderer;
 import com.wwflgames.fury.main.AppState;
 import org.newdawn.slick.*;
 import org.newdawn.slick.font.effects.ColorEffect;
