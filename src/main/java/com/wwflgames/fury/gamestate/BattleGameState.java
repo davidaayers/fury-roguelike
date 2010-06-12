@@ -9,6 +9,7 @@ import com.wwflgames.fury.main.AppState;
 import com.wwflgames.fury.map.Direction;
 import com.wwflgames.fury.map.DungeonMap;
 import com.wwflgames.fury.mob.Mob;
+import com.wwflgames.fury.mob.Stat;
 import com.wwflgames.fury.monster.Monster;
 import com.wwflgames.fury.player.Player;
 import com.wwflgames.fury.util.Log;
@@ -36,6 +37,7 @@ public class BattleGameState extends BasicGameState {
         PLAYER_CHOOSE_MONSTER,
         MONSTER_CHOSEN,
         BATTLE_OVER,
+        PLAYER_LOST,
         SHOW_ITEMS_WON
     }
 
@@ -299,6 +301,11 @@ public class BattleGameState extends BasicGameState {
             TextUtils.centerText(container, g, "You earned " + expEarned + " experience!", textY);
             textY += 20;
             TextUtils.centerText(container, g, "Press any key to continue", textY);
+        } else if ( currentState == State.PLAYER_LOST ) {
+            int textY = 120;
+            TextUtils.centerText(container, g, "You died!", textY);
+            textY += 20;
+            TextUtils.centerText(container, g, "Press any key to continue", textY);
         }
     }
 
@@ -382,7 +389,14 @@ public class BattleGameState extends BasicGameState {
                     ((Monster) monster).died();
                 }
 
-                if (battle.allEnemiesDead()) {
+                Integer health = player.getStatValue(Stat.HEALTH);
+                Log.debug("Health is " + health);
+                if (health <=0) {
+                    appState.setGameOver(true);
+                    appState.setPlayerWon(false);
+                    currentState = State.PLAYER_LOST;
+                    break;
+                } else if (battle.allEnemiesDead()) {
                     currentState = State.BATTLE_OVER;
                     break;
                 }
@@ -401,8 +415,8 @@ public class BattleGameState extends BasicGameState {
 
                 break;
 
+            case PLAYER_LOST:
             case SHOW_ITEMS_WON:
-
                 // do nothing - we are waiting here for the player
                 // to press a key
                 break;
@@ -481,7 +495,7 @@ public class BattleGameState extends BasicGameState {
     @Override
     public void keyPressed(int key, char c) {
 
-        if (currentState == State.SHOW_ITEMS_WON) {
+        if (currentState == State.SHOW_ITEMS_WON || currentState == State.PLAYER_LOST ) {
             transitionToNextScreen();
 
         }
@@ -506,7 +520,7 @@ public class BattleGameState extends BasicGameState {
         // if we have won the game, go to the game won screen
         // otherwise, back to the dungeon!
         if (appState.isGameOver()) {
-            game.enterState(GAME_WON_STATE);
+            game.enterState(GAME_OVER_STATE);
         } else {
             game.enterState(DUNGEON_GAME_STATE);
         }

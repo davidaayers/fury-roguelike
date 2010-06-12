@@ -23,6 +23,10 @@ public interface AppState {
 
     boolean isGameOver();
 
+    void setPlayerWon(boolean flag);
+
+    boolean didPlayerWin();
+
     void setHelpReturnScreen(int state);
 
     int getHelpReturnScreen();

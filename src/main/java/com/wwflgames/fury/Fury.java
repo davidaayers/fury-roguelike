@@ -11,7 +11,6 @@ import com.wwflgames.fury.player.ProfessionFactoryImpl;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.ClasspathLocation;
 import org.newdawn.slick.util.ResourceLoader;
@@ -51,7 +50,7 @@ public class Fury extends StateBasedGame {
     public static final int DUNGEON_GAME_STATE = 2;
     public static final int BATTLE_STATE = 3;
     public static final int MANAGE_DECK_STATE = 4;
-    public static final int GAME_WON_STATE = 5;
+    public static final int GAME_OVER_STATE = 5;
     public static final int HELP_STATE = 6;
 
     private static AppGameContainer container;
@@ -114,8 +113,8 @@ public class Fury extends StateBasedGame {
         return new ManageDeckGameState();
     }
 
-    private GameWonGameState createGameWonState() {
-        return new GameWonGameState();
+    private GameOverGameState createGameWonState() {
+        return new GameOverGameState(appState);
     }
 
     private HelpGameState createHelpState() {

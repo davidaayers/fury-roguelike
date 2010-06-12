@@ -12,6 +12,7 @@ public class AppStateImpl implements AppState {
     private Dungeon dungeon;
     private boolean gameOver;
     private int helpReturnScreen;
+    private boolean playerWon;
 
     @Override
     public Player getPlayer() {
@@ -56,6 +57,16 @@ public class AppStateImpl implements AppState {
     @Override
     public boolean isGameOver() {
         return gameOver;
+    }
+
+    @Override
+    public void setPlayerWon(boolean flag) {
+        this.playerWon = flag;
+    }
+
+    @Override
+    public boolean didPlayerWin() {
+        return playerWon;
     }
 
     @Override
