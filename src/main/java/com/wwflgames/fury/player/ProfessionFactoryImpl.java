@@ -10,10 +10,11 @@ import org.newdawn.slick.util.xml.XMLParser;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.wwflgames.fury.util.XmlHelper.addStats;
+import static com.wwflgames.fury.util.XmlHelper.*;
 
 public class ProfessionFactoryImpl implements SpriteSheetProvider, ProfessionFactory {
     private List<Profession> allProfessions = new ArrayList<Profession>();
+    private List<Perk> allPerks = new ArrayList<Perk>();
     List<String> allSpriteSheetNames = new ArrayList<String>();
 
     public ProfessionFactoryImpl() throws SlickException {
@@ -28,13 +29,40 @@ public class ProfessionFactoryImpl implements SpriteSheetProvider, ProfessionFac
         for (int idx = 0; idx < children.size(); idx++) {
             XMLElement childNode = children.get(idx);
             Log.debug("childNode = " + childNode.getName());
-            String name = childNode.getAttribute("name");
-            String spriteSheet = childNode.getAttribute("sprite-sheet");
-            Profession profession = new Profession(name, spriteSheet);
-            addStats(childNode, profession);
-            allProfessions.add(profession);
-            allSpriteSheetNames.add(spriteSheet);
-            Log.debug("profession created = " + profession);
+            if ( childNode.getName().equals("perks")) {
+                readPerks(childNode);
+            } else {
+                String name = childNode.getAttribute("name");
+                String spriteSheet = childNode.getAttribute("sprite-sheet");
+                Profession profession = new Profession(name, spriteSheet);
+                addStats(childNode, profession);
+                allProfessions.add(profession);
+                allSpriteSheetNames.add(spriteSheet);
+                Log.debug("profession created = " + profession);
+            }
+        }
+    }
+
+    private void readPerks(XMLElement perkNode) {
+        XMLElementList children = perkNode.getChildren();
+        for ( int idx = 0 ; idx < children.size() ; idx ++ ) {
+            XMLElement perk = children.get(idx);
+            String name = perk.getAttribute("name");
+            String prereq = perk.getAttribute("prereq");
+            Log.debug("Name = " + name + " prereq = " + prereq);
+            String description =  extractContentFromNodeValueByName(perk,"description");
+            Log.debug("description = " + description);
+            createPerk(name,description,prereq,extractSubNodeByName(perk,"type"));
+        }
+    }
+
+    private void createPerk(String name, String description, String prereq, XMLElement xmlElement) {
+        String typeName = xmlElement.getAttribute("name");
+        if ( "HandIncreasePerk".equals(typeName)) {
+            Integer numCards = new Integer(extractContentFromNodeValueByName(xmlElement,"numCards"));
+            Log.debug("numCards = " + numCards);
+        } else if ( "StatPerk".equals(typeName)) {
+
         }
     }
 

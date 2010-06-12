@@ -3,6 +3,7 @@ package com.wwflgames.fury.entity;
 import com.wwflgames.fury.util.Log;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.KeyListener;
 import org.newdawn.slick.state.StateBasedGame;
 
 import java.util.ArrayList;
@@ -109,6 +110,17 @@ public class EntityManager {
             if ( entity instanceof ClickableEntity ) {
                 ClickableEntity clickable = (ClickableEntity)entity;
                 if ( clickable.getMouseHandler().mouseClicked(button,x,y,clickCount) ) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean keyPressed(int key, char c) {
+        for ( Entity entity : entities ) {
+            if ( entity instanceof KeyHandlingEntity ) {
+                if ( ((KeyHandlingEntity) entity).keyPressed(key,c)) {
                     return true;
                 }
             }

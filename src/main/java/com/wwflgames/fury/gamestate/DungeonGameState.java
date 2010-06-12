@@ -2,6 +2,8 @@ package com.wwflgames.fury.gamestate;
 
 import com.wwflgames.fury.Fury;
 import com.wwflgames.fury.entity.*;
+import com.wwflgames.fury.entity.ui.LevelUpPopup;
+import com.wwflgames.fury.entity.ui.PopupRenderer;
 import com.wwflgames.fury.main.AppState;
 import com.wwflgames.fury.map.*;
 import com.wwflgames.fury.mob.Mob;
@@ -28,6 +30,7 @@ public class DungeonGameState extends BasicGameState {
     private PlayerController playerController;
     private Entity miniMap;
     private MonsterController monsterController;
+    private PopupRenderer popupTestRenderer;
 
     public DungeonGameState(AppState appState, SpriteSheetFactory spriteSheetFactory) {
         this.appState = appState;
@@ -122,6 +125,12 @@ public class DungeonGameState extends BasicGameState {
 
         entityManager.addEntity(hud);
 
+        popupTestRenderer = new LevelUpPopup("levelUpPopup");
+        Entity popupTest = new KeyHandlingEntity("popupTest",popupTestRenderer)
+                .setZIndex(10)
+                .addComponent(popupTestRenderer);
+        entityManager.addEntity(popupTest);
+
     }
 
     @Override
@@ -150,11 +159,22 @@ public class DungeonGameState extends BasicGameState {
     }
 
     public void keyPressed(int key, char c) {
+
         Log.debug("key = " + key);
+
+        // let the entity manager have first crack at handling key events, if it does
+        // handle them, then just return
+        if ( entityManager.keyPressed(key,c) ) {
+            return;
+        }
 
         if (key == 32) {
             // go back to dungeon screen
             stateBasedGame.enterState(Fury.MANAGE_DECK_STATE);
+        }
+
+        if ( c == 'p' ) {
+            popupTestRenderer.setVisible(!popupTestRenderer.isVisible());
         }
 
         if ( c == 'h' ) {
