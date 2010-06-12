@@ -3,13 +3,16 @@ package com.wwflgames.fury.player;
 import com.wwflgames.fury.mob.Stat;
 import com.wwflgames.fury.mob.StatHolder;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Profession implements StatHolder {
     private String name;
     private String spriteSheet;
     private Map<Stat, Integer> starterStats = new HashMap<Stat, Integer>();
+    private List<Perk> professionPerks = new ArrayList<Perk>();
 
     public Profession(String name, String spriteSheet) {
         this.name = name;
@@ -32,6 +35,19 @@ public class Profession implements StatHolder {
         for (Stat stat : starterStats.keySet()) {
             player.setStatValue(stat, starterStats.get(stat));
         }
+    }
+
+    public List<Perk> eligiblePerksForPlayer(Player player) {
+        List<Perk> perks = new ArrayList<Perk>();
+        List<Perk> playerPerks = player.getPerks();
+
+        for ( Perk perk : professionPerks ) {
+            if ( !perk.hasPrerequisite() || playerPerks.contains(perk.getPrerequisitePerk())) {
+                perks.add(perk);
+            }
+        }
+
+        return perks;
     }
 
     @Override

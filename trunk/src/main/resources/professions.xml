@@ -1,26 +1,60 @@
 <player-classes>
+    <perks>
+        <perk name="Card1">
+            <description>One more card in your hand</description>
+            <type name="HandIncreasePerk">
+                <numCards>1</numCards>
+            </type>
+            <prereq></prereq>
+        </perk>
+        <perk name="Card2" prereq="Card1">
+            <description>One more card in your hand</description>
+            <type name="HandIncreasePerk">
+                <numCards>1</numCards>
+            </type>
+        </perk>
+        <perk name="Card3" prereq="Card2">
+            <description>One more card in your hand</description>
+            <type name="HandIncreasePerk">
+                <numCards>1</numCards>
+            </type>
+        </perk>
+        <perk name="Strength1">
+            <description>+10 Strength</description>
+            <type name="StatPerk">
+                <stat>Strength</stat>
+                <amount>10</amount>
+            </type>
+        </perk>
+        <perk name="Strength2" prereq="Strength1">
+            <description>+20 Strength</description>
+            <type name="StatPerk">
+                <stat>Strength</stat>
+                <amount>20</amount>
+            </type>
+        </perk>
+        <perk name="Strength3" prereq="Strength2">
+            <description>+30 Strength</description>
+            <type name="StatPerk">
+                <stat>Strength</stat>
+                <amount>20</amount>
+            </type>
+        </perk>
+    </perks>
     <player-class name="Warrior" sprite-sheet="warrior_male.png">
-        <stats>
-            <health value="40"/>
-            <strength value="10"/>
-            <dexterity value="0"/>
-            <magic value="0"/>
-        </stats>
+        <starting-perks>
+            <perk>Strength1</perk>
+        </starting-perks>
+        <available-perks>
+            <perk>Card1</perk>
+            <perk>Card2</perk>
+            <perk>Card3</perk>
+            <perk>Strength2</perk>
+            <perk>Strength3</perk>
+        </available-perks>
     </player-class>
     <player-class name="Wizard" sprite-sheet="wizard_male.png">
-        <stats>
-            <health value="30"/>
-            <strength value="0"/>
-            <dexterity value="0"/>
-            <magic value="20"/>
-        </stats>
     </player-class>
     <player-class name="Thief" sprite-sheet="rogue_male.png">
-        <stats>
-            <health value="35"/>
-            <strength value="0"/>
-            <dexterity value="15"/>
-            <magic value="0"/>
-        </stats>
     </player-class>
 </player-classes>
