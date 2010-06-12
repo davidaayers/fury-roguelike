@@ -58,7 +58,8 @@ public class XmlHelper {
 
     // used when you are sure there is only one child
     public static XMLElement extractSubNodeByName(XMLElement node, String subNodeName) {
-        return node.getChildrenByName(subNodeName).get(0);
+        XMLElementList elementList = node.getChildrenByName(subNodeName);
+        return elementList.get(0);
     }
 
 }

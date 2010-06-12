@@ -27,21 +27,52 @@
             </type>
         </perk>
         <perk name="Strength2" prereq="Strength1">
-            <description>+20 Strength</description>
+            <description>+10 Strength</description>
             <type name="StatPerk">
                 <stat>Strength</stat>
-                <amount>20</amount>
+                <amount>10</amount>
             </type>
         </perk>
         <perk name="Strength3" prereq="Strength2">
-            <description>+30 Strength</description>
+            <description>+10 Strength</description>
             <type name="StatPerk">
                 <stat>Strength</stat>
-                <amount>20</amount>
+                <amount>10</amount>
+            </type>
+        </perk>
+        <perk name="Magic1">
+            <description>+10 Magic</description>
+            <type name="StatPerk">
+                <stat>Magic</stat>
+                <amount>10</amount>
+            </type>
+        </perk>
+        <perk name="Magic2" prereq="Magic1">
+            <description>+10 Magic</description>
+            <type name="StatPerk">
+                <stat>Magic</stat>
+                <amount>10</amount>
+            </type>
+        </perk>
+        <perk name="Magic3" prereq="Magic2">
+            <description>+10 Magic</description>
+            <type name="StatPerk">
+                <stat>Magic</stat>
+                <amount>10</amount>
+            </type>
+        </perk>
+        <perk name="Tough Skinned">
+            <description>+5 Armor</description>
+            <type name="StatPerk">
+                <stat>Armor</stat>
+                <amount>5</amount>
             </type>
         </perk>
     </perks>
     <player-class name="Warrior" sprite-sheet="warrior_male.png">
+        <stats>
+            <health value="30"/>
+        </stats>
         <starting-perks>
             <perk>Strength1</perk>
         </starting-perks>
@@ -51,10 +82,30 @@
             <perk>Card3</perk>
             <perk>Strength2</perk>
             <perk>Strength3</perk>
+            <perk>Tough Skinned</perk>
         </available-perks>
     </player-class>
     <player-class name="Wizard" sprite-sheet="wizard_male.png">
+        <stats>
+            <health value="30"/>
+        </stats>
+        <starting-perks>
+            <perk>Magic1</perk>
+        </starting-perks>
+        <available-perks>
+            <perk>Card1</perk>
+            <perk>Card2</perk>
+            <perk>Card3</perk>
+            <perk>Magic2</perk>
+            <perk>Magic3</perk>
+            <perk>Tough Skinned</perk>
+        </available-perks>
     </player-class>
     <player-class name="Thief" sprite-sheet="rogue_male.png">
+        <stats>
+            <health value="30"/>
+        </stats>
+        <starting-perks/>
+        <available-perks/>
     </player-class>
 </player-classes>

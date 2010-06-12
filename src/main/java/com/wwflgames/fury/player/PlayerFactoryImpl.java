@@ -20,7 +20,7 @@ public class PlayerFactoryImpl implements PlayerFactory {
     public Player createForProfession(Profession profession) {
         Log.debug("Profession chosen: " + profession);
         Player player = new Player(profession.getName(), profession);
-        profession.installStarterStatsOnPlayer(player);
+        profession.setupPlayer(player);
 
         //TEMP TEMP TEMP TEMP
         //TODO: create xml thingy for cards
@@ -42,9 +42,6 @@ public class PlayerFactoryImpl implements PlayerFactory {
         d.addCard(c6);
 
         player.installDeck(d);
-
-        player.setStatValue(Stat.ARMOR,10);
-
         return player;
     }
 

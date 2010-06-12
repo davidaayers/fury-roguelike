@@ -12,7 +12,8 @@ public class Profession implements StatHolder {
     private String name;
     private String spriteSheet;
     private Map<Stat, Integer> starterStats = new HashMap<Stat, Integer>();
-    private List<Perk> professionPerks = new ArrayList<Perk>();
+    private List<Perk> availablePerks = new ArrayList<Perk>();
+    private List<Perk> startingPerks = new ArrayList<Perk>();
 
     public Profession(String name, String spriteSheet) {
         this.name = name;
@@ -31,9 +32,12 @@ public class Profession implements StatHolder {
         starterStats.put(stat, value);
     }
 
-    public void installStarterStatsOnPlayer(Player player) {
+    public void setupPlayer(Player player) {
         for (Stat stat : starterStats.keySet()) {
             player.setStatValue(stat, starterStats.get(stat));
+        }
+        for ( Perk perk : startingPerks ) {
+            player.addPerk(perk);
         }
     }
 
@@ -41,13 +45,23 @@ public class Profession implements StatHolder {
         List<Perk> perks = new ArrayList<Perk>();
         List<Perk> playerPerks = player.getPerks();
 
-        for ( Perk perk : professionPerks ) {
-            if ( !perk.hasPrerequisite() || playerPerks.contains(perk.getPrerequisitePerk())) {
+        for ( Perk perk : availablePerks) {
+            if ( (!perk.hasPrerequisite() || playerPerks.contains(perk.getPrerequisitePerk())) &&
+                    !playerPerks.contains(perk)) {
                 perks.add(perk);
             }
         }
 
         return perks;
+    }
+
+    // package private, to be called only from ProfessionFactory
+    void addAvailablePerk(Perk perk) {
+        availablePerks.add(perk);
+    }
+
+    void addStartingPerk(Perk perk) {
+        startingPerks.add(perk);
     }
 
     @Override

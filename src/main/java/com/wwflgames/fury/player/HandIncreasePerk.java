@@ -11,5 +11,6 @@ public class HandIncreasePerk extends Perk {
     @Override
     public void applyPerk(Player player) {
         player.getHand().setMaxHandSize(player.getHand().getMaxHandSize() + numCards);
+        player.getHand().drawToMax();
     }
 }
