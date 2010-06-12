@@ -10,7 +10,11 @@ import java.util.List;
 public class TextUtils {
 
     public static void centerText(GameContainer container, Graphics g, String text, int y) {
-        int x = (container.getWidth() - g.getFont().getWidth(text)) / 2;
+        centerText(0,container.getWidth(),g,text,y);
+    }
+
+    public static void centerText(int offsetX, int width, Graphics g, String text, int y ) {
+        int x = offsetX + (width - g.getFont().getWidth(text)) /2;
         g.drawString(text, x, y);
     }
 

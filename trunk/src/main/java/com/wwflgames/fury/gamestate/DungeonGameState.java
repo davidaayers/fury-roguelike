@@ -3,7 +3,6 @@ package com.wwflgames.fury.gamestate;
 import com.wwflgames.fury.Fury;
 import com.wwflgames.fury.entity.*;
 import com.wwflgames.fury.entity.ui.LevelUpPopup;
-import com.wwflgames.fury.entity.ui.PopupRenderer;
 import com.wwflgames.fury.main.AppState;
 import com.wwflgames.fury.map.*;
 import com.wwflgames.fury.mob.Mob;
@@ -30,7 +29,7 @@ public class DungeonGameState extends BasicGameState {
     private PlayerController playerController;
     private Entity miniMap;
     private MonsterController monsterController;
-    private PopupRenderer popupTestRenderer;
+    private LevelUpPopup levelUpPopup;
 
     public DungeonGameState(AppState appState, SpriteSheetFactory spriteSheetFactory) {
         this.appState = appState;
@@ -113,22 +112,31 @@ public class DungeonGameState extends BasicGameState {
 
         entityManager.addEntity(miniMap);
 
+        DungeonHudRenderer hudRenderer = new DungeonHudRenderer(
+                "hudRenderer",
+                appState.getPlayer(),
+                spriteSheetFactory.spriteSheetForName(appState.getPlayer().getProfession().getSpriteSheet()),
+                new DungeonHudRenderer.LevelUpHandler() {
+                    @Override
+                    public void levelUpClicked() {
+                        levelUpPopup.showPopup(appState.getPlayer());
+                    }
+                }
+        );
+
         // add the hud
-        Entity hud = new Entity("hud")
-                .setPosition(new Vector2f(0,0))
+        Entity hud = new ClickableEntity("hud",hudRenderer)
+                .setPosition(new Vector2f(0, 0))
                 .setScale(1)
-                .addComponent(new DungeonHudRenderer(
-                        "hudRenderer",
-                        appState.getPlayer(),
-                        spriteSheetFactory.spriteSheetForName(appState.getPlayer().getProfession().getSpriteSheet()
-                )));
+                .addComponent(hudRenderer);
+
 
         entityManager.addEntity(hud);
 
-        popupTestRenderer = new LevelUpPopup("levelUpPopup");
-        Entity popupTest = new KeyHandlingEntity("popupTest",popupTestRenderer)
+        levelUpPopup = new LevelUpPopup("levelUpPopup");
+        Entity popupTest = new KeyHandlingEntity("popupTest", levelUpPopup)
                 .setZIndex(10)
-                .addComponent(popupTestRenderer);
+                .addComponent(levelUpPopup);
         entityManager.addEntity(popupTest);
 
     }
@@ -164,7 +172,7 @@ public class DungeonGameState extends BasicGameState {
 
         // let the entity manager have first crack at handling key events, if it does
         // handle them, then just return
-        if ( entityManager.keyPressed(key,c) ) {
+        if (entityManager.keyPressed(key, c)) {
             return;
         }
 
@@ -173,11 +181,13 @@ public class DungeonGameState extends BasicGameState {
             stateBasedGame.enterState(Fury.MANAGE_DECK_STATE);
         }
 
-        if ( c == 'p' ) {
-            popupTestRenderer.setVisible(!popupTestRenderer.isVisible());
-        }
+//        if (c == 'p') {
+//            if (!levelUpPopup.isVisible()) {
+//                levelUpPopup.showPopup(appState.getPlayer());
+//            }
+//        }
 
-        if ( c == 'h' ) {
+        if (c == 'h') {
             appState.setHelpReturnScreen(Fury.DUNGEON_GAME_STATE);
             stateBasedGame.enterState(Fury.HELP_STATE);
         }
@@ -199,29 +209,34 @@ public class DungeonGameState extends BasicGameState {
 
     @Override
     public void mouseClicked(int button, int x, int y, int clickCount) {
-        if ( button == Input.MOUSE_LEFT_BUTTON && clickCount == 1) {
+
+        if ( entityManager.mouseClicked(button,x,y,clickCount)) {
+            return;
+        }
+
+        if (button == Input.MOUSE_LEFT_BUTTON && clickCount == 1) {
             Log.debug("Mouse clicked at " + x + "," + y);
             Rectangle r = playerController.getPlayerRectangle();
             int dx = 0;
             int dy = 0;
-            if ( x > r.getMaxX() ) {
+            if (x > r.getMaxX()) {
                 dx = 1;
             }
-            if ( x < r.getMinX() ) {
+            if (x < r.getMinX()) {
                 dx = -1;
             }
-            if ( y > r.getMaxY() ) {
+            if (y > r.getMaxY()) {
                 dy = 1;
             }
-            if ( y < r.getMinY() ) {
+            if (y < r.getMinY()) {
                 dy = -1;
             }
             // player didn't move, probably clicked on themselves
-            if ( dx == 0 && dy == 0 ) {
+            if (dx == 0 && dy == 0) {
                 return;
             }
             try {
-                tryMoveAndMaybeAttack(dx,dy);
+                tryMoveAndMaybeAttack(dx, dy);
             } catch (SlickException e) {
                 e.printStackTrace();
             }

@@ -12,7 +12,6 @@ public class Player extends Mob {
     private int level = 1;
     private int exp = 0;
     private boolean levelUp = false;
-    private int unspentActionPoints = 0;
     private List<Perk> perks = new ArrayList<Perk>();
 
     public Player(String name, Profession profession) {
@@ -43,7 +42,9 @@ public class Player extends Mob {
     }
 
     public void addPerk(Perk perk) {
+        perk.applyPerk(this);
         perks.add(perk);
+        levelUp = false;
     }
 
     public List<Perk> getPerks() {
@@ -55,7 +56,6 @@ public class Player extends Mob {
         int currentLevelExp = level * expPerLevel;
         if ( exp >= currentLevelExp ) {
             levelUp = true;
-            unspentActionPoints+=5;
             level++;
         }
     }

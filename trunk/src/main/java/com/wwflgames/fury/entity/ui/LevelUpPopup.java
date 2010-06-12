@@ -1,10 +1,18 @@
 package com.wwflgames.fury.entity.ui;
 
+import com.wwflgames.fury.player.Perk;
+import com.wwflgames.fury.player.Player;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.wwflgames.fury.util.TextUtils.centerText;
+
 public class LevelUpPopup extends PopupRenderer {
     private SelectableList list;
+    private Player player;
 
     public LevelUpPopup(String id) {
         super(id, 600, 400);
@@ -12,7 +20,7 @@ public class LevelUpPopup extends PopupRenderer {
     }
 
     private void initComponents() {
-        list = new SelectableList(5, x + popupWidth / 2, y + 10, popupWidth / 2, Color.green, Color.black, Color.blue,
+        list = new SelectableList(5, x + popupWidth / 2, y + 70, popupWidth / 2 - 10, Color.green, Color.black, Color.blue,
                 new SelectableList.ItemSelectedListener() {
                     @Override
                     public void itemSelected(Object o) {
@@ -20,22 +28,52 @@ public class LevelUpPopup extends PopupRenderer {
 
                     @Override
                     public void selectionConfirmed(Object o) {
+                        player.addPerk((Perk) o);
+                        setVisible(false);
                     }
                 });
-        list.setList(new SelectableList.SelectableItem[] {
-                list.createSelectableItem(new Object(),"Test","test"),
-                list.createSelectableItem(new Object(),"Test2","test2"),
-                list.createSelectableItem(new Object(),"Test3","test3"),
-                list.createSelectableItem(new Object(),"Test4","test4"),
-                list.createSelectableItem(new Object(),"Test5","test5"),
-                list.createSelectableItem(new Object(),"Test6","test6"),
-                list.createSelectableItem(new Object(),"Test7","test7"),
-                list.createSelectableItem(new Object(),"Test8","test8"),
-        });
     }
+
+    public void showPopup(Player player) {
+        this.player = player;
+        List<SelectableList.SelectableItem> selectables = new ArrayList<SelectableList.SelectableItem>();
+        List<Perk> perkList = player.getProfession().eligiblePerksForPlayer(player);
+        for (Perk perk : perkList) {
+            selectables.add(list.createSelectableItem(perk, perk.getName(), perk.getDescription()));
+        }
+
+        list.setList(selectables.toArray(new SelectableList.SelectableItem[selectables.size()]));
+        setVisible(true);
+    }
+
 
     @Override
     protected void doRender(Graphics gr, int popupX, int popupY) {
+
+        int ry = y;
+        gr.setColor(Color.blue);
+        centerText(x, this.popupWidth, gr, "LEVEL UP!", ry);
+        ry += 20;
+        centerText(x, this.popupWidth, gr, "Choose a new perk", ry);
+        ry += 20;
+        gr.setColor(Color.gray);
+        centerText(x, this.popupWidth, gr, "Enter to choose a perk, enter again to confirm", ry);
+        ry += 20;
+
+        gr.setColor(Color.green);
+        gr.drawString("Current Perks:", x + 10, ry);
+        ry += 20;
+
+        // render the player's current perks
+        for (Perk perk : player.getPerks()) {
+            gr.setColor(Color.black);
+            gr.drawString(perk.getName(), x + 10, ry);
+            ry += 15;
+            gr.setColor(Color.blue);
+            gr.drawString(perk.getDescription(), x + 10, ry);
+            ry += 15;
+        }
+
         list.render(gr);
     }
 
@@ -46,7 +84,7 @@ public class LevelUpPopup extends PopupRenderer {
 
     @Override
     protected boolean doKeyPressed(int key, char c) {
-        if ( list.keyPressed(key,c) ) {
+        if (list.keyPressed(key, c)) {
             return true;
         }
         return false;
