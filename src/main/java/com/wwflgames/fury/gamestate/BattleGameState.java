@@ -171,8 +171,8 @@ public class BattleGameState extends BasicGameState {
         Hand hand = appState.getPlayer().getHand();
         int widthPerCard = 135;
 
-        int drawX = 400 - (widthPerCard * hand.getMaxHandSize() / 2);
-        int drawY = 450;
+        int drawX = (Fury.GAME_WIDTH/2) - (widthPerCard * hand.getMaxHandSize() / 2);
+        int drawY = 465;
         for (Card card : hand.getHand()) {
             CardRenderer renderer = new CardRenderer(card, font, new ClickNotifier<Card>() {
                 @Override
@@ -262,16 +262,26 @@ public class BattleGameState extends BasicGameState {
         g.setColor(Color.white);
         TextUtils.centerText(container, g, "Battle Screen", 0);
 
+        int y = 425;
+
+        if ( currentState == State.PLAYER_CHOOSE_CARD || currentState == State.PLAYER_CHOOSE_MONSTER ) {
+            String text = "'U'se item - 'F'lee combat";
+            g.setColor(Color.cyan);
+            TextUtils.centerText(container,g,text,y);
+        }
+
+        y+=20;
+
         if (currentState == State.PLAYER_CHOOSE_CARD) {
             g.setColor(Color.green);
             String text = "Battle Round " + battleSystem.getRound() + ", choose card to play";
-            TextUtils.centerText(container, g, text, 416);
+            TextUtils.centerText(container, g, text, y);
         }
 
         if (currentState == State.PLAYER_CHOOSE_MONSTER) {
             g.setColor(Color.green);
             String text = "Using " + selectedCard.getName() + ", choose Monster to attack";
-            TextUtils.centerText(container, g, text, 416);
+            TextUtils.centerText(container, g, text, y);
         }
 
         g.setColor(Color.white);
@@ -500,6 +510,16 @@ public class BattleGameState extends BasicGameState {
 
         }
 
+        // look for "Flee" and "Use"
+        if ( currentState == State.PLAYER_CHOOSE_CARD || currentState == State.PLAYER_CHOOSE_MONSTER ){
+            if ( key == Input.KEY_F ) {
+                fleeCombat();
+            }
+            if ( key == Input.KEY_U ) {
+                useItem();
+            }
+        }
+
         if (currentState != State.PLAYER_CHOOSE_MONSTER) {
             Log.debug("Key pressed when it's not time to press keys!");
             return;
@@ -514,6 +534,17 @@ public class BattleGameState extends BasicGameState {
             attackY = d.getDy();
             currentState = State.MONSTER_CHOSEN;
         }
+    }
+
+    private void useItem() {
+
+    }
+
+    private void fleeCombat() {
+        for ( Mob mob : battle.getAllBattleParticipants() ) {
+            mob.removeAllStatusEffects();
+        }
+        game.enterState(DUNGEON_GAME_STATE);
     }
 
     private void transitionToNextScreen() {
