@@ -1,6 +1,8 @@
 package com.wwflgames.fury.player;
 
 import com.wwflgames.fury.mob.Mob;
+import com.wwflgames.fury.player.item.Item;
+import com.wwflgames.fury.player.item.UsableItem;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,6 +15,7 @@ public class Player extends Mob {
     private int exp = 0;
     private boolean levelUp = false;
     private List<Perk> perks = new ArrayList<Perk>();
+    private List<Item> items = new ArrayList<Item>();
 
     public Player(String name, Profession profession) {
         super(name);
@@ -49,6 +52,28 @@ public class Player extends Mob {
 
     public List<Perk> getPerks() {
         return Collections.unmodifiableList(perks);
+    }
+
+    public void addItem(Item item) {
+        items.add(item);
+    }
+
+    public void removeItem(Item item) {
+        items.remove(item);
+    }
+
+    public List<Item> getItems() {
+        return Collections.unmodifiableList(items);
+    }
+
+    public List<UsableItem> getUsableItems() {
+        List<UsableItem> usableItems = new ArrayList<UsableItem>();
+        for ( Item item : items ) {
+            if ( item instanceof UsableItem ) {
+                usableItems.add((UsableItem) item);
+            }
+        }
+        return Collections.unmodifiableList(usableItems);
     }
 
     private void checkLevelUp() {
