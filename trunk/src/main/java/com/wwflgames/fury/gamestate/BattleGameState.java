@@ -5,6 +5,7 @@ import com.wwflgames.fury.battle.*;
 import com.wwflgames.fury.card.Card;
 import com.wwflgames.fury.card.Hand;
 import com.wwflgames.fury.entity.*;
+import com.wwflgames.fury.entity.ui.UseItemPopup;
 import com.wwflgames.fury.main.AppState;
 import com.wwflgames.fury.map.Direction;
 import com.wwflgames.fury.map.DungeonMap;
@@ -31,6 +32,7 @@ import java.util.*;
 import static com.wwflgames.fury.Fury.*;
 
 public class BattleGameState extends BasicGameState {
+    private UseItemPopup useItemPopup;
 
     enum State {
         PLAYER_CHOOSE_CARD,
@@ -147,6 +149,11 @@ public class BattleGameState extends BasicGameState {
 
         refreshPlayerHandEntities();
 
+        useItemPopup = new UseItemPopup("useItemPopup");
+        Entity popupEntity = new KeyHandlingEntity("useItemEntity",useItemPopup)
+                .setZIndex(10)
+                .addComponent(useItemPopup);
+        entityManager.addEntity(popupEntity);
 
         // Set up the battle
         //TODO: the "true" here is player initiative, it should be set somehow. For now,
@@ -505,18 +512,25 @@ public class BattleGameState extends BasicGameState {
     @Override
     public void keyPressed(int key, char c) {
 
+        if ( entityManager.keyPressed(key,c)) {
+            return;
+        }
+
         if (currentState == State.SHOW_ITEMS_WON || currentState == State.PLAYER_LOST ) {
             transitionToNextScreen();
 
         }
 
         // look for "Flee" and "Use"
-        if ( currentState == State.PLAYER_CHOOSE_CARD || currentState == State.PLAYER_CHOOSE_MONSTER ){
+        if ( currentState == State.PLAYER_CHOOSE_CARD || currentState == State.PLAYER_CHOOSE_MONSTER ) {
             if ( key == Input.KEY_F ) {
                 fleeCombat();
+                return;
             }
             if ( key == Input.KEY_U ) {
+                Log.debug("use pressed");
                 useItem();
+                return;
             }
         }
 
@@ -537,7 +551,10 @@ public class BattleGameState extends BasicGameState {
     }
 
     private void useItem() {
-
+        //TODO: Need a way to show results for item usage that dont involve
+        // create fake rounds
+        BattleRound round = new BattleRound(-1);
+        useItemPopup.showForPlayer(appState.getPlayer(),round);
     }
 
     private void fleeCombat() {
@@ -566,8 +583,7 @@ public class BattleGameState extends BasicGameState {
     public void mouseClicked(int button, int x, int y, int clickCount) {
 
         // see if any entities are clickable
-        boolean handled = entityManager.mouseClicked(button, x, y, clickCount);
-        if (handled) {
+        if (entityManager.mouseClicked(button, x, y, clickCount)) {
             return;
         }
 

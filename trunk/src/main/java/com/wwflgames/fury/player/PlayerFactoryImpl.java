@@ -4,6 +4,7 @@ import com.wwflgames.fury.card.Card;
 import com.wwflgames.fury.card.CardFactory;
 import com.wwflgames.fury.card.Deck;
 import com.wwflgames.fury.mob.Stat;
+import com.wwflgames.fury.player.item.HealthPotion;
 import com.wwflgames.fury.util.Log;
 
 public class PlayerFactoryImpl implements PlayerFactory {
@@ -42,6 +43,14 @@ public class PlayerFactoryImpl implements PlayerFactory {
         d.addCard(c6);
 
         player.installDeck(d);
+
+        // add some potions
+        player.addItem(new HealthPotion(5));
+        player.addItem(new HealthPotion(5));
+        player.addItem(new HealthPotion(5));
+        player.addItem(new HealthPotion(5));
+        player.addItem(new HealthPotion(5));
+        
         return player;
     }
 
