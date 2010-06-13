@@ -151,6 +151,10 @@ public class Mob implements StatHolder {
         statusEffects.remove(statusEffect);
     }
 
+    public void removeAllStatusEffects() {
+        statusEffects.clear();
+    }
+
     public List<StatusEffect> getStatusEffects() {
         return statusEffects;
     }
