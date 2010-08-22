@@ -3,6 +3,8 @@ package com.wwflgames.fury.entity.ui;
 import com.wwflgames.fury.battle.BattleRound;
 import com.wwflgames.fury.player.Player;
 import com.wwflgames.fury.player.item.UsableItem;
+import com.wwflgames.slick.entity.ui.PopupRenderer;
+import com.wwflgames.slick.entity.ui.SelectableList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 

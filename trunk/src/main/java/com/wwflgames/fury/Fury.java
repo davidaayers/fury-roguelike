@@ -4,6 +4,7 @@ import com.wwflgames.fury.card.CardFactory;
 import com.wwflgames.fury.entity.SpriteSheetFactory;
 import com.wwflgames.fury.entity.SpriteSheetProvider;
 import com.wwflgames.fury.gamestate.*;
+import com.wwflgames.fury.gamestate.battle.BattleGameState;
 import com.wwflgames.fury.main.AppStateImpl;
 import com.wwflgames.fury.monster.MonsterFactoryImpl;
 import com.wwflgames.fury.player.PlayerFactoryImpl;

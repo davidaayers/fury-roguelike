@@ -1,6 +1,7 @@
-package com.wwflgames.fury.entity;
+package com.wwflgames.slick.entity;
 
-import org.newdawn.slick.MouseListener;
+import com.wwflgames.slick.entity.Entity;
+import com.wwflgames.slick.entity.EntityMouseHandler;
 
 public class ClickableEntity extends Entity {
 

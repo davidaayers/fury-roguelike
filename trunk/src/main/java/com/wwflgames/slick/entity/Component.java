@@ -1,4 +1,6 @@
-package com.wwflgames.fury.entity;
+package com.wwflgames.slick.entity;
+
+import com.wwflgames.slick.entity.Entity;
 
 public abstract class Component {
 

@@ -1,4 +1,4 @@
-package com.wwflgames.fury.entity.ui;
+package com.wwflgames.slick.entity.ui;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;

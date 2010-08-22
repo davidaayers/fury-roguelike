@@ -1,20 +1,8 @@
 package com.wwflgames.fury.gamestate;
 
-import com.wwflgames.fury.Fury;
-import com.wwflgames.fury.entity.Entity;
-import com.wwflgames.fury.entity.EntityManager;
-import com.wwflgames.fury.main.AppState;
 import org.newdawn.slick.*;
-import org.newdawn.slick.font.effects.ColorEffect;
-import org.newdawn.slick.geom.Vector2f;
-import org.newdawn.slick.gui.AbstractComponent;
-import org.newdawn.slick.gui.ComponentListener;
-import org.newdawn.slick.gui.MouseOverArea;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ManageDeckGameState extends BasicGameState {
     /*

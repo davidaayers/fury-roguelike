@@ -1,8 +1,8 @@
-package com.wwflgames.fury.entity.ui;
+package com.wwflgames.slick.entity.ui;
 
 import com.wwflgames.fury.Fury;
-import com.wwflgames.fury.entity.EntityKeyHandler;
-import com.wwflgames.fury.entity.Renderer;
+import com.wwflgames.slick.entity.EntityKeyHandler;
+import com.wwflgames.slick.entity.Renderer;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;

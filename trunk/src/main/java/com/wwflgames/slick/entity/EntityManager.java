@@ -1,9 +1,8 @@
-package com.wwflgames.fury.entity;
+package com.wwflgames.slick.entity;
 
 import com.wwflgames.fury.util.Log;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.KeyListener;
 import org.newdawn.slick.state.StateBasedGame;
 
 import java.util.ArrayList;
@@ -98,7 +97,7 @@ public class EntityManager {
 
     public void mouseMoved(int oldx, int oldy, int newx, int newy) {
         for ( Entity entity : entities) {
-            if ( entity instanceof ClickableEntity ) {
+            if ( entity instanceof ClickableEntity) {
                 ClickableEntity clickable = (ClickableEntity)entity;
                 clickable.getMouseHandler().mouseMoved(oldx,oldy,newx,newy);
             }
