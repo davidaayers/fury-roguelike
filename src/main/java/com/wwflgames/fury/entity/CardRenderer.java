@@ -4,6 +4,9 @@ import com.wwflgames.fury.card.Card;
 import com.wwflgames.fury.card.applier.Applier;
 import com.wwflgames.fury.util.Log;
 import com.wwflgames.fury.util.TextUtils;
+import com.wwflgames.slick.entity.ClickNotifier;
+import com.wwflgames.slick.entity.EntityMouseHandler;
+import com.wwflgames.slick.entity.Renderer;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.UnicodeFont;
@@ -18,7 +21,7 @@ public class CardRenderer extends Renderer implements EntityMouseHandler {
     private boolean mouseOver;
     private ClickNotifier<Card> cardClickNotifier;
 
-    public CardRenderer(Card card, UnicodeFont font,ClickNotifier<Card> cardClickNotifier) {
+    public CardRenderer(Card card, UnicodeFont font, ClickNotifier<Card> cardClickNotifier) {
         super(card.getName());
         this.cardClickNotifier = cardClickNotifier;
         this.cardBgColor = Color.gray;

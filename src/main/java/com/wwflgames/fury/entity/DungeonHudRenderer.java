@@ -2,6 +2,8 @@ package com.wwflgames.fury.entity;
 
 import com.wwflgames.fury.mob.Stat;
 import com.wwflgames.fury.player.Player;
+import com.wwflgames.slick.entity.EntityMouseHandler;
+import com.wwflgames.slick.entity.Renderer;
 import org.newdawn.slick.*;
 
 public class DungeonHudRenderer extends Renderer implements EntityMouseHandler {

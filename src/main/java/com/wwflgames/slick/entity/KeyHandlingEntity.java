@@ -1,4 +1,4 @@
-package com.wwflgames.fury.entity;
+package com.wwflgames.slick.entity;
 
 public class KeyHandlingEntity extends Entity {
     private EntityKeyHandler keyHandler;

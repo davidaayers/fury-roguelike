@@ -1,4 +1,4 @@
-package com.wwflgames.fury.entity;
+package com.wwflgames.slick.entity;
 
 public interface EntityMouseHandler {
     

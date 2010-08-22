@@ -1,4 +1,4 @@
-package com.wwflgames.fury.gamestate;
+package com.wwflgames.fury.gamestate.battle;
 
 import com.wwflgames.fury.Fury;
 import com.wwflgames.fury.battle.*;
@@ -15,6 +15,7 @@ import com.wwflgames.fury.monster.Monster;
 import com.wwflgames.fury.player.Player;
 import com.wwflgames.fury.util.Log;
 import com.wwflgames.fury.util.TextUtils;
+import com.wwflgames.slick.entity.*;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;

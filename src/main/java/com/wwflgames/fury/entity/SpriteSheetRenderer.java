@@ -1,5 +1,6 @@
 package com.wwflgames.fury.entity;
 
+import com.wwflgames.slick.entity.Renderer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;

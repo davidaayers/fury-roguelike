@@ -1,4 +1,6 @@
-package com.wwflgames.fury.entity;
+package com.wwflgames.slick.entity;
+
+import com.wwflgames.slick.entity.Action;
 
 public class DisplayForTimeAction extends Action {
 

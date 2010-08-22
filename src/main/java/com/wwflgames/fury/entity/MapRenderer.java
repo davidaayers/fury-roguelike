@@ -2,6 +2,7 @@ package com.wwflgames.fury.entity;
 
 import com.wwflgames.fury.map.DungeonMap;
 import com.wwflgames.fury.map.TileType;
+import com.wwflgames.slick.entity.Renderer;
 import org.newdawn.slick.*;
 
 import static com.wwflgames.fury.Fury.*;

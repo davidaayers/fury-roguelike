@@ -1,4 +1,4 @@
-package com.wwflgames.fury.entity;
+package com.wwflgames.slick.entity;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
