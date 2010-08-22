@@ -2,7 +2,7 @@ package com.wwflgames.fury.gamestate.dungeon;
 
 import com.wwflgames.fury.Fury;
 import com.wwflgames.fury.entity.*;
-import com.wwflgames.fury.entity.ui.LevelUpPopup;
+import com.wwflgames.fury.gamestate.common.SpriteSheetRenderer;
 import com.wwflgames.fury.main.AppState;
 import com.wwflgames.fury.map.*;
 import com.wwflgames.fury.mob.Mob;

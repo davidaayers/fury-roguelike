@@ -1,4 +1,4 @@
-package com.wwflgames.fury.entity;
+package com.wwflgames.fury.gamestate.dungeon;
 
 import com.wwflgames.fury.player.PlayerController;
 import com.wwflgames.fury.map.Tile;

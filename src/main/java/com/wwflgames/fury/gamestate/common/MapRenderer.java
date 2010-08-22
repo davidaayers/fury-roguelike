@@ -1,4 +1,4 @@
-package com.wwflgames.fury.entity;
+package com.wwflgames.fury.gamestate.common;
 
 import com.wwflgames.fury.map.DungeonMap;
 import com.wwflgames.fury.map.TileType;

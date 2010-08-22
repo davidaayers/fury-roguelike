@@ -1,5 +1,6 @@
-package com.wwflgames.fury.entity;
+package com.wwflgames.fury.gamestate.battle;
 
+import com.wwflgames.fury.gamestate.common.MapRenderer;
 import com.wwflgames.fury.map.DungeonMap;
 import com.wwflgames.fury.map.Tile;
 import com.wwflgames.fury.map.TileType;

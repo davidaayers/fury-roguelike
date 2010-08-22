@@ -1,4 +1,4 @@
-package com.wwflgames.fury.entity;
+package com.wwflgames.fury.gamestate.battle;
 
 import com.wwflgames.fury.card.Card;
 import com.wwflgames.fury.card.applier.Applier;
