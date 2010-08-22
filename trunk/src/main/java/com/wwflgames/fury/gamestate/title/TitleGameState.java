@@ -1,4 +1,4 @@
-package com.wwflgames.fury.gamestate;
+package com.wwflgames.fury.gamestate.title;
 
 import com.wwflgames.fury.Fury;
 import com.wwflgames.fury.entity.SpriteSheetFactory;

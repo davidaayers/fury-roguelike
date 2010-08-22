@@ -1,4 +1,4 @@
-package com.wwflgames.fury.gamestate;
+package com.wwflgames.fury.gamestate.managedeck;
 
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
