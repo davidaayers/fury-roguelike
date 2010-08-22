@@ -1,10 +1,13 @@
 package com.wwflgames.fury.gamestate.battle;
 
+import com.google.common.collect.Lists;
 import com.wwflgames.fury.Fury;
-import com.wwflgames.fury.battle.*;
+import com.wwflgames.fury.battle.Battle;
+import com.wwflgames.fury.battle.BattleRound;
+import com.wwflgames.fury.battle.BattleSystem;
 import com.wwflgames.fury.card.Card;
 import com.wwflgames.fury.card.Hand;
-import com.wwflgames.fury.entity.*;
+import com.wwflgames.fury.entity.SpriteSheetFactory;
 import com.wwflgames.fury.gamestate.common.SpriteSheetRenderer;
 import com.wwflgames.fury.main.AppState;
 import com.wwflgames.fury.map.Direction;
@@ -27,13 +30,15 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import java.awt.Font;
-import java.text.MessageFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static com.wwflgames.fury.Fury.*;
 
 public class BattleGameState extends BasicGameState {
-    private UseItemPopup useItemPopup;
 
     enum State {
         PLAYER_CHOOSE_CARD,
@@ -55,8 +60,6 @@ public class BattleGameState extends BasicGameState {
     private int attackY;
     private State currentState;
     private BattleRound lastBattleRound;
-    private List<ItemLogMessage> playerEffects;
-    private List<ItemLogMessage> monsterEffects;
     private List<Entity> cardsInPlay;
     private List<Entity> playerHandEntities = new ArrayList<Entity>();
     private Map<Mob, Entity> mobEntities;
@@ -65,6 +68,9 @@ public class BattleGameState extends BasicGameState {
     private Image victoryImage;
     private int expEarned;
     private Card selectedCard;
+    private BattleTextRenderer playerBattleTextRenderer;
+    private BattleTextRenderer monsterBattleTextRenderer;
+    private UseItemPopup useItemPopup;
 
     public BattleGameState(AppState appState, SpriteSheetFactory spriteSheetFactory) {
         this.appState = appState;
@@ -94,10 +100,6 @@ public class BattleGameState extends BasicGameState {
     // called when this state is entered. Here's where we'll setup our battle 
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
         Log.debug("BattleGameState-> entered.");
-
-        // damage stacks
-        playerEffects = new ArrayList<ItemLogMessage>();
-        monsterEffects = new ArrayList<ItemLogMessage>();
 
         // cards in play
         cardsInPlay = new ArrayList<Entity>();
@@ -151,10 +153,23 @@ public class BattleGameState extends BasicGameState {
         refreshPlayerHandEntities();
 
         useItemPopup = new UseItemPopup("useItemPopup");
-        Entity popupEntity = new KeyHandlingEntity("useItemEntity",useItemPopup)
+        Entity popupEntity = new KeyHandlingEntity("useItemEntity", useItemPopup)
                 .setZIndex(10)
                 .addComponent(useItemPopup);
         entityManager.addEntity(popupEntity);
+
+
+        playerBattleTextRenderer = new BattleTextRenderer("player-battle-text", font);
+        Entity playerBattleTextEntity = new Entity("player-battle-text-entity")
+                .setPosition(new Vector2f(5, 32))
+                .addComponent(playerBattleTextRenderer);
+        entityManager.addEntity(playerBattleTextEntity);
+        monsterBattleTextRenderer = new BattleTextRenderer("monster-battle-text", font);
+        int x = (Fury.GAME_WIDTH / 2) + (dungeonWidth / 2) + 5;
+        Entity monsterBattleTextEntity = new Entity("monster-battle-text-entity")
+                .setPosition(new Vector2f(x, 32))
+                .addComponent(monsterBattleTextRenderer);
+        entityManager.addEntity(monsterBattleTextEntity);
 
         // Set up the battle
         //TODO: the "true" here is player initiative, it should be set somehow. For now,
@@ -179,7 +194,7 @@ public class BattleGameState extends BasicGameState {
         Hand hand = appState.getPlayer().getHand();
         int widthPerCard = 135;
 
-        int drawX = (Fury.GAME_WIDTH/2) - (widthPerCard * hand.getMaxHandSize() / 2);
+        int drawX = (Fury.GAME_WIDTH / 2) - (widthPerCard * hand.getMaxHandSize() / 2);
         int drawY = 465;
         for (Card card : hand.getHand()) {
             CardRenderer renderer = new CardRenderer(card, font, new ClickNotifier<Card>() {
@@ -199,7 +214,7 @@ public class BattleGameState extends BasicGameState {
     }
 
     private void cardSelected(Card data) {
-        
+
         // should only be called if the player is selecting a card
         selectedCard = data;
 
@@ -213,7 +228,7 @@ public class BattleGameState extends BasicGameState {
 
         // if the selected card is targetable, allow the player to choose, otherwise
         // don't
-        if ( selectedCard.isTargetable() ) {
+        if (selectedCard.isTargetable()) {
             currentState = State.PLAYER_CHOOSE_MONSTER;
         } else {
             currentState = State.MONSTER_CHOSEN;
@@ -272,13 +287,13 @@ public class BattleGameState extends BasicGameState {
 
         int y = 425;
 
-        if ( currentState == State.PLAYER_CHOOSE_CARD || currentState == State.PLAYER_CHOOSE_MONSTER ) {
+        if (currentState == State.PLAYER_CHOOSE_CARD || currentState == State.PLAYER_CHOOSE_MONSTER) {
             String text = "'U'se item - 'F'lee combat";
             g.setColor(Color.cyan);
-            TextUtils.centerText(container,g,text,y);
+            TextUtils.centerText(container, g, text, y);
         }
 
-        y+=20;
+        y += 20;
 
         if (currentState == State.PLAYER_CHOOSE_CARD) {
             g.setColor(Color.green);
@@ -297,17 +312,7 @@ public class BattleGameState extends BasicGameState {
         /////////////////////////////////////////////////////////////////////
         // Not sure how to do the word stuff yet -- entities? or just draw em
         /////////////////////////////////////////////////////////////////////
-
-        int scale = 4;
-        int TILE_WIDTH = Fury.TILE_WIDTH * scale;
         int midPoint = Fury.GAME_WIDTH / 2;
-        int x = midPoint - ((TILE_WIDTH * 3) / 2);
-
-        // render the player's stuff
-        drawBattleText(5, playerEffects);
-
-        // render the monster's stuff
-        drawBattleText((x + TILE_WIDTH * 3) + 5, monsterEffects);
 
         entityManager.render(g);
 
@@ -319,24 +324,11 @@ public class BattleGameState extends BasicGameState {
             TextUtils.centerText(container, g, "You earned " + expEarned + " experience!", textY);
             textY += 20;
             TextUtils.centerText(container, g, "Press any key to continue", textY);
-        } else if ( currentState == State.PLAYER_LOST ) {
+        } else if (currentState == State.PLAYER_LOST) {
             int textY = 120;
             TextUtils.centerText(container, g, "You died!", textY);
             textY += 20;
             TextUtils.centerText(container, g, "Press any key to continue", textY);
-        }
-    }
-
-    private void drawBattleText(int effectX, List<ItemLogMessage> effects) {
-        if (effects.isEmpty()) {
-            return;
-        }
-        int effectY = 32;
-        int max = effects.size() > 27 ? 27 : effects.size();
-        for (int idx = 0; idx < max; idx++) {
-            ItemLogMessage effectStr = effects.get(idx);
-            font.drawString(effectX, effectY, effectStr.getString(), effectStr.getColor());
-            effectY += 14;
         }
     }
 
@@ -357,7 +349,7 @@ public class BattleGameState extends BasicGameState {
                 Player player = appState.getPlayer();
                 DungeonMap dungeonMap = appState.getMap();
 
-                if ( !selectedCard.isTargetable() ) {
+                if (!selectedCard.isTargetable()) {
                     lastBattleRound = battleSystem.performBattleRound(selectedCard);
                 } else {
                     int monsterX = player.getMapX() + attackX;
@@ -371,22 +363,12 @@ public class BattleGameState extends BasicGameState {
 
                 // clear out all of the cards in play
                 clearCardsInPlay();
-                greyOutItemMessages();
 
                 Log.debug("SHOW_PLAYER_DAMAGE");
                 // add the player's effects to the damage stack
-                List<BattleResult> battleResults = lastBattleRound.getResultsFor(appState.getPlayer());
-                for (BattleResult battleResult : battleResults) {
-                    addDescToEffects(playerEffects, battleResult);
-                }
+                playerBattleTextRenderer.addBattleRoundResults(lastBattleRound, newArrayList((Mob) player));
+                monsterBattleTextRenderer.addBattleRoundResults(lastBattleRound, Lists.<Mob>newArrayList(battle.getEnemies()));
 
-                Log.debug("SHOW_MONSTER_DAMAGE");
-                for (Mob enemy : battle.getEnemies()) {
-                    List<BattleResult> monsterResults = lastBattleRound.getResultsFor(enemy);
-                    for (BattleResult battleResult : monsterResults) {
-                        addDescToEffects(monsterEffects, battleResult);
-                    }
-                }
 
                 List<Mob> deadMobs = new ArrayList<Mob>();
                 // remove any monsters that were killed during combat
@@ -409,7 +391,7 @@ public class BattleGameState extends BasicGameState {
 
                 Integer health = player.getStatValue(Stat.HEALTH);
                 Log.debug("Health is " + health);
-                if (health <=0) {
+                if (health <= 0) {
                     appState.setGameOver(true);
                     appState.setPlayerWon(false);
                     currentState = State.PLAYER_LOST;
@@ -454,16 +436,6 @@ public class BattleGameState extends BasicGameState {
         appState.getPlayer().addExp(expEarned);
     }
 
-
-    private void greyOutItemMessages() {
-        for (ItemLogMessage str : playerEffects) {
-            str.setColor(Color.darkGray);
-        }
-        for (ItemLogMessage str : monsterEffects) {
-            str.setColor(Color.darkGray);
-        }
-    }
-
     private void clearCardsInPlay() {
         // remove them all from the entity manager so they stop
         // rendering
@@ -474,61 +446,25 @@ public class BattleGameState extends BasicGameState {
         cardsInPlay.clear();
     }
 
-    private String createDescString(BattleResult effectResult) {
-        String s0 = effectResult.getEffectedMob().possessiveName();
-        String s1 = effectResult.getEffectedMob().name();
-        return MessageFormat.format(effectResult.getDesc(), s0, s1);
-    }
-
-
-    private void addDescToEffects(List<ItemLogMessage> effects, BattleResult result) {
-        String desc = createDescString(result);
-        Color color = determineColor(result);
-        addStringToEffects(0, effects, desc, color);
-    }
-
-    private void addStringToEffects(int pos, List<ItemLogMessage> effects, String string, Color color) {
-        List<String> parts = TextUtils.maybeSplitString(string, 160,font);
-        Collections.reverse(parts);
-        for (String part : parts) {
-            effects.add(pos, new ItemLogMessage(part, color));
-        }
-    }
-
-
-    private Color determineColor(BattleResult effectResult) {
-        ResultType effectType = effectResult.getResultType();
-        if (effectType == ResultType.DAMAGE) {
-            return Color.red;
-        }
-        if (effectType == ResultType.BUFF) {
-            return Color.green;
-        }
-        if (effectType == ResultType.DEATH) {
-            return Color.yellow;
-        }
-        return Color.white;
-    }
-
     @Override
     public void keyPressed(int key, char c) {
 
-        if ( entityManager.keyPressed(key,c)) {
+        if (entityManager.keyPressed(key, c)) {
             return;
         }
 
-        if (currentState == State.SHOW_ITEMS_WON || currentState == State.PLAYER_LOST ) {
+        if (currentState == State.SHOW_ITEMS_WON || currentState == State.PLAYER_LOST) {
             transitionToNextScreen();
 
         }
 
         // look for "Flee" and "Use"
-        if ( currentState == State.PLAYER_CHOOSE_CARD || currentState == State.PLAYER_CHOOSE_MONSTER ) {
-            if ( key == Input.KEY_F ) {
+        if (currentState == State.PLAYER_CHOOSE_CARD || currentState == State.PLAYER_CHOOSE_MONSTER) {
+            if (key == Input.KEY_F) {
                 fleeCombat();
                 return;
             }
-            if ( key == Input.KEY_U ) {
+            if (key == Input.KEY_U) {
                 Log.debug("use pressed");
                 useItem();
                 return;
@@ -555,11 +491,11 @@ public class BattleGameState extends BasicGameState {
         //TODO: Need a way to show results for item usage that dont involve
         // create fake rounds
         BattleRound round = new BattleRound(-1);
-        useItemPopup.showForPlayer(appState.getPlayer(),round);
+        useItemPopup.showForPlayer(appState.getPlayer(), round);
     }
 
     private void fleeCombat() {
-        for ( Mob mob : battle.getAllBattleParticipants() ) {
+        for (Mob mob : battle.getAllBattleParticipants()) {
             mob.removeAllStatusEffects();
         }
         game.enterState(DUNGEON_GAME_STATE);
@@ -628,27 +564,4 @@ public class BattleGameState extends BasicGameState {
 
         }
     }
-
-    private class ItemLogMessage {
-        private String string;
-        private Color color;
-
-        private ItemLogMessage(String string, Color color) {
-            this.string = string;
-            this.color = color;
-        }
-
-        public String getString() {
-            return string;
-        }
-
-        public Color getColor() {
-            return color;
-        }
-
-        public void setColor(Color color) {
-            this.color = color;
-        }
-    }
-
 }
