@@ -1,4 +1,4 @@
-package com.wwflgames.fury.entity.ui;
+package com.wwflgames.fury.gamestate.battle;
 
 import com.wwflgames.fury.battle.BattleRound;
 import com.wwflgames.fury.player.Player;

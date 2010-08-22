@@ -1,5 +1,6 @@
-package com.wwflgames.fury.entity;
+package com.wwflgames.fury.gamestate.dungeon;
 
+import com.wwflgames.fury.gamestate.common.SpriteSheetRenderer;
 import com.wwflgames.fury.monster.Monster;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.SpriteSheet;

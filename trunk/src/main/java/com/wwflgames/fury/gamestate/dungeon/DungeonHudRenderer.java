@@ -1,4 +1,4 @@
-package com.wwflgames.fury.entity;
+package com.wwflgames.fury.gamestate.dungeon;
 
 import com.wwflgames.fury.mob.Stat;
 import com.wwflgames.fury.player.Player;

@@ -1,4 +1,4 @@
-package com.wwflgames.fury.entity.ui;
+package com.wwflgames.fury.gamestate.dungeon;
 
 import com.wwflgames.fury.player.Perk;
 import com.wwflgames.fury.player.Player;

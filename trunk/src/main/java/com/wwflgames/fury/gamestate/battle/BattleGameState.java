@@ -5,7 +5,7 @@ import com.wwflgames.fury.battle.*;
 import com.wwflgames.fury.card.Card;
 import com.wwflgames.fury.card.Hand;
 import com.wwflgames.fury.entity.*;
-import com.wwflgames.fury.entity.ui.UseItemPopup;
+import com.wwflgames.fury.gamestate.common.SpriteSheetRenderer;
 import com.wwflgames.fury.main.AppState;
 import com.wwflgames.fury.map.Direction;
 import com.wwflgames.fury.map.DungeonMap;

@@ -1,5 +1,6 @@
-package com.wwflgames.fury.entity;
+package com.wwflgames.fury.gamestate.battle;
 
+import com.wwflgames.fury.gamestate.common.SpriteSheetRenderer;
 import com.wwflgames.fury.mob.Mob;
 import com.wwflgames.fury.mob.Stat;
 import org.newdawn.slick.Color;
