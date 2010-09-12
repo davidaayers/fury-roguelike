@@ -31,7 +31,8 @@ public class DungeonMapRenderer extends AbstractDungeonMapRenderer {
         float drawX = pos.x + (x * TILE_WIDTH * scale);
         float drawY = pos.y + (y * TILE_HEIGHT * scale);
 
-        if (mapTile.hasPlayerSeen()) {
+        boolean shouldShowTile = mapTile.hasPlayerSeen();
+        if (shouldShowTile) {
             drawImage.draw(drawX, drawY, scale);
 
             // if the map tile is stairs, and they are locked, also draw the lock image on top

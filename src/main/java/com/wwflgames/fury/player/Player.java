@@ -3,6 +3,8 @@ package com.wwflgames.fury.player;
 import com.wwflgames.fury.mob.Mob;
 import com.wwflgames.fury.player.item.Item;
 import com.wwflgames.fury.player.item.UsableItem;
+import com.wwflgames.fury.player.perk.Perk;
+import com.wwflgames.fury.player.profession.Profession;
 
 import java.util.ArrayList;
 import java.util.Collections;

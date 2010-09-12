@@ -1,7 +1,10 @@
-package com.wwflgames.fury.player;
+package com.wwflgames.fury.player.profession;
 
 import com.wwflgames.fury.entity.SpriteSheetProvider;
 import com.wwflgames.fury.mob.Stat;
+import com.wwflgames.fury.player.perk.HandIncreasePerk;
+import com.wwflgames.fury.player.perk.Perk;
+import com.wwflgames.fury.player.perk.StatPerk;
 import com.wwflgames.fury.util.Log;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.util.xml.XMLElement;

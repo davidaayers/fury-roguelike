@@ -1,6 +1,6 @@
 package com.wwflgames.fury.gamestate.dungeon;
 
-import com.wwflgames.fury.player.Perk;
+import com.wwflgames.fury.player.perk.Perk;
 import com.wwflgames.fury.player.Player;
 import com.wwflgames.slick.entity.ui.PopupRenderer;
 import com.wwflgames.slick.entity.ui.SelectableList;

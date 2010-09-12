@@ -3,8 +3,9 @@ package com.wwflgames.fury.player;
 import com.wwflgames.fury.card.Card;
 import com.wwflgames.fury.card.CardFactory;
 import com.wwflgames.fury.card.Deck;
-import com.wwflgames.fury.mob.Stat;
 import com.wwflgames.fury.player.item.HealthPotion;
+import com.wwflgames.fury.player.profession.Profession;
+import com.wwflgames.fury.player.profession.ProfessionFactory;
 import com.wwflgames.fury.util.Log;
 
 public class PlayerFactoryImpl implements PlayerFactory {
