@@ -1,4 +1,6 @@
-package com.wwflgames.fury.player;
+package com.wwflgames.fury.player.perk;
+
+import com.wwflgames.fury.player.Player;
 
 public class HandIncreasePerk extends Perk {
     private int numCards;

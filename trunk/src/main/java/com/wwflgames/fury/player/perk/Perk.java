@@ -1,4 +1,6 @@
-package com.wwflgames.fury.player;
+package com.wwflgames.fury.player.perk;
+
+import com.wwflgames.fury.player.Player;
 
 public abstract class Perk {
     private String name;

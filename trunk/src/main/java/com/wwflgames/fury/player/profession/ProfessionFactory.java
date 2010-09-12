@@ -1,5 +1,7 @@
-package com.wwflgames.fury.player;
+package com.wwflgames.fury.player.profession;
 
+
+import com.wwflgames.fury.player.profession.Profession;
 
 import java.util.List;
 

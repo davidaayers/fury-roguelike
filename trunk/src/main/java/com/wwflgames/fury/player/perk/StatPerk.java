@@ -1,6 +1,8 @@
-package com.wwflgames.fury.player;
+package com.wwflgames.fury.player.perk;
 
 import com.wwflgames.fury.mob.Stat;
+import com.wwflgames.fury.player.Player;
+import com.wwflgames.fury.player.perk.Perk;
 
 public class StatPerk extends Perk {
 

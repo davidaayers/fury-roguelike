@@ -12,7 +12,7 @@ import com.wwflgames.fury.gamestate.title.TitleGameState;
 import com.wwflgames.fury.main.AppStateImpl;
 import com.wwflgames.fury.monster.MonsterFactoryImpl;
 import com.wwflgames.fury.player.PlayerFactoryImpl;
-import com.wwflgames.fury.player.ProfessionFactoryImpl;
+import com.wwflgames.fury.player.profession.ProfessionFactoryImpl;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;

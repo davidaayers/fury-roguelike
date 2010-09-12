@@ -1,7 +1,9 @@
-package com.wwflgames.fury.player;
+package com.wwflgames.fury.player.profession;
 
 import com.wwflgames.fury.mob.Stat;
 import com.wwflgames.fury.mob.StatHolder;
+import com.wwflgames.fury.player.Player;
+import com.wwflgames.fury.player.perk.Perk;
 
 import java.util.ArrayList;
 import java.util.HashMap;
