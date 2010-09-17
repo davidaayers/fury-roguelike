@@ -21,20 +21,27 @@ public abstract class AbstractDungeonMapRenderer extends MapRenderer {
             for (int x = 0; x < dungeonMap.getWidth(); x++) {
                 int mapx = x + playerController.getOffsetX();
                 int mapy = y + playerController.getOffsetY();
-                if (mapx > dungeonMap.getWidth() - 1) {
-                    mapx = dungeonMap.getWidth() - 1;
+                boolean outOfBounds = false;
+                if (mapx > dungeonMap.getWidth()-1) {
+                    mapx = dungeonMap.getWidth()-1;
+                    outOfBounds = true;
                 }
                 if (mapx < 0) {
                     mapx = 0;
+                    outOfBounds = true;
                 }
-                if (mapy > dungeonMap.getHeight() - 1) {
-                    mapy = dungeonMap.getHeight() - 1;
+                if (mapy > dungeonMap.getHeight()-1) {
+                    mapy = dungeonMap.getHeight()-1;
+                    outOfBounds = true;
                 }
                 if (mapy < 0) {
                     mapy = 0;
+                    outOfBounds = true;
                 }
-                Tile mapTile = dungeonMap.getTileAt(mapx, mapy);
-                doRender(x, y, mapTile, gr);
+                if ( !outOfBounds ) {
+                    Tile mapTile = dungeonMap.getTileAt(mapx, mapy);
+                    doRender(x, y, mapTile, gr);
+                }
             }
         }
     }

@@ -3,7 +3,6 @@ package com.wwflgames.fury.map;
 import com.wwflgames.fury.map.generation.Feature;
 import com.wwflgames.fury.mob.Mob;
 import com.wwflgames.fury.monster.Monster;
-import org.lwjgl.input.Mouse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +21,7 @@ public class DungeonMap implements Cloneable {
         this.width = width;
         this.height = height;
         tiles = new Tile[width][height];
-        initTilesToFloor();
+        initTiles();
     }
 
     public int getWidth() {
@@ -42,10 +41,9 @@ public class DungeonMap implements Cloneable {
         return t.isWalkable();
     }
 
-    private void initTilesToFloor() {
+    private void initTiles() {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                // default tiles to floor
                 tiles[x][y] = new Tile(this, TileType.EMPTY, x, y);
             }
         }

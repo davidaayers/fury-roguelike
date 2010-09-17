@@ -3,7 +3,7 @@ package com.wwflgames.fury.map;
 public enum TileType {
     FLOOR(".", true),
     WALL("#", false),
-    EMPTY(" ", false),
+    EMPTY("_", false),
     JOIN("J", false),
     STAIR("S",true);
 
