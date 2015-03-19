@@ -1,0 +1,1 @@
+Mixing traditional roguelike dungeon exploration with a collectible card-like combat mechanic, Fury is two great tastes that taste great together.
